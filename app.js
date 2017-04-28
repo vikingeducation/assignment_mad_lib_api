@@ -170,8 +170,8 @@ app.use(
 const usersRouter = require("./routers/users");
 app.use("/", usersRouter);
 
-// const furiousSpinoffsRouter = require("./routers/furious_spinoffs");
-// app.use("/api/v1", furiousSpinoffsRouter);
+const madLibRouter = require("./routers/mad_lib");
+app.use("/api/v1", madLibRouter);
 
 // ----------------------------------------
 // Template Engine

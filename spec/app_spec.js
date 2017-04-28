@@ -51,13 +51,13 @@ describe("App", () => {
   });
 
   // // ----------------------------------------
-  // // Furious Spinoffs API
+  // // Mad Lib API
   // // ----------------------------------------
-  // it('returns an array with the given number of titles', (done) => {
-  //   request.get(apiUrlFor('furious_spinoffs', { count: 10 }), (err, res, body) => {
-  //     let result = j(body);
-  //     expect(result.length).toEqual(10);
-  //     done();
-  //   });
-  // });
+  it("returns an array with the given number of nouns", done => {
+    request.get(apiUrlFor("mad_lib", { count: 10 }), (err, res, body) => {
+      let result = j(body);
+      expect(result.length).toEqual(10);
+      done();
+    });
+  });
 });
