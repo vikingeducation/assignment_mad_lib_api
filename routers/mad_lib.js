@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const helpers = require("./../helpers");
 const h = helpers.registered;
+const _ = require("lodash");
 const Sentencer = require("sentencer");
 var WordPOS = require("wordpos"), wordpos = new WordPOS();
 // ----------------------------------------
@@ -47,9 +48,24 @@ router.post("/mad_lib", (req, res) => {
   let words = req.body.words;
   let story = req.body.story;
 
-  wordpos.getPOS(words, result => {});
+  wordpos.getPOS(words, result => {
+    console.log(result);
+    Sentencer.configure({
+      nounList: result.nouns,
+      adjectiveList: result.adjectives,
 
-  res.status(200).json();
+      actions: {
+        verb: function() {
+          return _.shuffle(result.verbs)[0];
+        },
+        adverb: function() {
+          return _.shuffle(result.adverbs)[0];
+        }
+      }
+    });
+    let madLib = Sentencer.make(story);
+    res.status(200).json(madLib);
+  });
 });
 
 module.exports = router;

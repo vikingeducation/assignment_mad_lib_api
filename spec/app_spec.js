@@ -101,11 +101,44 @@ describe("App", () => {
     request.post(
       {
         url: apiUrlFor("mad_lib"),
-        form: { words: ["dog", "ran"], story: "The {{noun}} {{verb}}" }
+        form: { words: ["language", "write"], story: "The {{noun}} {{verb}}" }
       },
       (err, res, body) => {
         let results = j(body);
-        expect(results).toEqual("The dog ran");
+        expect(results).toEqual("The language write");
+        done();
+      }
+    );
+  });
+
+  it("returns a sentence", done => {
+    request.post(
+      {
+        url: apiUrlFor("mad_lib"),
+        form: {
+          words: ["language", "write", "beautiful"],
+          story: "The {{adjective}} {{noun}} {{verb}}"
+        }
+      },
+      (err, res, body) => {
+        let results = j(body);
+        expect(results).toEqual("The beautiful language write");
+        done();
+      }
+    );
+  });
+  it("returns a sentence", done => {
+    request.post(
+      {
+        url: apiUrlFor("mad_lib"),
+        form: {
+          words: ["language", "write", "beautiful", "slowly"],
+          story: "The {{adjective}} {{noun}} {{adverb}} {{verb}}"
+        }
+      },
+      (err, res, body) => {
+        let results = j(body);
+        expect(results).toEqual("The beautiful language slowly write");
         done();
       }
     );
