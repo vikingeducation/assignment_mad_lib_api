@@ -1,12 +1,22 @@
 <h1>Mad Lib</h1>
 
 <form action="/makeStory" method="POST">
-  <label for="words">Your Words</label>
-  <input type="text" name="words" id="words" value="" placeholder="Enter the words you want to use separated by space...">
-  <label for="story">Your Story</label>
-  <input type="text" name="story" id="story" placeholder="The {{noun}} {{verb}}.">
+
+  <div class="form-group">
+    <label for="words">Your Words</label>
+    <input class="form-control" type="text" name="words" id="words" value="" placeholder="Enter the words you want to use separated by space...">
+  </div>
+
+
+  <div class="form-group">
+    <label for="story">Your Story</label>
+    <input  class="form-control" type="text" name="story" id="story" placeholder="Exapmle: The &#123;{adjective}} &#123;{noun}} &#123;{adverb}} &#123;{verb}}.">
+  </div>
+
+
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-
-
-<p>{{story}}</p>
+<br>
+<div class="jumbotron">
+  <h2>{{story}}</h2>
+</div>

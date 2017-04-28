@@ -173,6 +173,9 @@ app.use("/", usersRouter);
 const madLibRouter = require("./routers/mad_lib");
 app.use("/api/v1", madLibRouter);
 
+const storyRouter = require("./routers/frontEnd");
+app.use("/makeStory", storyRouter);
+
 // ----------------------------------------
 // Template Engine
 // ----------------------------------------
