@@ -55,30 +55,56 @@ describe("App", () => {
   // // Mad Lib API
   // // ----------------------------------------
   it("returns an array with the given number of nouns", done => {
-    request.get(
-      apiUrlFor("mad_lib", { noun: true, count: 10 }),
-      (err, res, body) => {
-        let result = j(body).nouns;
-        wordpos.getNouns(result, function(res) {
-          expect(res.length).toEqual(10);
-          expect(result.length).toEqual(10);
-          done();
-        });
-      }
-    );
+    request.get(apiUrlFor("nouns", { count: 1 }), (err, res, body) => {
+      let result = j(body);
+      wordpos.getNouns(result, function(res) {
+        expect(res.length).toEqual(1);
+        expect(result.length).toEqual(1);
+        done();
+      });
+    });
+  });
+
+  it("returns an array with the given number of verbs", done => {
+    request.get(apiUrlFor("verbs", { count: 11 }), (err, res, body) => {
+      let result = j(body);
+      wordpos.getVerbs(result, function(res) {
+        expect(res.length).toEqual(11);
+        expect(result.length).toEqual(11);
+        done();
+      });
+    });
   });
 
   it("returns an array with the given number of adjectives", done => {
-    request.get(
-      apiUrlFor("mad_lib", { adjective: true, count: 10 }),
-      (err, res, body) => {
-        let result = j(body).adjectives;
-        wordpos.getAdjectives(result, function(res) {
-          expect(res.length).toEqual(10);
-          expect(result.length).toEqual(10);
-          done();
-        });
-      }
-    );
+    request.get(apiUrlFor("adjectives", { count: 44 }), (err, res, body) => {
+      let result = j(body);
+      wordpos.getAdjectives(result, function(res) {
+        expect(res.length).toEqual(44);
+        expect(result.length).toEqual(44);
+        done();
+      });
+    });
+  });
+
+  it("returns an array with the given number of adverbs", done => {
+    request.get(apiUrlFor("adverbs", { count: 5 }), (err, res, body) => {
+      let result = j(body);
+      wordpos.getAdverbs(result, function(res) {
+        expect(res.length).toEqual(5);
+        expect(result.length).toEqual(5);
+        done();
+      });
+    });
+  });
+  xit("returns a sentence", done => {
+    request.get(apiUrlFor("adverbs", { count: 5 }), (err, res, body) => {
+      let result = j(body);
+      wordpos.getAdverbs(result, function(res) {
+        expect(res.length).toEqual(5);
+        expect(result.length).toEqual(5);
+        done();
+      });
+    });
   });
 });
