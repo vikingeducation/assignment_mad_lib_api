@@ -5,7 +5,7 @@ const app = express();
 // App Locals
 // ----------------------------------------
 app.use((req, res, next) => {
-  res.locals.siteTitle = "Building and Testing an Express API";
+  res.locals.siteTitle = "Mad Lib API";
   next();
 });
 
