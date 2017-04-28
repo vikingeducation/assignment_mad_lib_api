@@ -43,26 +43,13 @@ router.get("/adverbs", (req, res) => {
   });
 });
 
-router.get("/mad_lib", (req, res, next) => {
-  const count = +req.query.count || 10;
-  const noun = req.query.noun || false;
-  const adjective = req.query.adjective || false;
-  let result = {};
-  let nouns = [];
-  let adjectives = [];
-  if (noun) {
-    for (let i = 0; i < count; i++) {
-      nouns.push(Sentencer.make("{{ noun }}"));
-    }
-    result.nouns = nouns;
-  }
-  if (adjective) {
-    for (let i = 0; i < count; i++) {
-      adjectives.push(Sentencer.make("{{ adjective }}"));
-    }
-    result.adjectives = adjectives;
-  }
-  res.status(200).json(result);
+router.post("/mad_lib", (req, res) => {
+  let words = req.body.words;
+  let story = req.body.story;
+
+  wordpos.getPOS(words, result => {});
+
+  res.status(200).json();
 });
 
 module.exports = router;

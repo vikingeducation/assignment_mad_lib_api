@@ -97,14 +97,17 @@ describe("App", () => {
       });
     });
   });
-  xit("returns a sentence", done => {
-    request.get(apiUrlFor("adverbs", { count: 5 }), (err, res, body) => {
-      let result = j(body);
-      wordpos.getAdverbs(result, function(res) {
-        expect(res.length).toEqual(5);
-        expect(result.length).toEqual(5);
+  it("returns a sentence", done => {
+    request.post(
+      {
+        url: apiUrlFor("mad_lib"),
+        form: { words: ["dog", "ran"], story: "The {{noun}} {{verb}}" }
+      },
+      (err, res, body) => {
+        let results = j(body);
+        expect(results).toEqual("The dog ran");
         done();
-      });
-    });
+      }
+    );
   });
 });
