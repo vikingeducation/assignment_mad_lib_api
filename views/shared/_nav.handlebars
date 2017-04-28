@@ -15,25 +15,16 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
       <ul class="nav navbar-nav navbar-right">
-        <li>
+
           {{#if currentUser }}
-            <a href="{{ logoutPath }}">Logout</a>
+            <li><a href="/makeStory">Use The API</a></li>
+            <li><a href="{{ logoutPath }}">Logout</a></li>
           {{else }}
-            <a href="{{ newUserPath }}">Register</a>
+            <li><a href="{{ newUserPath }}">Register</a></li>
           {{/if }}
-        </li>
+
       </ul>
 
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-
-
-
-
-
-
-
-
-
-

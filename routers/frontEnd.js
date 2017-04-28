@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   request.post(
     {
-      url: `http://localhost:3000/api/v1/mad_lib?token=42e472294cbcb5a4033983859b242c0c`,
+      url: `http://localhost:3000/api/v1/mad_lib?token=a3c6805d57a0bd10b3e7e12caa249025`,
       form: {
         words: req.body.words.split(" "),
         story: req.body.story
@@ -28,7 +28,7 @@ router.post("/", (req, res) => {
 
 router.get("/nouns", (req, res) => {
   request.get(
-    "http://localhost:3000/api/v1/nouns?token=42e472294cbcb5a4033983859b242c0c",
+    "http://localhost:3000/api/v1/nouns?token=a3c6805d57a0bd10b3e7e12caa249025",
     (err, response, body) => {
       let nouns = JSON.parse(body);
       res.render("frontEnd", { nouns });
@@ -38,7 +38,7 @@ router.get("/nouns", (req, res) => {
 
 router.get("/verbs", (req, res) => {
   request.get(
-    "http://localhost:3000/api/v1/verbs?token=42e472294cbcb5a4033983859b242c0c",
+    "http://localhost:3000/api/v1/verbs?token=a3c6805d57a0bd10b3e7e12caa249025",
     (err, response, body) => {
       let verbs = JSON.parse(body);
       res.render("frontEnd", { verbs });
@@ -48,7 +48,7 @@ router.get("/verbs", (req, res) => {
 
 router.get("/adjectives", (req, res) => {
   request.get(
-    "http://localhost:3000/api/v1/adjectives?token=42e472294cbcb5a4033983859b242c0c",
+    "http://localhost:3000/api/v1/adjectives?token=a3c6805d57a0bd10b3e7e12caa249025",
     (err, response, body) => {
       let adjectives = JSON.parse(body);
       res.render("frontEnd", { adjectives });
@@ -58,7 +58,7 @@ router.get("/adjectives", (req, res) => {
 
 router.get("/adverbs", (req, res) => {
   request.get(
-    "http://localhost:3000/api/v1/adverbs?token=42e472294cbcb5a4033983859b242c0c",
+    "http://localhost:3000/api/v1/adverbs?token=a3c6805d57a0bd10b3e7e12caa249025",
     (err, response, body) => {
       let adverbs = JSON.parse(body);
       res.render("frontEnd", { adverbs });
