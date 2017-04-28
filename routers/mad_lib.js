@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const helpers = require("./../helpers");
 const h = helpers.registered;
-const sentencer = require("sentencer");
+const Sentencer = require("sentencer");
 const faker = require("faker");
 
 // ----------------------------------------
@@ -10,11 +10,24 @@ const faker = require("faker");
 // ----------------------------------------
 router.get("/mad_lib", (req, res, next) => {
   const count = +req.query.count || 10;
-  const titles = [];
-  for (let i = 0; i < count; i++) {
-    titles.push(faker.hacker.noun());
+  const noun = req.query.noun || false;
+  const adjective = req.query.adjective || false;
+  let result = {};
+  let nouns = [];
+  let adjectives = [];
+  if (noun) {
+    for (let i = 0; i < count; i++) {
+      nouns.push(Sentencer.make("{{ noun }}"));
+    }
+    result.nouns = nouns;
   }
-  res.status(200).json(titles);
+  if (adjective) {
+    for (let i = 0; i < count; i++) {
+      adjectives.push(Sentencer.make("{{ adjective }}"));
+    }
+    result.adjectives = adjectives;
+  }
+  res.status(200).json(result);
 });
 
 module.exports = router;

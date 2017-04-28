@@ -3,6 +3,7 @@ const request = require("request");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const qs = require("qs");
+var WordPOS = require("wordpos"), wordpos = new WordPOS();
 
 describe("App", () => {
   const baseUrl = "http://localhost:8888";
@@ -54,10 +55,30 @@ describe("App", () => {
   // // Mad Lib API
   // // ----------------------------------------
   it("returns an array with the given number of nouns", done => {
-    request.get(apiUrlFor("mad_lib", { count: 10 }), (err, res, body) => {
-      let result = j(body);
-      expect(result.length).toEqual(10);
-      done();
-    });
+    request.get(
+      apiUrlFor("mad_lib", { noun: true, count: 10 }),
+      (err, res, body) => {
+        let result = j(body).nouns;
+        wordpos.getNouns(result, function(res) {
+          expect(res.length).toEqual(10);
+          expect(result.length).toEqual(10);
+          done();
+        });
+      }
+    );
+  });
+
+  it("returns an array with the given number of adjectives", done => {
+    request.get(
+      apiUrlFor("mad_lib", { adjective: true, count: 10 }),
+      (err, res, body) => {
+        let result = j(body).adjectives;
+        wordpos.getAdjectives(result, function(res) {
+          expect(res.length).toEqual(10);
+          expect(result.length).toEqual(10);
+          done();
+        });
+      }
+    );
   });
 });
