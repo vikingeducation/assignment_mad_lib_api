@@ -57,6 +57,7 @@ describe("App", () => {
   it("returns an array with the given number of nouns", done => {
     request.get(apiUrlFor("nouns", { count: 1 }), (err, res, body) => {
       let result = j(body);
+      expect(res.statusCode).toBe(200);
       wordpos.getNouns(result, function(res) {
         expect(res.length).toEqual(1);
         expect(result.length).toEqual(1);
@@ -68,6 +69,7 @@ describe("App", () => {
   it("returns an array with the given number of verbs", done => {
     request.get(apiUrlFor("verbs", { count: 11 }), (err, res, body) => {
       let result = j(body);
+      expect(res.statusCode).toBe(200);
       wordpos.getVerbs(result, function(res) {
         expect(res.length).toEqual(11);
         expect(result.length).toEqual(11);
@@ -79,6 +81,7 @@ describe("App", () => {
   it("returns an array with the given number of adjectives", done => {
     request.get(apiUrlFor("adjectives", { count: 44 }), (err, res, body) => {
       let result = j(body);
+      expect(res.statusCode).toBe(200);
       wordpos.getAdjectives(result, function(res) {
         expect(res.length).toEqual(44);
         expect(result.length).toEqual(44);
@@ -90,6 +93,7 @@ describe("App", () => {
   it("returns an array with the given number of adverbs", done => {
     request.get(apiUrlFor("adverbs", { count: 5 }), (err, res, body) => {
       let result = j(body);
+      expect(res.statusCode).toBe(200);
       wordpos.getAdverbs(result, function(res) {
         expect(res.length).toEqual(5);
         expect(result.length).toEqual(5);
