@@ -155,7 +155,9 @@ app.use(
 // Routes
 // ----------------------------------------
 const users = require("./routes/users");
+const madLibsApi = require("./routes/madlibs");
 app.use("/", users);
+app.use("/api/v1", madLibsApi);
 
 // ----------------------------------------
 // Server
