@@ -61,7 +61,7 @@ describe("App", () => {
       done();
     });
   });
-  
+
   it("returns a bad request when count is less than 1", done => {
     request.get(apiUrlFor("nouns", { count: -2 }), (err, res, body) => {
       let result = j(body);
@@ -117,19 +117,39 @@ describe("App", () => {
     let options = {
       url: apiUrlFor("madlibs"),
       form: {
-        "sentence": "Noun: {{ noun }}, Verb: {{ verb }}, Adverb: {{ adverb }}, Adjective: {{ adjective }}",
-        "nouns": ["ideas"],
-        "verbs": ["sleep"],
-        "adverbs": ["furiously"],
-        "adjectives": ["green"]
+        sentence:
+          "Noun: {{ noun }}, Verb: {{ verb }}, Adverb: {{ adverb }}, Adjective: {{ adjective }}",
+        nouns: ["ideas"],
+        verbs: ["sleep"],
+        adverbs: ["furiously"],
+        adjectives: ["green"]
       }
     };
 
     request.post(options, (err, res, body) => {
       let result = j(body);
-      // expect(result.length).toEqual(8);
-      expect(result).toEqual("Noun: ideas, Verb: sleep, Adverb: furiously, Adjective: green");
+      expect(result).toEqual(
+        "Noun: ideas, Verb: sleep, Adverb: furiously, Adjective: green"
+      );
       expect(res.statusCode).toBe(200);
+      done();
+    });
+  });
+
+  it("returns a bad request when missing a sentence", done => {
+    let options = {
+      url: apiUrlFor("madlibs"),
+      form: {
+        nouns: ["ideas"],
+        verbs: ["sleep"],
+        adverbs: ["furiously"],
+        adjectives: ["green"]
+      }
+    };
+
+    request.post(options, (err, res, body) => {
+      let result = j(body);
+      expect(res.statusCode).toBe(400);
       done();
     });
   });

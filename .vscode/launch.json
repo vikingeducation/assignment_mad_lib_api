@@ -14,7 +14,7 @@
     {
       "name": "Jasmine-Node Debugging",
       "cwd": "${workspaceRoot}",
-      "program": "${workspaceRoot}/node_modules/jasmine-node/lib/jasmine-node/cli.js",
+      "program": "${workspaceRoot}/node_modules/jasmine/bin/jasmine.js",
       "request": "launch",
       "type": "node",
       "args": [
