@@ -1,0 +1,45 @@
+{
+  "name": "07_assignment_mad_lib_api",
+  "version": "1.0.0",
+  "description": "Serving up the madness with a Mad Lib API!",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run whichnodemon && nodemon --exec npm run jasmine || npm run jasmine",
+    "start": "npm run whichnodemon && nodemon index.js || node index.js",
+    "whichnodemon": "which nodemon > /dev/null",
+    "console": "node repl.js",
+    "c": "node repl.js",
+    "seed": "node seeds",
+    "seeds": "node seeds",
+    "jasmine": "./node_modules/jasmine/bin/jasmine.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianflorez/assignment_mad_lib_api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/christianflorez/assignment_mad_lib_api/issues"
+  },
+  "homepage": "https://github.com/christianflorez/assignment_mad_lib_api#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "cli-highlight": "^1.1.4",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.2",
+    "express": "^4.15.3",
+    "express-flash-messages": "^0.1.1",
+    "express-handlebars": "^3.0.0",
+    "jasmine": "^2.6.0",
+    "md5": "^2.2.1",
+    "mongoose": "^4.10.7",
+    "mongoose-unique-validator": "^1.0.5",
+    "morgan": "^1.8.2",
+    "qs": "^6.4.0",
+    "uuid": "^3.1.0"
+  }
+}
