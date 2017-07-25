@@ -1,9 +1,10 @@
-# assignment_mad_lib_api
-Serving up the madness with a Mad Lib API!
+# Mad Lib API
 
-Name: Christian Florez
+## Introduction
+This assignment involved implementing my first JSON-based API along with a test suite for its features.
 
-2. Build out POST
-Create a Mad Lib from text (story) and a list of words
-Your API should take a story (text in the format that Sentencer expects to create a Mad Lib) and a list of words to be plugged into the placeholders of that text. Then your API should respond with the generated Mad Lib from the provided data.
+## Technologies Used
+Jasmine, Node, Express, MongoDB
 
+## Getting Started
+Simply clone the repository and install the dependencies. Create a user by running `npm run seed`. Run the test suite by running `npm run test`. 
