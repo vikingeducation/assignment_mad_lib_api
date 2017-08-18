@@ -6,7 +6,9 @@ const bearerStrategy = new BearerStrategy((token, done) => {
     .then(user => {
       return done(null, user || false);
     })
-    .catch(e => done(null, false));
+    .catch(e => {
+      done(null, false);
+    });
 });
 
-module.exports - bearerStrategy;
+module.exports = bearerStrategy;

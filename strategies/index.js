@@ -1,4 +1,4 @@
-const localStrategy = require("./local");
-const bearerStrategy = require("./bearer");
-
-module.exports = { localStrategy, bearerStrategy };
+module.exports = {
+  localStrategy: require("./local"),
+  bearerStrategy: require("./bearer")
+};

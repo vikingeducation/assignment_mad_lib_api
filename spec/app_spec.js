@@ -21,7 +21,7 @@ describe("App", () => {
     });
   });
 
-  beforeAll(done => {
+  beforeEach(done => {
     User.create({
       fname: "Foo",
       lname: "Bar",
@@ -113,19 +113,20 @@ describe("App", () => {
 
   it("returns a sentence using the words provided", done => {
     request.post(
-      apiUrlFor("", {
+      apiUrlFor("/stories"),
+      {
         form: {
           words: ["bruise", "lurk", "obese", "faddishly"],
           sentence:
             "I have {{an_adjective}} {{noun}}, and it tends to {{verb}} {{adverb}}"
         }
-      }),
+      },
       (err, res, body) => {
-        console.log(body);
         const expectedResult = {
           sentence: "I have an obese bruise, and it tends to lurk faddishly"
         };
         let result = j(body);
+        console.log(result);
         expect(result).toEqual(expectedResult);
         done();
       }
@@ -133,7 +134,7 @@ describe("App", () => {
   });
 
   it("does not allow requests without an access_token", done => {
-    request.get(apiUrlFor("nouns"), (err, res, body) => {
+    request.get("http://localhost:8888/api/v1/nouns", (err, res, body) => {
       expect(res.statusCode).toBe(401);
       done();
     });

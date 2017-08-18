@@ -118,10 +118,12 @@ app.post(
 
 app.use("/", usersRouter);
 
-const maddestLibsRouter = require("./routers/maddest_libs")(
-  passport.authenticate({ session: false })
+app.use(
+  "/api/v1",
+  require("./routers/maddest_libs")(
+    passport.authenticate("bearer", { session: false })
+  )
 );
-app.use("/api/v1", maddestLibsRouter);
 
 const port = process.env.PORT || process.argv[2] || 3000;
 const host = "0.0.0.0";

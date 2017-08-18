@@ -35,7 +35,7 @@ module.exports = middlewares => {
     let sentence = req.body.sentence;
     const words = req.body.words;
     const wordsObj = await wordpos.getPOS(words);
-    Sentencer.configure({
+    await Sentencer.configure({
       nounList: wordsObj.nouns,
       adjectiveList: wordsObj.adjectives,
       action: {
@@ -54,7 +54,8 @@ module.exports = middlewares => {
       }
     });
 
-    sentence = Sentencer.make(sentence);
+    sentence = await Sentencer.make(sentence);
     res.json({ sentence: sentence });
   });
+  return router;
 };
