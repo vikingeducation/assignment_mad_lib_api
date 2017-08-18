@@ -1,15 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const h = require("../helpers");
-const { User } = require("../models");
 
+router.get("/", (req, res) => res.json({ name: "Mad Lib API" }));
 
-function api(passport) {
-  
-  router.get('/', (req, res) => {
-    res.json({api: "api"})
-  })
-  return router;
-}
+router.get("*", (req, res) => {
+  res.json({ error: "404 Not Found" });
+});
 
-module.exports = api
+module.exports = router;

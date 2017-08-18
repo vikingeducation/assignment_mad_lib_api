@@ -86,7 +86,11 @@ app.use(async (req, res, next) => {
 
 // Routes
 app.use("/", require("./routes")(passport));
-app.use("/api/v1", require("./routes/apiV1")(passport));
+app.use(
+  "/api/v1",
+  passport.authenticate("bearer", { session: false }),
+  require("./routes/apiV1")
+);
 
 // Set up port/host
 const port = process.env.PORT || process.argv[2] || 3000;

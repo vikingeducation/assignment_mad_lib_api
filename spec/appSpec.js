@@ -60,13 +60,7 @@ describe("App", () => {
 
   it("does not allow requests without an access_token", done => {
     request.get(apiUrl, (err, res, body) => {
-      // Note, this SHOULD have a status code of 401
-      // however something is not working right with
-      // the Passport HTTP Bearer package in setting
-      // the correct status code
-      // See Github issue:
-      // https://github.com/jaredhanson/passport-http-bearer/issues/11
-      expect(res.statusCode).toBe(404);
+      expect(res.statusCode).toBe(401);
       done();
     });
   });
