@@ -10,9 +10,3 @@ beforeAll(done => {
     require("./../../mongo")().then(() => done());
   }
 });
-
-afterEach(done => {
-  require("./../../seeds/clean")()
-    .then(() => done())
-    .catch(e => console.error(e.stack));
-});
