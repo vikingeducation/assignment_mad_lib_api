@@ -29,7 +29,6 @@ describe("App", () => {
       password: "password"
     }).then(result => {
       user = result;
-      console.log(user.token);
       done();
     });
   });
@@ -40,9 +39,6 @@ describe("App", () => {
     done();
   });
 
-  // ----------------------------------------
-  // App
-  // ----------------------------------------
   it("renders the home page", done => {
     request.get(baseUrl, (err, res, body) => {
       expect(res.statusCode).toBe(200);
@@ -51,12 +47,8 @@ describe("App", () => {
     });
   });
 
-  // ----------------------------------------
-  // Furious Spinoffs API
-  // ----------------------------------------
   it("returns an array with the given number of nouns", done => {
     request.get(apiUrlFor("nouns"), (err, res, body) => {
-      console.log(body);
       let result = j(body);
       expect(result.length).toEqual(10);
       done();
@@ -65,7 +57,6 @@ describe("App", () => {
 
   it("returns an array with the given number of nouns", done => {
     request.get(apiUrlFor("nouns", { count: 8 }), (err, res, body) => {
-      console.log(body);
       let result = j(body);
       expect(result.length).toEqual(8);
       done();
@@ -74,7 +65,6 @@ describe("App", () => {
 
   it("returns an array with the given number of verbs", done => {
     request.get(apiUrlFor("verbs"), (err, res, body) => {
-      console.log(body);
       let result = j(body);
       expect(result.length).toEqual(10);
       done();
@@ -83,7 +73,6 @@ describe("App", () => {
 
   it("returns an array with the given number of verbs", done => {
     request.get(apiUrlFor("verbs", { count: 8 }), (err, res, body) => {
-      console.log(body);
       let result = j(body);
       expect(result.length).toEqual(8);
       done();
@@ -92,7 +81,6 @@ describe("App", () => {
 
   it("returns an array with the given number of adjectives", done => {
     request.get(apiUrlFor("adjectives"), (err, res, body) => {
-      console.log(body);
       let result = j(body);
       expect(result.length).toEqual(10);
       done();
@@ -101,7 +89,6 @@ describe("App", () => {
 
   it("returns an array with the given number of adjectives", done => {
     request.get(apiUrlFor("adjectives", { count: 8 }), (err, res, body) => {
-      console.log(body);
       let result = j(body);
       expect(result.length).toEqual(8);
       done();
@@ -110,7 +97,6 @@ describe("App", () => {
 
   it("returns an array with the given number of adverbs", done => {
     request.get(apiUrlFor("adverbs"), (err, res, body) => {
-      console.log(body);
       let result = j(body);
       expect(result.length).toEqual(10);
       done();
@@ -119,16 +105,34 @@ describe("App", () => {
 
   it("returns an array with the given number of adverbs", done => {
     request.get(apiUrlFor("adverbs", { count: 8 }), (err, res, body) => {
-      console.log(body);
       let result = j(body);
       expect(result.length).toEqual(8);
       done();
     });
   });
 
+  it("returns a sentence using the words provided", done => {
+    request.post(
+      apiUrlFor("", {
+        form: {
+          words: ["bruise", "lurk", "obese", "faddishly"],
+          sentence:
+            "I have {{an_adjective}} {{noun}}, and it tends to {{verb}} {{adverb}}"
+        }
+      }),
+      (err, res, body) => {
+        console.log(body);
+        const expectedResult =
+          "I have an obese bruise, and it tends to lurk faddishly";
+        expect(body).toEqual(expectedResult);
+        done();
+      }
+    );
+  });
+
   it("does not allow requests without an access_token", done => {
-    request.get(apiUrl, (err, res, body) => {
-      expect(res.statusCode).toBe(404);
+    request.get(apiUrlFor("nouns"), (err, res, body) => {
+      expect(res.statusCode).toBe(401);
       done();
     });
   });
