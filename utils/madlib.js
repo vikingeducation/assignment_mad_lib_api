@@ -1,12 +1,12 @@
-const Sentencer = require('sentencer');
-const WordPOS = require('wordpos');
+const Sentencer = require("sentencer");
+const WordPOS = require("wordpos");
 const wordpos = new WordPOS();
 
 // ['barge', 'barf', 'barter_away'] 'bar'
-let NOUN_ARR = [];
-let VERB_ARR = [];
-let ADJECTIVE_ARR = [];
-
+var NOUN_ARR = [];
+var VERB_ARR = [];
+var ADJECTIVE_ARR = [];
+var ADVERB_ARR = [];
 module.exports = { PoopMadlibOut, GetWords };
 
 async function generateWords() {
@@ -32,75 +32,75 @@ async function PoopMadlibOut(story, words) {
   let nounArr = await wordpos.randNoun({ count: 20 });
   let adjArr = await wordpos.randAdjective({ count: 20 });
 
-  Sentencer.configure({
-    nounList: nounArr,
-    adjectiveList: adjArr,
-    verbList: verbArr
-  });
-
   if (words) {
-    let speechTypes = parseWords(words);
-    console.log(speechTypes, 'what is this?');
+    console.log("this is in the if");
+    await parseWords(words);
+    console.log(NOUN_ARR, VERB_ARR, ADJECTIVE_ARR, ADVERB_ARR);
+  } else {
+    if (NOUN_ARR.length < 1) {
+      NOUN_ARR = nounArr;
+    }
+    if (VERB_ARR.length < 1) {
+      VERB_ARR = verbArr;
+    }
+    if (ADJECTIVE_ARR.length < 1) {
+      ADJECTIVE_ARR = adjArr;
+    }
   }
-
-  // if (!NOUN_ARR.length || !VERB_ARR || !ADJECTIVE_ARR) {
-  //   NOUN_ARR = await wordpos.randVerb({ count: 20 });
-  //   VERB_ARR = await wordpos.randNoun({ count: 20 });
-  //   ADJECTIVE_ARR = await wordpos.randAdjective({ count: 20 });
-  // }
-
+  Sentencer.configure({
+    nounList: NOUN_ARR,
+    adjectiveList: ADJECTIVE_ARR,
+    verbList: VERB_ARR
+  });
   return Sentencer.make(story);
 }
 async function GetWords(type, amount) {
   let newArray = [];
   switch (type.toLowerCase()) {
-    case 'noun':
-      newArray = await wordpos.randNoun({ count: amount });
+    case "noun":
+      NOUN_ARR = await wordpos.randNoun({ count: amount });
+      newArray = NOUN_ARR;
       break;
-    case 'verb':
-      newArray = await wordpos.randVerb({ count: amount });
+    case "verb":
+      VERB_ARR = await wordpos.randVerb({ count: amount });
+      newArray = VERB_ARR;
       break;
-    case 'adjective':
-      newArray = await wordpos.randAdjective({ count: amount });
+    case "adjective":
+      ADJECTIVE_ARR = await wordpos.randAdjective({ count: amount });
+      newArray = ADJECTIVE_ARR;
       break;
   }
   console.log(newArray);
   return newArray;
 }
 
-function parseWords(words) {
-  const typeObj = {
-    nouns: [],
-    verbs: [],
-    adjectives: [],
-    adverbs: []
-  };
+async function parseWords(words) {
+  let wordArr = words.split(" ");
 
-  const wordArr = words.split(' ');
-  console.log(wordArr, 'this is word');
+  for (i = 0; i < wordArr.length - 1; i++) {
+    let nounBool = await wordpos.isNoun(wordArr[i]);
+    console.log(nounBool, "noun");
+    if (nounBool === true) {
+      NOUN_ARR.push(wordArr[i]);
+    }
+    let verbBool = await wordpos.isVerb(wordArr[i]);
+    console.log(verbBool, "verb");
+    if (verbBool === true) {
+      VERB_ARR.push(wordArr[i]);
+    }
+    let adjectiveBool = await wordpos.isAdjective(wordArr[i]);
+    console.log(adjectiveBool, "adj");
+    if (adjectiveBool === true) {
+      ADJECTIVE_ARR.push(wordArr[i]);
+    }
+    let adverbBool = await wordpos.isAdjective(wordArr[i]);
+    console.log(adverbBool, "adverb");
+    if (adverbBool === true) {
+      ADVERB_ARR.push(wordArr[i]);
+    }
+  }
 
-  wordArr.forEach(async word => {
-    let checkNoun = await wordpos.isNoun(word);
-
-    // if (wordpos.isNoun(word)) {
-    //   console.log('noun found?');
-    //   typeObj.nouns.push(word);
-    // }
-
-    // if (wordpos.isVerb(word)) {
-    //   typeObj.verbs.push(word);
-    // }
-
-    // if (wordpos.isAdjective(word)) {
-    //   typeObj.adjectives.push(word);
-    // }
-
-    // if (wordpos.isAdverb(word)) {
-    //   typeObj.adverbs.push(word);
-    // }
-  });
-
-  return typeObj;
+  return true;
 }
 
 // /generateWords();
