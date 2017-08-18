@@ -1,5 +1,5 @@
 const app = require("../app");
-const request = require("request");
+const request = require("request-promise");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const qs = require("qs");
@@ -14,6 +14,10 @@ describe("App", () => {
     return `${apiUrl}${type}?access_token=${user.token}${params}`;
   };
   const j = str => JSON.parse(str);
+
+  const requestResponse = (uri)=>{
+    return {uri, resolveWithFullResponse: true}
+  }
 
   beforeAll(done => {
     server = app.listen(8888, () => {
@@ -44,12 +48,25 @@ describe("App", () => {
   // ----------------------------------------
   // App
   // ----------------------------------------
+
+
+
   it("renders the home page", done => {
-    request.get(baseUrl, (err, res, body) => {
+    // request.get(baseUrl, (err, res, body) => {
+    //   expect(res.statusCode).toBe(200);
+    //   expect(body).toMatch(/api/i);
+    //   done();
+    // })
+    request(requestResponse(baseUrl)).then(res=>{
       expect(res.statusCode).toBe(200);
-      expect(body).toMatch(/api/i);
+      expect(res).toMatch(/api/i);
       done();
-    });
+    })
+    .catch(err=>{
+      console.error(err);
+      expect(false);
+      done();
+    })
   });
 
   // ----------------------------------------
