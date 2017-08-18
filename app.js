@@ -3,6 +3,7 @@ const app = express();
 const h = require("./helpers");
 const { User } = require("./models");
 
+
 // .env
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -72,6 +73,8 @@ passport.deserializeUser(function(userId, done) {
 });
 
 passport.use("local", require("./strategies/local"));
+
+passport.use("bearer", require("./strategies/bearer"));
 
 // Add populated user and referral URL to locals
 app.use(async (req, res, next) => {
