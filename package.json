@@ -9,7 +9,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bsoung/assignment_mad_lib_api.git"
+    "url": "git+https://github.com/bsoung/assignment_mad_lib_api.git",
+    "test": "npm run whichnodemon && nodemon --exec npm run jasmine || npm run jasmine",
+    "jasmine": "./node_modules/jasmine/bin/jasmine.js"
   },
   "keywords": [],
   "author": "",
@@ -27,12 +29,15 @@
     "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.5",
+    "jasmine": "^2.7.0",
     "md5": "^2.2.1",
     "mongoose": "^4.11.7",
     "mongoose-unique-validator": "^1.0.5",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
+    "qs": "^6.5.0",
+    "request": "^2.81.0",
     "sentencer": "^0.1.5",
     "uuid": "^3.1.0",
     "wordpos": "^1.1.5"

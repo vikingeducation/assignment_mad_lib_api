@@ -55,6 +55,20 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main', partialsDir: 'views/par
 app.set('view engine', 'handlebars');
 app.use(loginMiddleware);
 
-app.listen(3000, '0.0.0.0', (req, res) => {
-  console.log('listening on port 3000');
+const port = process.env.PORT || process.argv[2] || 3000;
+const host = 'localhost';
+
+let args;
+process.env.NODE_ENV === 'production' ? (args = [port]) : (args = [port, host]);
+
+args.push(() => {
+  console.log(`Listening: http://${host}:${port}\n`);
 });
+
+// If we're running this file directly
+// start up the server
+if (require.main === module) {
+  app.listen.apply(app, args);
+}
+
+module.exports = app;
