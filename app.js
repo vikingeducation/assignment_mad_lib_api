@@ -109,6 +109,14 @@ app.get("/signup", auth.isLoggedOut, (req, res) => {
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
+const apiRouter = require("./routes/madlibs");
+
+app.use(
+  "/api/v1",
+  passport.authenticate("bearer", { session: false }),
+  apiRouter
+);
+
 if (require.main === module) {
   app.listen(3000, () => {
     console.log("Now listening...");

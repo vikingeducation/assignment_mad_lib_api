@@ -4,8 +4,10 @@
   "description": "Serving up the Mad Libs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "test": "npm run whichnodemon && nodemon --exec npm run jasmine || npm run jasmine",
+    "start": "npm run whichnodemon && nodemon app.js || node app.js",
+    "whichnodemon": "which nodemon > /dev/null",
+    "jasmine": "./node_modules/jasmine/bin/jasmine.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +35,7 @@
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "qs": "^6.5.0",
+    "request": "^2.81.0",
     "sentencer": "^0.1.5",
     "uuid": "^3.1.0",
     "wordpos": "^1.1.5"
