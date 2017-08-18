@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const { User } = require("./models");
+const auth = require("./middleware/authentication");
 
 app.use((req, res, next) => {
   if (mongoose.connection.readyState) {
@@ -11,6 +12,8 @@ app.use((req, res, next) => {
     require("./mongo")().then(() => next());
   }
 });
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Passport Goodness
 app.use(passport.initialize());
@@ -70,8 +73,12 @@ const hbs = require("express-handlebars");
 app.engine("handlebars", hbs.create({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-app.get("/login", (req, res) => {
+app.get("/login", auth.isLoggedOut, (req, res) => {
   // render login page
+});
+
+app.get("/signup", auth.isLoggedOut, (req, res) => {
+  res.render("signup");
 });
 
 app.listen(3000, () => {
