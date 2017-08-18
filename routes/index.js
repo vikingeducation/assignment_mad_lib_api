@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const h = require("../helpers");
 const { User } = require("../models");
+const faker = require('faker');
 
 // Authentication Middleware
 const ensureAuthenticated = (req, res, next) => {
@@ -36,13 +37,18 @@ function authenticate(passport) {
 
   //register view
   router.get("/register", (req, res) => {
-    res.render("register");
+    const fake = {
+      fname: faker.name.firstName(),
+      lname: faker.name.lastName(),
+      email: faker.internet.email()      
+    }
+    res.render("register", {fake});
   });
 
   //register handler
   router.post("/register", (req, res, next) => {
-    const { username, password } = req.body;
-    User.create({ username, password })
+    const { fname, lname, email, password } = req.body;
+    User.create({ fname, lname, email, password })
       .then(user => {
         req.login(user, err => {
           if (err) next(err);
