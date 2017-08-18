@@ -19,6 +19,14 @@ router.get("/adverbs", (req, res, next) => {
   wp.randAdverb({ count }).then(words => res.json(words)).catch(e => next(e));
 });
 
+router.get("/adjectives", (req, res, next) => {
+  const count = req.query.count || 10;
+  wp
+    .randAdjective({ count })
+    .then(words => res.json(words))
+    .catch(e => next(e));
+});
+
 router.get("*", (req, res) => {
   res.json({ error: "404 Not Found" });
 });

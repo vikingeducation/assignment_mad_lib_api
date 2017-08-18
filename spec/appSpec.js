@@ -123,7 +123,7 @@ describe("App", () => {
       });
     });
 
-    xit("returns an array with the default number of adjectives", done => {
+    it("returns an array with the default number of adjectives", done => {
       request.get(apiUrlFor("adjectives"), (err, res, body) => {
         let result = j(body);
 
@@ -132,7 +132,7 @@ describe("App", () => {
       });
     });
 
-    xit("returns an array with the specified number of adjectives", done => {
+    it("returns an array with the specified number of adjectives", done => {
       request.get(apiUrlFor("adjectives", { count: 22 }), (err, res, body) => {
         let result = j(body);
 
