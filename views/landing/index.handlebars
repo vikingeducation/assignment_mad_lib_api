@@ -2,3 +2,9 @@
 
 <h1>User: {{user.username}}</h1>
 <p>Token: {{user.token}}</p>
+
+<form action="/api/madlibs" method="post">
+	<input type="hidden" name="token" value={{user.token}}>
+	<input type="text" name="sentence">
+	<button>submit</button>
+</form>

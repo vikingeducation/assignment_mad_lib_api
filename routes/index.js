@@ -1,40 +1,25 @@
-const router = require("express").Router();
-const {
-  createSignedSessionId,
-  loggedInOnly,
-  loggedOutOnly
-} = require("../session/Session.js");
-const { User } = require("../models");
+const router = require('express').Router();
+const { createSignedSessionId, loggedInOnly, loggedOutOnly, onLogout } = require('../session/Session.js');
+const { User } = require('../models');
+const passport = require('../auth/passport');
 
-router.get("/", loggedInOnly, (req, res) => {
-  res.render("landing/index", { user: req.user });
-});
-router.get("/madlibs", loggedInOnly, (req, res) => {
-  res.render("madlibs/generate");
-});
-router.get("/login", loggedOutOnly, (req, res) => {
-  res.render("login/index");
+router.get('/', loggedInOnly, (req, res) => {
+	res.render('landing/index', { user: req.user });
 });
 
-router.get("/logout", loggedInOnly, (req, res) => {
-  res.cookie("sessionId", "");
-  req.logout();
-  res.redirect("/");
+router.get('/login', loggedOutOnly, (req, res) => {
+	res.render('login/index');
 });
 
-// router.post("/login", loggedOutOnly, (req, res) => {
-//   User.findOne({ username: req.body.username }).then(foundUser => {
-//     if (foundUser === null) {
-//       return res.redirect("/login");
-//     }
-//     if (foundUser.validatePassword(req.body.password)) {
-//       const sessionId = createSignedSessionId(foundUser.username);
-//       res.cookie("sessionId", sessionId);
-//       return res.redirect("/");
-//     } else {
-//       return res.redirect("/login");
-//     }
-//   });
-// });
+router.post(
+	'/login',
+	passport.authenticate('local', {
+		successRedirect: '/',
+		failureRedirect: '/login',
+		failureFlash: true
+	})
+);
+
+router.get('/logout', onLogout);
 
 module.exports = router;

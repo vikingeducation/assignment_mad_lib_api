@@ -18,6 +18,14 @@ const loggedOutOnly = (req, res, next) => {
   }
 };
 
+const onLogout = (req, res, next) => {
+  req.logout();
+
+  // Ensure always redirecting as GET
+  req.method = 'GET';
+  res.redirect('/login');
+};
+
 const generateSignature = username => md5(username + SECRET);
 
 const createSignedSessionId = username => {
@@ -45,5 +53,6 @@ module.exports = {
   createSignedSessionId,
   loginMiddleware,
   loggedInOnly,
-  loggedOutOnly
+  loggedOutOnly,
+  onLogout
 };

@@ -1,1 +1,1 @@
-module.exports = { users: require("./user"), madlibs: require("./madlibs") };
+module.exports = { users: require('./user'), madlibs: require('./madlibs') };

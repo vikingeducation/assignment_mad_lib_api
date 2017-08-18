@@ -1,54 +1,11 @@
-const router = require("express").Router();
-const controllers = require("../controllers");
+const router = require('express').Router();
+const { users, madlibs } = require('../controllers');
+const passport = require('../auth/passport');
 
-router.get("/:resource", (req, res, next) => {
-  const resource = req.params.resource;
+router.get('/users/:id', users.view);
 
-  const controller = controllers[resource];
-  if (controller == null) {
-    res.json({
-      confirmation: "fail",
-      resource: "invalid resource"
-    });
+router.post('/users', users.create);
 
-    return;
-  }
-
-  controller.index(req, res, next);
-});
-
-router.get("/:resource/:id", (req, res, next) => {
-  const resource = req.params.resource;
-
-  const controller = controllers[resource];
-
-  if (controller == null) {
-    res.json({
-      confirmation: "fail",
-      resource: "invalid resource"
-    });
-
-    return;
-  }
-
-  controller.view(req, res, next);
-});
-
-router.post("/:resource", (req, res, next) => {
-  const resource = req.params.resource;
-
-  const controller = controllers[resource];
-
-  if (controller == null) {
-    res.json({
-      confirmation: "fail",
-      resource: "invalid resource"
-    });
-
-    return;
-  }
-
-  controller.create(req, res, next);
-});
+router.post('/madlibs', passport.authenticate('bearer', { session: false }), madlibs.create);
 
 module.exports = router;

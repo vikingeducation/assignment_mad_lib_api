@@ -1,8 +1,51 @@
 const LocalStrategy = require('passport-local').Strategy;
+const BearerStrategy = require('passport-http-bearer').Strategy;
 const bcrypt = require('bcrypt');
 const { User } = require('../models');
+const passport = require('passport');
 
-module.exports = function(passport) {
+module.exports = passport;
+
+module.exports.auth = () => {
+    const localStrategy = new LocalStrategy(
+        {
+            // Set username field to email
+            // to match form
+            usernameField: 'username',
+            passwordField: 'password'
+        },
+        (username, password, done) => {
+            // Find user by username
+
+            User.findOne({ username: username })
+                .then(user => {
+                    console.log('used passport login');
+                    // The user is valid if the password is valid
+                    const isValid = bcrypt.compareSync(password, user.password);
+
+                    // If the user is valid pass the user
+                    // to the done callback
+                    // Else pass false
+                    return done(null, isValid ? user : false);
+                })
+                .catch(e => done(null, false));
+        }
+    );
+
+    const bearerStrategy = new BearerStrategy((token, done) => {
+        // Find the user by token
+        console.log('used bearer authenticate');
+        User.findOne({ token: token })
+            .then(user => {
+                // Pass the user if found else false
+                return done(null, user || false);
+            })
+            .catch(e => done(null, false));
+    });
+
+    passport.use(localStrategy);
+    passport.use(bearerStrategy);
+
     passport.serializeUser(function(user, done) {
         done(null, user.id);
     });
@@ -12,38 +55,4 @@ module.exports = function(passport) {
             done(err, user);
         });
     });
-
-    passport.use(
-        'local-login',
-        new LocalStrategy(
-            {
-                // local strategy uses username and password
-                usernameField: 'username',
-                passwordField: 'password',
-                passReqToCallback: true // allows us to pass back the entire request to the callback
-            },
-            function(req, username, password, done) {
-                // callback password from our form
-                // find a user whose username is the same as the forms username
-                // we are checking to see if the user trying to login already exists
-                User.findOne({ username: username }, function(err, user) {
-                    // if there are any errors, return the error before anything else
-                    if (err) return done(err);
-                    // if no user is found, return the message
-                    if (!user) {
-                        return done(null, false);
-                    } // req.flash is the way to set flashdata using connect-flash
-                    // if the user is found but the password is wrong
-
-                    if (!bcrypt.compareSync(password, user.password)) {
-                        return done(null, false);
-                    }
-
-                    // create the loginMessage and save it to session as flashdata
-                    // all is well, return successful user
-                    return done(null, user);
-                });
-            }
-        )
-    );
 };

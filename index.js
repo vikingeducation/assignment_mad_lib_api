@@ -6,7 +6,7 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
-const passport = require('passport');
+const passport = require('./auth/passport');
 const { loginMiddleware } = require('./session/Session.js');
 
 if (process.env.NODE_ENV !== 'production') {
@@ -21,11 +21,12 @@ app.use(
   })
 );
 
+// initialize our passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-const { localAuth } = require('./auth');
-localAuth(passport);
+// call our methods
+require('./auth/passport').auth();
 
 mongoose.Promise = Promise;
 
@@ -50,14 +51,6 @@ app.use('/api', require('./routes/api'));
 app.engine('handlebars', exphbs({ defaultLayout: 'main', partialsDir: 'views/partials' }));
 
 // auth routes
-app.post(
-  '/login',
-  passport.authenticate('local-login', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true
-  })
-);
 
 app.set('view engine', 'handlebars');
 app.use(loginMiddleware);
