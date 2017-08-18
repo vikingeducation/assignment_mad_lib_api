@@ -17,9 +17,7 @@ router.get('/signup', loggedOutOnly, (req, res) => {
 
 router.post('/signup', loggedOutOnly, async (req, res, next) => {
 	try {
-		console.log(req.body.user);
-		const user = new User(req.body.user);
-		await user.save(); // Injection accounted for in model.
+		const user = await User.create(req.body.user);
 		if (!user) {
 			throw new Error('Error, unable to create user...');
 		}

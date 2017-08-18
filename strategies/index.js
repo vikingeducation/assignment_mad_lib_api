@@ -29,25 +29,15 @@ module.exports = {
 			done(err);
 		}
 	}),
-	serializeUser: (user, done) => {
-		const userInfo = [];
-		userInfo.push(
-			user.id,
-			user.fname,
-			user.lname,
-			user.email,
-			user.passwordHash
-		);
-		done(null, userInfo);
-	},
-	deserializeUser: (userInfo, done) => {
-		const user = new User({
-			id: userInfo.id,
-			fname: userInfo.fname,
-			lname: userInfo.lname,
-			email: userInfo.email,
-			passwordHash: userInfo.passwordHash
-		});
-		done(null, user);
+	serializeUser: (user, done) => { done(null, user.id) },
+
+	deserializeUser: async (id, done) => {
+		try {
+			const user = await User.findById(id);
+			done(null, user);
+		} catch(err) {
+			done(err, false);
+		}
 	}
+
 };

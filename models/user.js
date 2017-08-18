@@ -20,8 +20,7 @@ const UserSchema = new mongoose.Schema(
 			unique: true
 		},
 		passwordHash: {
-			type: String,
-			required: true
+			type: String
 		},
 		apiToken: {
 			type: String,
@@ -64,7 +63,7 @@ UserSchema.pre('save', function(next) {
 			delete this[prop];
 		}
 	}
-	this.token = md5(`${this.email}${uuid()}`);
+	this.apiToken = md5(`${this.email}${uuid()}`);
 	next();
 });
 
