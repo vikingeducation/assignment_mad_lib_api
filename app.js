@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const { User } = require("./models");
 const auth = require("./middleware/authentication");
+const mongoose = require("mongoose");
 
 app.use((req, res, next) => {
   if (mongoose.connection.readyState) {
@@ -24,7 +25,7 @@ const TokenStrategy = require("passport-http-bearer").Strategy;
 
 const localStrategy = new LocalStrategy(
   {
-    usernameField: email
+    usernameField: "email"
   },
   (email, password, done) => {
     User.find({
@@ -70,16 +71,29 @@ passport.deserializeUser((id, done) => {
 //HANDLEBARS
 const hbs = require("express-handlebars");
 
-app.engine("handlebars", hbs.create({ defaultLayout: "main" }));
+app.engine("handlebars", hbs.create({ defaultLayout: "main" }).engine);
 app.set("view engine", "handlebars");
 
-app.get("/login", auth.isLoggedOut, (req, res) => {
-  // render login page
+//show a user signed in
+app.get("/", auth.isLoggedIn, (req, res) => {
+  res.render("./users/index", { user: req.user });
 });
+
+app.get("/login", auth.isLoggedOut, (req, res) => {
+  res.render("login");
+});
+
+app.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+  failureFlash: true
+})
 
 app.get("/signup", auth.isLoggedOut, (req, res) => {
   res.render("signup");
 });
+const usersRouter = require("./routes/users");
+app.use("/users", usersRouter);
 
 app.listen(3000, () => {
   console.log("Now listening...");

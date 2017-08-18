@@ -4,7 +4,8 @@
   "description": "Serving up the Mad Libs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "dependencies": {
     "bcrypt": "^1.0.2",
     "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
     "express": "^4.15.4",
     "express-handlebars": "^3.0.0",
     "jasmine": "^2.7.0",
