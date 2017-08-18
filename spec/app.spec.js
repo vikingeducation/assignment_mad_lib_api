@@ -49,7 +49,7 @@ describe('App', () => {
 	// ----------------------------------------
 	// App
 	// ----------------------------------------
-	it('renders the home page', done => {
+	xit('renders the home page', done => {
 		request.get(baseUrl, (err, res, body) => {
 			expect(res.statusCode).toBe(200);
 			expect(body).toMatch(/api/i);
@@ -58,7 +58,7 @@ describe('App', () => {
 		});
 	});
 
-	it('returns an array with the given number of nouns from a default', done => {
+	xit('returns an array with the given number of nouns from a default', done => {
 		request.get(apiUrlFor('nouns'), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(10);
@@ -66,7 +66,7 @@ describe('App', () => {
 		});
 	});
 
-	it('returns an array with the given number of nouns by param', done => {
+	xit('returns an array with the given number of nouns by param', done => {
 		request.get(apiUrlFor('nouns', { count: 8 }), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(8);
@@ -74,7 +74,7 @@ describe('App', () => {
 		});
 	});
 
-	it('returns an array with the given number of verbs from a default', done => {
+	xit('returns an array with the given number of verbs from a default', done => {
 		request.get(apiUrlFor('verbs'), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(10);
@@ -82,7 +82,7 @@ describe('App', () => {
 		});
 	});
 
-	it('returns an array with the given number of verbs by param', done => {
+	xit('returns an array with the given number of verbs by param', done => {
 		request.get(apiUrlFor('verbs', { count: 8 }), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(8);
@@ -90,7 +90,7 @@ describe('App', () => {
 		});
 	});
 
-	it('returns an array with the given number of adverbs from a default', done => {
+	xit('returns an array with the given number of adverbs from a default', done => {
 		request.get(apiUrlFor('adverbs'), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(10);
@@ -98,7 +98,7 @@ describe('App', () => {
 		});
 	});
 
-	it('returns an array with the given number of adverbs by param', done => {
+	xit('returns an array with the given number of adverbs by param', done => {
 		request.get(apiUrlFor('adverbs', { count: 8 }), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(8);
@@ -106,7 +106,7 @@ describe('App', () => {
 		});
 	});
 
-	it('returns an array with the given number of adjectives from a default', done => {
+	xit('returns an array with the given number of adjectives from a default', done => {
 		request.get(apiUrlFor('adjectives'), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(10);
@@ -114,7 +114,7 @@ describe('App', () => {
 		});
 	});
 
-	it('returns an array with the given number of adjectives by param', done => {
+	xit('returns an array with the given number of adjectives by param', done => {
 		request.get(apiUrlFor('adjectives', { count: 8 }), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(8);
@@ -122,6 +122,43 @@ describe('App', () => {
 		});
 	});
 
+
+	it("returns a test sentence with the given input criteria", async done => {
+		const promises = [];
+
+		['nouns', 'verbs', 'adverbs', 'adjectives'].forEach((type)=> {
+			promises.push(new Promise((resolve, reject) => {
+				request.get(apiUrlFor(type), (err, _, body) => {
+					if(err) reject(err)
+					let result = j(body);
+					resolve(result.join(" "));
+				})
+			}))
+		})
+
+		const words = await Promise.all(promises);
+		const sentence = '{{verb}} us {{verb}} {{a_noun}} for the {{noun}} of {{adverb}} {{adjective}} {{adjective}} {{noun}}';
+		let result = await new Promise((resolve, reject) => {
+			request.post(apiUrlFor('stories'), {
+				words,
+				sentence
+			}, (err, _, body) => {
+					if(err) reject(err);
+					let result = j(body);
+					resolve(result)
+			})
+		})
+
+		console.log(result);
+		done();
+
+	})
+
+
+
+	// await request.get(apiUrlFor('stories',  => {
+	//
+	// }))
 	it('does not allow requests without an access_token', done => {
 		request.get(apiUrl, (err, res, body) => {
 			// Note, this SHOULD have a status code of 401
