@@ -1,18 +1,4 @@
-<h1>Logged in Page</h1>
+<a href="/logout">logout</a>
 
-<form action="/login" method="post">
-	<label for="">Username</label>
-	<input type="username" name="username" id="username" required="true" class="form-control">
-	<label for="">Password</label>
-	<input type="password" name="password" id="password" required="true" class="form-control">
-  <button class="btn btn-default">Log In</button>
-
-</form>
-<form action="/api/users" method="post">
-	<label for="">Username</label>
-	<input type="username" name="username" id="username" required="true" class="form-control">
-	<label for="">Password</label>
-	<input type="password" name="password" id="password" required="true" class="form-control">
-  <button class="btn btn-default">Log In</button>
-
-</form>
+<h1>User: {{user.username}}</h1>
+<p>Token: {{user.token}}</p>
