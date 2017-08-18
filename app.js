@@ -3,7 +3,6 @@ const app = express();
 const h = require("./helpers");
 const { User } = require("./models");
 
-
 // .env
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -23,7 +22,6 @@ app.set("view engine", "handlebars");
 const methodOverride = require("method-override");
 const getPostSupport = require("express-method-override-get-post-support");
 app.use(methodOverride(getPostSupport.callback, getPostSupport.options));
-
 
 // Static Files
 app.use(express.static(`${__dirname}/public`));
@@ -46,10 +44,12 @@ app.use(
 const flash = require("express-flash-messages");
 app.use(flash());
 
-// Log Request Info
-const morgan = require("morgan");
-const morganToolkit = require("morgan-toolkit")(morgan);
-app.use(morganToolkit());
+// Log Request Info in Development
+if (process.env.NODE_ENV === "development") {
+  const morgan = require("morgan");
+  const morganToolkit = require("morgan-toolkit")(morgan);
+  app.use(morganToolkit());
+}
 
 // Connect to Mongoose
 const mongoose = require("mongoose");
@@ -97,5 +97,9 @@ args.push(() => {
   console.log(`Listening: http://${host}:${port}`);
 });
 
-// Use apply to pass the args to listen
-app.listen.apply(app, args);
+// Use apply to pass the args to listen if we're run directly
+if (require.main === module) {
+  app.listen.apply(app, args);
+}
+
+module.exports = app;
