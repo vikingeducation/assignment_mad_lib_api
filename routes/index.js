@@ -49,7 +49,7 @@ function authenticate(passport) {
           else res.redirect("/");
         });
       })
-      .catch(e => res.status(500).end(e));
+      .catch(e => res.status(500).end(e.stack));
   });
 
   //logout handler

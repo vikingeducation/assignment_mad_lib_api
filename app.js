@@ -18,6 +18,12 @@ const hbs = expressHandlebars.create({
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
+// Method Overriding
+const methodOverride = require("method-override");
+const getPostSupport = require("express-method-override-get-post-support");
+app.use(methodOverride(getPostSupport.callback, getPostSupport.options));
+
+
 // Static Files
 app.use(express.static(`${__dirname}/public`));
 
@@ -70,15 +76,7 @@ passport.use("local", require("./strategies/local"));
 // Add populated user and referral URL to locals
 app.use(async (req, res, next) => {
   if (req.user) {
-    const protocol = req.protocol;
-    const host = req.get("host");
-    const shortId = req.user.shortId;
-    res.locals.referralUrl = `${protocol}://${host}/${shortId}`;
-    res.locals.user = await req.user.populateChildren();
-    res.locals.pyramid = [];
-    for (let i = 0; i < Object.keys(req.user.pyramid).length; i++) {
-      res.locals.pyramid.push(req.user.pyramid[i]);
-    }
+    res.locals.user = req.user;
   }
   next();
 });
