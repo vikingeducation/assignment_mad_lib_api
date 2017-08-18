@@ -165,5 +165,20 @@ describe("App", () => {
         done();
       });
     });
+
+    it("returns a sentence", done => {
+      const formData = {
+        form: {
+          words: ["this", "is", "an", "array"],
+          template: "this is a string"
+        }
+      };
+      request.post(apiUrlFor("sentences"), formData, (err, res, body) => {
+        let result = j(body);
+
+        expect(typeof result.sentence).toEqual("string");
+        done();
+      });
+    });
   });
 });

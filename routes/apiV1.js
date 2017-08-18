@@ -35,7 +35,7 @@ const checkSentenceInputs = (req, res, next) => {
 };
 
 router.post("/sentences", checkSentenceInputs, (req, res) => {
-  res.end("sentence here");
+  res.json({ sentence: "sentence here" });
 });
 
 router.get("*", (req, res) => {
