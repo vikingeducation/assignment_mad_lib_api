@@ -5,6 +5,16 @@ const passport = require("passport");
 const { User } = require("./models");
 const auth = require("./middleware/authentication");
 const mongoose = require("mongoose");
+const session = require("express-session");
+
+//session
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: true
+  })
+);
 
 app.use((req, res, next) => {
   if (mongoose.connection.readyState) {
@@ -99,6 +109,10 @@ app.get("/signup", auth.isLoggedOut, (req, res) => {
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
 
-app.listen(3000, () => {
-  console.log("Now listening...");
-});
+if (require.main === module) {
+  app.listen(3000, () => {
+    console.log("Now listening...");
+  });
+}
+
+module.exports = app;
