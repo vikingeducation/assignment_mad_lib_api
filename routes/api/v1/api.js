@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const WordPOS = require('wordpos');
 const wordpos = new WordPOS();
-const Sentencer = require('sentencer');
+const madLibber = require('../../../sentencer');
 
 function sanitizeCount(req, _, next) {
 	req.query.count = +req.query.count || 10;
@@ -33,30 +33,10 @@ router.get('/adjectives', sanitizeCount, async (req, res) =>
 
 router.post('/stories', async (req, res) => {
 	let { sentence, words } = req.body;
-
-	console.log(req.body);
-	if (!sentence || (!words || !Array.isArray(words) || 1 > words.length)) {
-		return res.status(500).json({ message: 'Invalid parameters passed' });
-	}
-
 	try {
-		const pos = await wordpos.getPOS(words.join(' '));
-		const { nouns, verbs, adverbs, adjectives } = pos;
-		console.log("pos", pos);
+		const madLib = await madLibber(sentence, words);
 
-
-		Sentencer.configure({
-			nounList: nouns,
-			verbList: verbs,
-			adverbList: adverbs,
-			adjectiveList: adjectives
-		})
-
-
-		const sentence = Sentencer.make(sentence);
-
-
-		res.json({ sentence, words });
+		res.json({ madLib: madLib, template: sentence, words: words });
 	} catch (err) {
 		res.status(500).json({ message: err.message, stack: err.stack });
 	}

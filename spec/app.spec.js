@@ -11,7 +11,7 @@ describe('App', () => {
 	let user;
 	const apiUrlFor = (type, params) => {
 		params = params ? `&${qs.stringify(params)}` : '';
-		console.log(`${apiUrl}${type}?access_token=${user.apiToken}${params}`);
+		console.log(`\n${apiUrl}${type}?access_token=${user.apiToken}${params}`);
 		return `${apiUrl}${type}?access_token=${user.apiToken}${params}`;
 	};
 	const j = str => JSON.parse(str);
@@ -30,7 +30,6 @@ describe('App', () => {
 			password: 'password'
 		}).then(result => {
 			user = result;
-			console.log(user);
 			done();
 		});
 	});
@@ -49,7 +48,7 @@ describe('App', () => {
 	// ----------------------------------------
 	// App
 	// ----------------------------------------
-	xit('renders the home page', done => {
+	it('renders the home page', done => {
 		request.get(baseUrl, (err, res, body) => {
 			expect(res.statusCode).toBe(200);
 			expect(body).toMatch(/api/i);
@@ -58,7 +57,7 @@ describe('App', () => {
 		});
 	});
 
-	xit('returns an array with the given number of nouns from a default', done => {
+	it('returns an array with the given number of nouns from a default', done => {
 		request.get(apiUrlFor('nouns'), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(10);
@@ -66,7 +65,7 @@ describe('App', () => {
 		});
 	});
 
-	xit('returns an array with the given number of nouns by param', done => {
+	it('returns an array with the given number of nouns by param', done => {
 		request.get(apiUrlFor('nouns', { count: 8 }), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(8);
@@ -74,7 +73,7 @@ describe('App', () => {
 		});
 	});
 
-	xit('returns an array with the given number of verbs from a default', done => {
+	it('returns an array with the given number of verbs from a default', done => {
 		request.get(apiUrlFor('verbs'), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(10);
@@ -82,7 +81,7 @@ describe('App', () => {
 		});
 	});
 
-	xit('returns an array with the given number of verbs by param', done => {
+	it('returns an array with the given number of verbs by param', done => {
 		request.get(apiUrlFor('verbs', { count: 8 }), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(8);
@@ -90,7 +89,7 @@ describe('App', () => {
 		});
 	});
 
-	xit('returns an array with the given number of adverbs from a default', done => {
+	it('returns an array with the given number of adverbs from a default', done => {
 		request.get(apiUrlFor('adverbs'), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(10);
@@ -98,7 +97,7 @@ describe('App', () => {
 		});
 	});
 
-	xit('returns an array with the given number of adverbs by param', done => {
+	it('returns an array with the given number of adverbs by param', done => {
 		request.get(apiUrlFor('adverbs', { count: 8 }), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(8);
@@ -106,7 +105,7 @@ describe('App', () => {
 		});
 	});
 
-	xit('returns an array with the given number of adjectives from a default', done => {
+	it('returns an array with the given number of adjectives from a default', done => {
 		request.get(apiUrlFor('adjectives'), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(10);
@@ -114,7 +113,7 @@ describe('App', () => {
 		});
 	});
 
-	xit('returns an array with the given number of adjectives by param', done => {
+	it('returns an array with the given number of adjectives by param', done => {
 		request.get(apiUrlFor('adjectives', { count: 8 }), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(8);
@@ -122,39 +121,46 @@ describe('App', () => {
 		});
 	});
 
-
-	it("returns a test sentence with the given input criteria", async done => {
+	it('returns a test sentence with the given input criteria', async done => {
 		const promises = [];
 
-		['nouns', 'verbs', 'adverbs', 'adjectives'].forEach((type)=> {
-			promises.push(new Promise((resolve, reject) => {
-				request.get(apiUrlFor(type), (err, _, body) => {
-					if(err) reject(err)
-					let result = j(body);
-					resolve(result.join(" "));
+		['nouns', 'verbs', 'adverbs', 'adjectives'].forEach(type => {
+			promises.push(
+				new Promise((resolve, reject) => {
+					request.get(apiUrlFor(type), (err, _, body) => {
+						if (err) reject(err);
+						let result = j(body);
+						resolve(result.join(' '));
+					});
 				})
-			}))
-		})
+			);
+		});
 
 		const words = await Promise.all(promises);
-		const sentence = '{{verb}} us {{verb}} {{a_noun}} for the {{noun}} of {{adverb}} {{adjective}} {{adjective}} {{noun}}';
+		const sentence =
+			'{{verb}} us {{verb}} {{a_noun}} for the {{noun}} of {{adverb}} {{adjective}} {{adjective}} {{noun}}';
 		let result = await new Promise((resolve, reject) => {
-			request.post(apiUrlFor('stories'), {
-				words,
-				sentence
-			}, (err, _, body) => {
-					if(err) reject(err);
+			request.post(
+				apiUrlFor('stories'),
+				{
+					form: {
+						words,
+						sentence
+					}
+				},
+				(err, _, body) => {
+					if (err) reject(err);
 					let result = j(body);
-					resolve(result)
-			})
-		})
+					resolve(result);
+				}
+			);
+		});
 
-		console.log(result);
+		expect(typeof result.madLib).toEqual('string');
+		expect(result.madLib.length).toBeGreaterThan(0);
+		expect(result.madLib).not.toMatch(/{{\s?[a-zA-Z]+\s}}/);
 		done();
-
-	})
-
-
+	});
 
 	// await request.get(apiUrlFor('stories',  => {
 	//
