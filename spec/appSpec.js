@@ -140,7 +140,7 @@ describe("App", () => {
         done();
       });
     });
-  })
+  });
 
   // ----------------------------------------
   // Sentence API
@@ -153,10 +153,17 @@ describe("App", () => {
       });
     });
 
-    it("returns a sentence", done=>{
-      
-    })
-
-
+    it("requires that words be an array of strings and template is a string", done => {
+      const formData = {
+        form: {
+          words: "this is not an array",
+          template: ["this", "is", "not", "a", "string"]
+        }
+      };
+      request.post(apiUrlFor("sentences"), formData, (err, res, body) => {
+        expect(res.statusCode).toBe(400);
+        done();
+      });
+    });
   });
 });

@@ -21,16 +21,22 @@ router.get("/:type", (req, res, next) => {
   }
 });
 
-router.post("/sentences", (req, res) => {
-  const {words, template} = req.body;
+const checkSentenceInputs = (req, res, next) => {
+  const { words, template } = req.body;
   if (!words || !template) {
-    res.status(400).json({ error: "words list and template sentence are both required" });
-  } else {
-    res.end("sentence here")
-  }
-  
-})
+    res
+      .status(400)
+      .json({ error: "words list and template sentence are both required" });
+  } else if (!Array.isArray(words) || typeof template !== "string") {
+    res
+      .status(400)
+      .json({ error: "words must be an array and template must be a string" });
+  } else next();
+};
 
+router.post("/sentences", checkSentenceInputs, (req, res) => {
+  res.end("sentence here");
+});
 
 router.get("*", (req, res) => {
   res.json({ error: "404 Not Found" });
