@@ -4,11 +4,7 @@ const wordpos = new WordPOS();
 
 // ['barge', 'barf', 'barter_away'] 'bar'
 
-module.exports = {
-  createMadlib: () => {
-    Sentencer.make("hello my name is {{ noun }} and {{}}");
-  }
-};
+module.exports = PoopMadlibOut;
 
 async function generateWords() {
   let random = {};
@@ -24,9 +20,20 @@ async function generateWords() {
     adjectiveList: adjArr,
     verbList: verbArr
   });
-  console.log(
-    Sentencer.make("hello my name is {{ noun }} and I am {{ adjective }}")
-  );
+  // console.log(
+  //   Sentencer.make("hello my name is {{ noun }} and I am {{ adjective }}")
+  // );
+}
+async function PoopMadlibOut(story) {
+  let verbArr = await wordpos.randVerb({ count: 20 });
+  let nounArr = await wordpos.randVerb({ count: 20 });
+  let adjArr = await wordpos.randAdjective({ count: 20 });
+  Sentencer.configure({
+    nounList: nounArr,
+    adjectiveList: adjArr,
+    verbList: verbArr
+  });
+  return Sentencer.make(story);
 }
 
 async function ParseSentence(sentence) {
@@ -37,4 +44,4 @@ async function ParseSentence(sentence) {
   // });
 }
 
-generateWords();
+// /generateWords();

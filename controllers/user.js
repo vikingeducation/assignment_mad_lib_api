@@ -1,6 +1,6 @@
 const { User } = require("../models");
 module.exports = {
-  createUser: async function(req, res) {
+  create: async function(req, res) {
     let existingUser;
     try {
       existingUser = await User.findOne({ username: req.body.username });

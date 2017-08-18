@@ -48,7 +48,7 @@ router.post("/:resource", (req, res, next) => {
     return;
   }
 
-  controller.createUser(req, res, next);
+  controller.create(req, res, next);
 });
 
 module.exports = router;

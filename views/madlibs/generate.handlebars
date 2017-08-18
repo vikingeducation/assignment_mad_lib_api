@@ -1,6 +1,8 @@
 <h1>Make a Madlib</h1>
 
-<form action="/generarteMadlibs" method="post">
+<form action="/api/madlibs" method="post">
 	<input type="sentence" name="sentence" id="sentence" required="true" class="form-control">
   <button class="btn btn-default">GetMadlib</button>
 </form>
+
+{{madlib}}

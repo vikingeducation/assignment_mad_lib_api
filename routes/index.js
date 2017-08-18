@@ -1,19 +1,25 @@
-const router = require('express').Router();
-const { createSignedSessionId, loggedInOnly, loggedOutOnly } = require('../session/Session.js');
-const { User } = require('../models');
+const router = require("express").Router();
+const {
+  createSignedSessionId,
+  loggedInOnly,
+  loggedOutOnly
+} = require("../session/Session.js");
+const { User } = require("../models");
 
-router.get('/', loggedInOnly, (req, res) => {
-	res.render('landing/index', { user: req.user });
+router.get("/", loggedInOnly, (req, res) => {
+  res.render("landing/index", { user: req.user });
+});
+router.get("/madlibs", loggedInOnly, (req, res) => {
+  res.render("madlibs/generate");
+});
+router.get("/login", loggedOutOnly, (req, res) => {
+  res.render("login/index");
 });
 
-router.get('/login', loggedOutOnly, (req, res) => {
-	res.render('login/index');
-});
-
-router.get('/logout', loggedInOnly, (req, res) => {
-	res.cookie('sessionId', '');
-	req.logout();
-	res.redirect('/');
+router.get("/logout", loggedInOnly, (req, res) => {
+  res.cookie("sessionId", "");
+  req.logout();
+  res.redirect("/");
 });
 
 // router.post("/login", loggedOutOnly, (req, res) => {

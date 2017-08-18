@@ -1,4 +1,5 @@
 const madlibs = require("../models");
+const generateMadlib = require("../utils/madlib");
 module.exports = {
   index: async function(req, res) {
     try {
@@ -17,10 +18,10 @@ module.exports = {
       return res.json({ message: e.message });
     }
   },
-  creatMadlib: async function(req, res) {
-    const id = req.params.id;
+  create: async function(req, res) {
+    //  const id = req.params.id;
     try {
-      const madlib = await Madlib.MakeMadlib();
+      const madlib = await generateMadlib(req.body.sentence);
       return res.json({ result: madlib });
     } catch (e) {
       return res.json({ message: e.message });
