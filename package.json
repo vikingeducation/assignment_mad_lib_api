@@ -4,7 +4,11 @@
   "description": "Serving up the madness with a Mad Lib API!",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run whichnodemon && nodemon --exec npm run jasmine || npm run jasmine",
+    "start": "npm run whichnodemon && nodemon app.js || node app.js",
+    "whichnodemon": "which nodemon > /dev/null",
+    "console": "node repl.js",
+    "jasmine": "./node_modules/jasmine/bin/jasmine.js"
   },
   "repository": {
     "type": "git",
