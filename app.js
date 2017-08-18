@@ -125,6 +125,92 @@ app.use(
   )
 );
 
+app.get("/stories/new", loggedInOnly, (req, res) => {
+  res.render("stories/new");
+});
+app.post("/stories", (req, res) => {
+  let sentence;
+  let nouns;
+  let verbs;
+  let adjectives;
+  let adverbs;
+  const newServer = app.listen(3050);
+  const story = req.body.story;
+  let nounMatches = 0;
+  let nounMatch = /{{ noun }}/g.exec(story);
+  while (nounMatch) {
+    nounMatches++;
+    nounMatch = /{{ noun }}/g.exec(story);
+  }
+  let verbMatches = 0;
+  let verbMatch = /{{ verb }}/g.exec(story);
+  while (verbMatch) {
+    verbMatches++;
+    verbMatch = /{{ verb }}/g.exec(story);
+  }
+  let adjectiveMatches = 0;
+  let adjectiveMatch = /{{ adjective }}/g.exec(story);
+  while (adjectiveMatch) {
+    adjectiveMatches++;
+    adjectiveMatch = /{{ adjective }}/g.exec(story);
+  }
+  let adverbMatches = 0;
+  let adverbMatch = /{{ adverb }}/g.exec(story);
+  while (nounMatch) {
+    adverbMatches++;
+    adverbMatch = /{{ adverb }}/g.exec(story);
+  }
+  request.get(
+    "http://localhost:3050/api/v1/nouns",
+    {
+      count: nounMatches
+    },
+    (err, res, body) => {
+      nouns = body;
+    }
+  );
+  request.get(
+    "http://localhost:3050/api/v1/verbs",
+    {
+      count: verbMatches
+    },
+    (err, res, body) => {
+      verbs = body;
+    }
+  );
+  request.get(
+    "http://localhost:3050/api/v1/adjectives",
+    {
+      count: adjectiveMatches
+    },
+    (err, res, body) => {
+      adjectives = body;
+    }
+  );
+  request.get(
+    "http://localhost:3050/api/v1/adverbs",
+    {
+      count: adverbMatches
+    },
+    (err, res, body) => {
+      adverbs = body;
+    }
+  );
+  request.post(
+    "http://localhost:3050/api/v1/stories",
+    {
+      form: {
+        words: nouns.concat(verbs.concat(adjectives.concat(adverbs))),
+        sentence: story
+      }
+    },
+    (err, res, body) => {
+      sentence = body;
+    }
+  );
+  res.end(sentence);
+});
+
 const port = process.env.PORT || process.argv[2] || 3000;
 const host = "0.0.0.0";
 
