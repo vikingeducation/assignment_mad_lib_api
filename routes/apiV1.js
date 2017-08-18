@@ -5,44 +5,32 @@ const wp = new WordPOS();
 router.get("/", (req, res) => res.json({ name: "Mad Lib API" }));
 
 const typeMap = {
-  nouns: wp.randNoun,
-  verbs: wp.randVerb,
-  adverbs: wp.randAdverb,
-  adjectives: wp.randAdjective
+  nouns: "randNoun",
+  verbs: "randVerb",
+  adverbs: "randAdverb",
+  adjectives: "randAdjective"
 };
 
 router.get("/:type", (req, res, next) => {
   const count = req.query.count || 10;
   const typeFunc = typeMap[req.params.type];
   if (typeFunc) {
-    typeFunc({ count }).then(words => res.json(words)).catch(e => next(e));
+    wp[typeFunc]({ count }).then(words => res.json(words)).catch(e => next(e));
   } else {
     next();
   }
 });
 
-// router.get("/nouns", (req, res, next) => {
-//   const count = req.query.count || 10;
-//   wp.randNoun({ count }).then(words => res.json(words)).catch(e => next(e));
-// });
+router.post("/sentences", (req, res) => {
+  const {words, template} = req.body;
+  if (!words || !template) {
+    res.status(400).json({ error: "words list and template sentence are both required" });
+  } else {
+    res.end("sentence here")
+  }
+  
+})
 
-// router.get("/verbs", (req, res, next) => {
-//   const count = req.query.count || 10;
-//   wp.randVerb({ count }).then(words => res.json(words)).catch(e => next(e));
-// });
-
-// router.get("/adverbs", (req, res, next) => {
-//   const count = req.query.count || 10;
-//   wp.randAdverb({ count }).then(words => res.json(words)).catch(e => next(e));
-// });
-
-// router.get("/adjectives", (req, res, next) => {
-//   const count = req.query.count || 10;
-//   wp
-//     .randAdjective({ count })
-//     .then(words => res.json(words))
-//     .catch(e => next(e));
-// });
 
 router.get("*", (req, res) => {
   res.json({ error: "404 Not Found" });

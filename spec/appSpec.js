@@ -140,5 +140,23 @@ describe("App", () => {
         done();
       });
     });
+  })
+
+  // ----------------------------------------
+  // Sentence API
+  // ----------------------------------------
+  describe("Sentence API", () => {
+    it("requires both a list of words and a template sentence.", done => {
+      request.post(apiUrlFor("sentences"), (err, res, body) => {
+        expect(res.statusCode).toBe(400);
+        done();
+      });
+    });
+
+    it("returns a sentence", done=>{
+      
+    })
+
+
   });
 });
