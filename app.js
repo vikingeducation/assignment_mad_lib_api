@@ -15,7 +15,6 @@ const { localStrategy, bearerStrategy } = require("./strategies");
 const methodOverride = require("method-override");
 const getPostSupport = require("express-method-override-get-post-support");
 const morganToolKit = require("morgan-toolkit")(morgan);
-const maddestLibsRouter = require("./routers/maddest_libs");
 
 const hbs = expressHandlebars.create({
   helpers: helpers,
@@ -119,6 +118,9 @@ app.post(
 
 app.use("/", usersRouter);
 
+const maddestLibsRouter = require("./routers/maddest_libs")(
+  passport.authenticate({ session: false })
+);
 app.use("/api/v1", maddestLibsRouter);
 
 const port = process.env.PORT || process.argv[2] || 3000;

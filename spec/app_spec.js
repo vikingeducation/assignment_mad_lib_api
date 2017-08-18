@@ -122,9 +122,11 @@ describe("App", () => {
       }),
       (err, res, body) => {
         console.log(body);
-        const expectedResult =
-          "I have an obese bruise, and it tends to lurk faddishly";
-        expect(body).toEqual(expectedResult);
+        const expectedResult = {
+          sentence: "I have an obese bruise, and it tends to lurk faddishly"
+        };
+        let result = j(body);
+        expect(result).toEqual(expectedResult);
         done();
       }
     );
