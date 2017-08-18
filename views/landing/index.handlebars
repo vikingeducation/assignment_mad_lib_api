@@ -3,8 +3,22 @@
 <h1>User: {{user.username}}</h1>
 <p>Token: {{user.token}}</p>
 
+<form action="/api/madlibs/noun" method="post">
+	<input name="number" type="number">
+	<button>Get noun List</button>
+</form>
+<form action="/api/madlibs/verb" method="post">
+	<input name="number" type="number">
+	<button>Get verb List</button>
+</form>
+<form action="/api/madlibs/adjective" method="post">
+	<input name="number" type="number">
+	<button>Get adjective List</button>
+</form>
+
 <form action="/api/madlibs" method="post">
-	<input type="hidden" name="token" value={{user.token}}>
+	<input type="hidden" name="access_token" value={{user.token}}>
+	<input type="text" name="words">
 	<input type="text" name="sentence">
 	<button>submit</button>
 </form>

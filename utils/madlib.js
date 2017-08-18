@@ -4,7 +4,7 @@ const wordpos = new WordPOS();
 
 // ['barge', 'barf', 'barter_away'] 'bar'
 
-module.exports = PoopMadlibOut;
+module.exports = { PoopMadlibOut, GetWords };
 
 async function generateWords() {
   let random = {};
@@ -35,7 +35,22 @@ async function PoopMadlibOut(story) {
   });
   return Sentencer.make(story);
 }
-
+async function GetWords(type, amount) {
+  let newArray = [];
+  switch (type.toLowerCase()) {
+    case "noun":
+      newArray = await wordpos.randNoun({ count: amount });
+      break;
+    case "verb":
+      newArray = await wordpos.randVerb({ count: amount });
+      break;
+    case "adjective":
+      newArray = await wordpos.randAdjective({ count: amount });
+      break;
+  }
+  console.log(newArray);
+  return newArray;
+}
 async function ParseSentence(sentence) {
   // let sentenceArray = sentence.split(" ");
   // sentenceArray.forEach(i =>{
