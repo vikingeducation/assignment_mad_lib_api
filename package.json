@@ -1,0 +1,37 @@
+{
+  "name": "assignment_mad_lib_api",
+  "version": "1.0.0",
+  "description": "Serving up the madness with a Mad Lib API!",
+  "main": "index.js",
+  "scripts": {
+    "start": "which nodemon > /dev/null && nodemon index.js || node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bsoung/assignment_mad_lib_api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bsoung/assignment_mad_lib_api/issues"
+  },
+  "homepage": "https://github.com/bsoung/assignment_mad_lib_api#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.4",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.5",
+    "md5": "^2.2.1",
+    "mongoose": "^4.11.7",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sentencer": "^0.1.5",
+    "wordpos": "^1.1.5"
+  }
+}
