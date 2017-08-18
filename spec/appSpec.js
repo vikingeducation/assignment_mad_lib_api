@@ -1,5 +1,5 @@
 const app = require("../app");
-const request = require("promise");
+const request = require("request");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const qs = require("qs");
@@ -53,7 +53,7 @@ describe("App", () => {
     request.get(baseUrl, (err, res, body) => {
       expect(res.statusCode).toBe(200);
 
-      expect(body).toMatch(/api/i);
+      expect(body).toMatch(/Mad Libs/);
       done();
     });
   });
