@@ -1,7 +1,8 @@
-const LocalStrategy = require('passport-local').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
-const bcrypt = require('bcrypt');
+const LocalStrategy = require('passport-local').Strategy;
 const { User } = require('../models');
+
+const bcrypt = require('bcrypt');
 const passport = require('passport');
 
 module.exports = passport;

@@ -4,21 +4,21 @@
 <p>Token: {{user.token}}</p>
 
 <form action="/api/madlibs/noun" method="post">
-	<input name="number" type="number">
+	<input name="number" type="number" placeholder="number">
 	<button>Get noun List</button>
 </form>
 <form action="/api/madlibs/verb" method="post">
-	<input name="number" type="number">
+	<input name="number" type="number" placeholder="number"> 
 	<button>Get verb List</button>
 </form>
 <form action="/api/madlibs/adjective" method="post">
-	<input name="number" type="number">
+	<input name="number" type="number" placeholder="number">
 	<button>Get adjective List</button>
 </form>
 
 <form action="/api/madlibs" method="post">
 	<input type="hidden" name="access_token" value={{user.token}}>
-	<input type="text" name="words">
-	<input type="text" name="sentence">
+	<input type="text" name="sentence" placeholder="sentence">
+	<input type="text" name="words" placeholder="words">
 	<button>submit</button>
 </form>
