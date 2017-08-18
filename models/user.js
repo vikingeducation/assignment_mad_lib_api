@@ -59,10 +59,9 @@ UserSchema.pre('save', function(next) {
 	fields.splice(fields.indexOf('passwordHash'), 1);
 	fields.push('password');
 	for (prop in this) {
-		if (!this.hasOwnProperty(prop)) {
-			if (!fields.includes(prop)) {
-				delete this[prop];
-			}
+		if (!this.hasOwnProperty(prop)) continue;
+		if (!fields.includes(prop)) {
+			delete this[prop];
 		}
 	}
 	this.token = md5(`${this.email}${uuid()}`);
