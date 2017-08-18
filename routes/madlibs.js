@@ -7,9 +7,10 @@ const wordpos = new WordPOS();
 // const auth = require("./../middleware/authentication");
 
 router.get("/nouns", (req, res) => {
-	const count = Number(req.query.count) || 10;
-	wordpos.randNoun({ count: count }, wordList => {
-		res.json(wordList);
-	});
+  console.log("in nouns");
+  const count = Number(req.query.count) || 10;
+  wordpos.randNoun({ count: count }, wordList => {
+    res.json(wordList);
+  });
 });
 module.exports = router;
