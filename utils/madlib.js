@@ -1,5 +1,5 @@
-const Sentencer = require('sentencer');
-const WordPOS = require('wordpos');
+const Sentencer = require("sentencer");
+const WordPOS = require("wordpos");
 const wordpos = new WordPOS();
 
 var NOUN_ARR = [];
@@ -7,8 +7,14 @@ var VERB_ARR = [];
 var ADJECTIVE_ARR = [];
 var ADVERB_ARR = [];
 
-module.exports = { PoopMadlibOut, GetWords };
+module.exports = { PoopMadlibOut, GetWords, scrubArrays };
 
+var scrubArrays = function() {
+  NOUN_ARR = [];
+  VERB_ARR = [];
+  ADJECTIVE_ARR = [];
+  ADVERB_ARR = [];
+};
 async function generateWords() {
   let random = {};
 
@@ -45,20 +51,21 @@ async function PoopMadlibOut(story, words) {
     adjectiveList: ADJECTIVE_ARR,
     verbList: VERB_ARR
   });
+
   return Sentencer.make(story);
 }
 async function GetWords(type, amount) {
   let newArray = [];
   switch (type.toLowerCase()) {
-    case 'noun':
+    case "noun":
       NOUN_ARR = await wordpos.randNoun({ count: amount });
       newArray = NOUN_ARR;
       break;
-    case 'verb':
+    case "verb":
       VERB_ARR = await wordpos.randVerb({ count: amount });
       newArray = VERB_ARR;
       break;
-    case 'adjective':
+    case "adjective":
       ADJECTIVE_ARR = await wordpos.randAdjective({ count: amount });
       newArray = ADJECTIVE_ARR;
       break;
@@ -68,7 +75,7 @@ async function GetWords(type, amount) {
 }
 
 async function parseWords(words) {
-  let wordArr = words.split(' ');
+  let wordArr = words.split(" ");
 
   for (i = 0; i < wordArr.length; i++) {
     let nounBool = await wordpos.isNoun(wordArr[i]);
