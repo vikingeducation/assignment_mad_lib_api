@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const WordPOS = require("wordpos");
 const wp = new WordPOS();
+var Sentencer = require('sentencer');
 
 router.get("/", (req, res) => res.json({ name: "Mad Lib API" }));
 
@@ -34,8 +35,43 @@ const checkSentenceInputs = (req, res, next) => {
   } else next();
 };
 
-router.post("/sentences", checkSentenceInputs, (req, res) => {
-  res.json({ sentence: "sentence here" });
+router.post("/sentences", checkSentenceInputs, async (req, res, next) => {
+  try {
+    const {nouns, verbs, adjectives, adverbs} = await wp.getPOS(req.body.words)
+
+    const getRandomArrayMember = (array)=> {
+      return array[Math.floor(Math.random()*array.length)];
+    }
+
+    const verb = ()=> {
+      return getRandomArrayMember(verbs);
+    }
+
+    const adverb = ()=> {
+      return getRandomArrayMember(adverbs);
+    }
+
+    
+    console.log("Nouns is: ", nouns);
+    console.log("Verbs is: ", verbs);
+    console.log("Adjectives is: ", adjectives);
+    console.log("Adverbs is: ", adverbs);
+
+    Sentencer.configure({
+      nounList: nouns,
+      adjectiveList: adjectives,
+      actions: {
+        verb: verb,
+        adverb: adverb
+      }
+    })
+    const sentence = Sentencer.make(req.body.template);
+    console.log("Sentence is: ", sentence);
+    res.json({sentence})
+  }
+  catch (err) {
+    next(err);
+  }
 });
 
 router.get("*", (req, res) => {

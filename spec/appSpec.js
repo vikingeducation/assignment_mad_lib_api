@@ -166,19 +166,26 @@ describe("App", () => {
       });
     });
 
-    it("returns a sentence", done => {
+    it("returns the correct sentence for the given input.", done => {
       const formData = {
         form: {
-          words: ["this", "is", "an", "array"],
-          template: "this is a string"
+          words: ["Warty", "zebra", "extend", "furiously"],
+          template: "{{adjective}} {{noun}} {{verb}} {{adverb}}."
         }
       };
       request.post(apiUrlFor("sentences"), formData, (err, res, body) => {
         let result = j(body);
 
-        expect(typeof result.sentence).toEqual("string");
+        expect(result.sentence).toEqual("Warty zebra extend furiously.");
         done();
       });
     });
+
+
+
+
+
+
+
   });
 });
