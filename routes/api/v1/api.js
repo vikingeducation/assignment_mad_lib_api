@@ -5,16 +5,13 @@ const WordPOS = require('wordpos');
 const wordpos = new WordPOS();
 const Sentencer = require('sentencer');
 
-
 function sanitizeCount(req, _, next) {
 	req.query.count = +req.query.count || 10;
 	if (req.query.count < 0) req.query.count = 10;
 	next();
 }
 
-
-
-router.get('/', (_, res) => {
+router.get('/', sanitizeCount, (_, res) => {
 	res.status(200).end('api');
 });
 
