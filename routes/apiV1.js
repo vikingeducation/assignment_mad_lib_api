@@ -6,10 +6,12 @@ router.get("/", (req, res) => res.json({ name: "Mad Lib API" }));
 
 router.get("/nouns", (req, res, next) => {
   const count = req.query.count || 10;
-  wp
-    .randNoun({ count: count })
-    .then(words => res.json(words))
-    .catch(e => next(e));
+  wp.randNoun({ count }).then(words => res.json(words)).catch(e => next(e));
+});
+
+router.get("/verbs", (req, res, next) => {
+  const count = req.query.count || 10;
+  wp.randVerb({ count }).then(words => res.json(words)).catch(e => next(e));
 });
 
 router.get("*", (req, res) => {

@@ -87,7 +87,7 @@ describe("App", () => {
       });
     });
 
-    xit("returns an array with the default number of verbs", done => {
+    it("returns an array with the default number of verbs", done => {
       request.get(apiUrlFor("verbs"), (err, res, body) => {
         let result = j(body);
 
@@ -96,7 +96,7 @@ describe("App", () => {
       });
     });
 
-    xit("returns an array with the specified number of verbs", done => {
+    it("returns an array with the specified number of verbs", done => {
       request.get(apiUrlFor("verbs", { count: 22 }), (err, res, body) => {
         let result = j(body);
 
