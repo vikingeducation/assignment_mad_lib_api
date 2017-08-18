@@ -6,6 +6,8 @@ router.get('/users/:id', users.view);
 
 router.post('/users', users.create);
 
-router.post('/madlibs', passport.authenticate('bearer', { session: false }), madlibs.create);
+// passport.authenticate('bearer', { session: false })
+
+router.post('/madlibs', madlibs.create);
 
 module.exports = router;
