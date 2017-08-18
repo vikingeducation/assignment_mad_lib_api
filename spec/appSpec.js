@@ -4,59 +4,60 @@ const mongoose = require("mongoose");
 const User = mongoose.model("User");
 const qs = require("qs");
 
+process.env.NODE_ENV = "test";
+
 describe("MAD LIB", () => {
   const baseUrl = "http://localhost:3000";
   const apiUrl = baseUrl + "/api/v1/";
   let server;
   let user;
   const apiUrlFor = (type, params) => {
+    console.log(user);
     params = params ? `&${qs.stringify(params)}` : "";
-    return `${apiUrl}${type}?access_token=9d0ef3261b6b653be501374b53105a4c${params}`;
+    return `${apiUrl}${type}?access_token=898996${params}`;
   };
 
-  beforeAll(done => {
+  beforeEach(done => {
     server = app.listen(3000, () => {
       console.log(`listening on 3000`);
       done();
     });
   });
-  beforeAll(done => {
-    // User.remove({}).then(() => {
-    //   User.create({
-    //     email: "bob@aol.com",
-    //     password: "BOBRULES"
-    //   })
-    //     .then(newUser => {
-    //       console.log("user = ", newUser);
-    //       user = newUser;
-    //       done();
-    //     })
-    //     .catch(e => {
-    //       console.log(e);
-    //     });
-    // });
-    done();
-  });
 
-  afterAll(done => {
-    User.find({ email: "bob@aol.com" }).remove().then(() => {
-      server.close();
-      done();
-    });
-  });
+  // beforeEach(done => {
+  //   User.create({
+  //     email: "bob@aol.com",
+  //     password: "BOBRULES"
+  //   }).then(newUser => {
+  //     console.log("Made a user! ", newUser);
+  //     user = newUser;
+  //     done();
+  //   });
+  // });
+
+  // afterEach(done => {
+  //   User.find({ email: "bob@aol.com" }).remove().then(() => {
+  //     user = null;
+  //     server.close();
+  //     done();
+  //   });
+  // });
 
   it("gives an unauthorized error if there is no token", done => {
-    request.get("http://localhost:3000/nouns", (error, response, body) => {
-      expect(response.statusCode).toEqual(404);
-      done();
-    });
+    request.get(
+      "http://localhost:3000/api/v1/nouns",
+      (error, response, body) => {
+        expect(response.statusCode).toEqual(401);
+        done();
+      }
+    );
   });
 
   it("gives an unauthorized error if the token doesn't match any in the database", done => {
     request.get(
-      "http://localhost:3000/nouns?access_token=zzzzzzzzz",
+      "http://localhost:3000/api/v1/nouns?access_token=zzzzzzzzz",
       (error, response, body) => {
-        expect(response.statusCode).toEqual(404);
+        expect(response.statusCode).toEqual(401);
         done();
       }
     );
@@ -64,8 +65,8 @@ describe("MAD LIB", () => {
 
   it("returns a list of strings", done => {
     request.get(apiUrlFor("nouns", ""), (error, response, body) => {
-      console.log("body = ", body);
       let result = JSON.parse(body);
+      console.log(result);
       let areStrings = result.every((el, i, arr) => {
         return typeof el === "string";
       });
@@ -74,7 +75,7 @@ describe("MAD LIB", () => {
     });
   });
 
-  it("grabs a random list of 10 nouns", done => {
+  xit("grabs a random list of 10 nouns", done => {
     request.get(apiUrlFor("nouns", ""), (error, response, body) => {
       let result = JSON.parse(body);
       expect(result.length).toEqual(10);

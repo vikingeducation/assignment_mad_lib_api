@@ -63,6 +63,7 @@ const tokenStrategy = new TokenStrategy((token, done) => {
       done(null, false);
     });
 });
+
 passport.use(localStrategy);
 passport.use(tokenStrategy);
 
