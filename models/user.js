@@ -6,24 +6,28 @@ const uuid = require("uuid");
 const bcrypt = require("bcrypt");
 
 const UserSchema = new Schema({
-  email: { type: String, unique: true, required: true },
-  passwordHash: String,
-  token: String
+	email: { type: String, unique: true, required: true },
+	passwordHash: String,
+	token: String
 });
 
 UserSchema.plugin(unique);
 
 UserSchema.methods.validPassword = function(password) {
-  return bcrypt.compareSync(password, this.passwordHash);
+	return bcrypt.compareSync(password, this.passwordHash);
 };
 
-UserSchema.virtual("password").set(function(value) {
-  this.passwordHash = bcrypt.hashSync(value, 12);
-});
+UserSchema.virtual("password")
+	.get(function() {
+		this.passwordHash;
+	})
+	.set(function(value) {
+		this.passwordHash = bcrypt.hashSync(value, 12);
+	});
 
-UserSchema.pre("save", next => {
-  this.token = md5(`${this.email}${uuid()}`);
-  next();
+UserSchema.pre("save", function(next) {
+	this.token = md5(`${this.email}${uuid()}`);
+	next();
 });
 
 const User = mongoose.model("User", UserSchema);

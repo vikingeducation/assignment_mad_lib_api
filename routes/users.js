@@ -4,12 +4,16 @@ const { User } = require("./../models");
 const auth = require("./../middleware/authentication");
 
 router.post("/", (req, res) => {
-  User.create({
-    email: req.body.email,
-    password: req.body.password
-  }).then(user => {
-    res.redirect(`/`);
-  });
+	User.create({
+		email: req.body.email,
+		password: req.body.password
+	})
+		.then(user => {
+			res.redirect(`/`);
+		})
+		.catch(e => {
+			console.log(e);
+		});
 });
 //
 // router.get("/", auth.isLoggedIn, (req, res) => {

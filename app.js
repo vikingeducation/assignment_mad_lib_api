@@ -28,14 +28,15 @@ const localStrategy = new LocalStrategy(
     usernameField: "email"
   },
   (email, password, done) => {
-    User.find({
+    User.findOne({
       email: email
     })
       .then(user => {
-        const valid = User.validPassword(password);
+        const valid = user && user.validPassword(password);
         return done(null, valid ? user : false);
       })
       .catch(e => {
+        console.log(e);
         done(null, false);
       });
   }
@@ -83,11 +84,14 @@ app.get("/login", auth.isLoggedOut, (req, res) => {
   res.render("login");
 });
 
-app.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-})
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true
+  })
+);
 
 app.get("/signup", auth.isLoggedOut, (req, res) => {
   res.render("signup");
