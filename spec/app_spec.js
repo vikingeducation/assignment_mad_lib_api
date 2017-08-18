@@ -116,18 +116,51 @@ describe("App", () => {
       apiUrlFor("/stories"),
       {
         form: {
-          words: ["bruise", "lurk", "obese", "faddishly"],
+          words: ["desktop", "lurk", "obese", "faddishly"],
           sentence:
             "I have {{an_adjective}} {{noun}}, and it tends to {{verb}} {{adverb}}"
         }
       },
       (err, res, body) => {
         const expectedResult = {
-          sentence: "I have an obese bruise, and it tends to lurk faddishly"
+          sentence: "I have an obese desktop, and it tends to lurk faddishly"
         };
         let result = j(body);
         console.log(result);
         expect(result).toEqual(expectedResult);
+        done();
+      }
+    );
+  });
+
+  it("returns a sentence using the words provided", done => {
+    request.post(
+      apiUrlFor("/stories"),
+      {
+        form: {
+          words: [
+            "bruise",
+            "lurk",
+            "obese",
+            "faddishly",
+            "compute",
+            "fish",
+            "cowboy",
+            "cup",
+            "sleepily",
+            "green",
+            "gladly"
+          ],
+          sentence:
+            "I have {{an_adjective}} {{noun}}, and it tends to {{verb}} {{adverb}}. I also have {{an_adjective}} {{noun}}, and it tends to {{verb}} {{adverb}}"
+        }
+      },
+      (err, res, body) => {
+        let result = j(body);
+        const undefinedSearch = /undefined/.test(result.sentence);
+        const bracketSearch = /{{\w+}}/.test(result.sentence);
+        expect(undefinedSearch).toEqual(false);
+        expect(bracketSearch).toEqual(false);
         done();
       }
     );

@@ -33,22 +33,22 @@ module.exports = middlewares => {
 
   router.post("/stories", middlewares, async (req, res) => {
     let sentence = req.body.sentence;
-    const words = req.body.words;
-    const wordsObj = await wordpos.getPOS(words);
+    let words = req.body.words;
+    words = await wordpos.getPOS(words);
     await Sentencer.configure({
-      nounList: wordsObj.nouns,
-      adjectiveList: wordsObj.adjectives,
-      action: {
+      nounList: words.nouns,
+      adjectiveList: words.adjectives,
+      actions: {
         verb: () => {
-          let index = Math.floor(Math.random() * wordsObj.verbs.length);
-          let verb = wordsObj.verbs[index];
-          wordObj.splice(index, 1);
+          let index = Math.floor(Math.random() * words.verbs.length);
+          let verb = words.verbs[index];
+          words.verbs.splice(index, 1);
           return verb;
         },
         adverb: () => {
-          let index = Math.floor(Math.random() * wordsObj.verbs.length);
-          let adverb = wordsObj.adverbs[index];
-          wordObj.splice(index, 1);
+          let index = Math.floor(Math.random() * words.adverbs.length);
+          let adverb = words.adverbs[index];
+          words.adverbs.splice(index, 1);
           return adverb;
         }
       }
