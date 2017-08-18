@@ -72,7 +72,12 @@ app.use(async (req, res, next) => {
 	next();
 });
 
-app.use('/api/v1', apiRouter);
+const requireToken = passport.authenticate('bearer', {
+	session: false
+});
+
+
+app.use('/api/v1', requireToken, apiRouter);
 app.use('/', index);
 
 app.use(async (req, res, next) => {

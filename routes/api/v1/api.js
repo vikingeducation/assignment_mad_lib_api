@@ -5,25 +5,33 @@ const WordPOS = require('wordpos');
 const wordpos = new WordPOS();
 const Sentencer = require('sentencer');
 
+
+function sanitizeCount(req, _, next) {
+	req.query.count = +req.query.count || 10;
+	if (req.query.count < 0) req.query.count = 10;
+	next();
+}
+
+
+
 router.get('/', (_, res) => {
-	res.status(200).send('api');
+	res.status(200).end('api');
 });
 
-const requireToken = passport.authenticate('bearer', {
-	session: false
-});
+router.get('/nouns', sanitizeCount, async (req, res) =>
+	res.json(await wordpos.randNoun({ count: req.query.count }))
+);
 
-router.get('/nouns', requireToken, async (req, res) => {
-	let count = +req.query.count || 10;
-	if (count < 0) count = 10;
+router.get('/verbs', sanitizeCount, async (req, res) =>
+	res.json(await wordpos.randVerb({ count: req.query.count }))
+);
 
-	return res.json(await wordpos.randNoun({ count }));
-});
+router.get('/adverbs', sanitizeCount, async (req, res) =>
+	res.json(await wordpos.randAdverb({ count: req.query.count }))
+);
 
-router.get('/verbs', requireToken, async (req, res) => {});
-
-router.get('/adjectives', requireToken, async (req, res) => {});
-
-router.get('/adverbs', requireToken, async (req, res) => {});
+router.get('/adjectives', sanitizeCount, async (req, res) =>
+	res.json(await wordpos.randAdjective({ count: req.query.count }))
+);
 
 module.exports = router;

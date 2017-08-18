@@ -58,6 +58,54 @@ describe('App', () => {
 		});
 	});
 
+	it('returns an array with the given number of verbs from a default', done => {
+		request.get(apiUrlFor('nouns'), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(10);
+			done();
+		});
+	});
+
+	it('returns an array with the given number of verbs by param', done => {
+		request.get(apiUrlFor('nouns', { count: 8 }), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(8);
+			done();
+		});
+	});
+
+	it('returns an array with the given number of adjectives from a default', done => {
+		request.get(apiUrlFor('nouns'), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(10);
+			done();
+		});
+	});
+
+	it('returns an array with the given number of adjectives by param', done => {
+		request.get(apiUrlFor('nouns', { count: 8 }), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(8);
+			done();
+		});
+	});
+
+	it('returns an array with the given number of adverbs from a default', done => {
+		request.get(apiUrlFor('nouns'), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(10);
+			done();
+		});
+	});
+
+	it('returns an array with the given number of adverbs by param', done => {
+		request.get(apiUrlFor('nouns', { count: 8 }), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(8);
+			done();
+		});
+	});
+
 	it('returns an array with the given number of nouns from a default', done => {
 		request.get(apiUrlFor('nouns'), (err, res, body) => {
 			let result = j(body);
@@ -74,7 +122,7 @@ describe('App', () => {
 		});
 	});
 
-	xit('does not allow requests without an access_token', done => {
+	it('does not allow requests without an access_token', done => {
 		request.get(apiUrl, (err, res, body) => {
 			// Note, this SHOULD have a status code of 401
 			// however something is not working right with
