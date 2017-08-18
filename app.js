@@ -122,7 +122,7 @@ app.use("/", usersRouter);
 app.use("/api/v1", maddestLibsRouter);
 
 const port = process.env.PORT || process.argv[2] || 3000;
-const host = "localhost";
+const host = "0.0.0.0";
 
 let args;
 process.env.NODE_ENV === "production" ? (args = [port]) : (args = [port, host]);

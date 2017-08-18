@@ -54,26 +54,80 @@ describe("App", () => {
   // ----------------------------------------
   // Furious Spinoffs API
   // ----------------------------------------
-  it("returns an array with the given number of titles", done => {
-    request.get(
-      apiUrlFor("furious_spinoffs", { count: 10 }),
-      (err, res, body) => {
-        console.log(body);
-        let result = j(body);
-        expect(result.length).toEqual(10);
-        done();
-      }
-    );
+  it("returns an array with the given number of nouns", done => {
+    request.get(apiUrlFor("nouns"), (err, res, body) => {
+      console.log(body);
+      let result = j(body);
+      expect(result.length).toEqual(10);
+      done();
+    });
+  });
+
+  it("returns an array with the given number of nouns", done => {
+    request.get(apiUrlFor("nouns", { count: 8 }), (err, res, body) => {
+      console.log(body);
+      let result = j(body);
+      expect(result.length).toEqual(8);
+      done();
+    });
+  });
+
+  it("returns an array with the given number of verbs", done => {
+    request.get(apiUrlFor("verbs"), (err, res, body) => {
+      console.log(body);
+      let result = j(body);
+      expect(result.length).toEqual(10);
+      done();
+    });
+  });
+
+  it("returns an array with the given number of verbs", done => {
+    request.get(apiUrlFor("verbs", { count: 8 }), (err, res, body) => {
+      console.log(body);
+      let result = j(body);
+      expect(result.length).toEqual(8);
+      done();
+    });
+  });
+
+  it("returns an array with the given number of adjectives", done => {
+    request.get(apiUrlFor("adjectives"), (err, res, body) => {
+      console.log(body);
+      let result = j(body);
+      expect(result.length).toEqual(10);
+      done();
+    });
+  });
+
+  it("returns an array with the given number of adjectives", done => {
+    request.get(apiUrlFor("adjectives", { count: 8 }), (err, res, body) => {
+      console.log(body);
+      let result = j(body);
+      expect(result.length).toEqual(8);
+      done();
+    });
+  });
+
+  it("returns an array with the given number of adverbs", done => {
+    request.get(apiUrlFor("adverbs"), (err, res, body) => {
+      console.log(body);
+      let result = j(body);
+      expect(result.length).toEqual(10);
+      done();
+    });
+  });
+
+  it("returns an array with the given number of adverbs", done => {
+    request.get(apiUrlFor("adverbs", { count: 8 }), (err, res, body) => {
+      console.log(body);
+      let result = j(body);
+      expect(result.length).toEqual(8);
+      done();
+    });
   });
 
   it("does not allow requests without an access_token", done => {
     request.get(apiUrl, (err, res, body) => {
-      // Note, this SHOULD have a status code of 401
-      // however something is not working right with
-      // the Passport HTTP Bearer package in setting
-      // the correct status code
-      // See Github issue:
-      // https://github.com/jaredhanson/passport-http-bearer/issues/11
       expect(res.statusCode).toBe(404);
       done();
     });
