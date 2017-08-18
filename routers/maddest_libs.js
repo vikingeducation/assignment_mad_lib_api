@@ -53,9 +53,9 @@ module.exports = middlewares => {
         }
       }
     });
-
     sentence = await Sentencer.make(sentence);
     res.json({ sentence: sentence });
   });
+
   return router;
 };
