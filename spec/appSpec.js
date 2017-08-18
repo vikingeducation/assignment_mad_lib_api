@@ -87,7 +87,7 @@ describe("App", () => {
       });
     });
 
-    it("returns an array with the default number of verbs", done => {
+    xit("returns an array with the default number of verbs", done => {
       request.get(apiUrlFor("verbs"), (err, res, body) => {
         let result = j(body);
 
@@ -96,7 +96,7 @@ describe("App", () => {
       });
     });
 
-    it("returns an array with the specified number of verbs", done => {
+    xit("returns an array with the specified number of verbs", done => {
       request.get(apiUrlFor("verbs", { count: 22 }), (err, res, body) => {
         let result = j(body);
 
@@ -105,7 +105,7 @@ describe("App", () => {
       });
     });
 
-    it("returns an array with the default number of adverbs", done => {
+    xit("returns an array with the default number of adverbs", done => {
       request.get(apiUrlFor("adverbs"), (err, res, body) => {
         let result = j(body);
 
@@ -114,7 +114,7 @@ describe("App", () => {
       });
     });
 
-    it("returns an array with the specified number of adverbs", done => {
+    xit("returns an array with the specified number of adverbs", done => {
       request.get(apiUrlFor("adverbs", { count: 22 }), (err, res, body) => {
         let result = j(body);
 
@@ -123,7 +123,7 @@ describe("App", () => {
       });
     });
 
-    it("returns an array with the default number of adjectives", done => {
+    xit("returns an array with the default number of adjectives", done => {
       request.get(apiUrlFor("adjectives"), (err, res, body) => {
         let result = j(body);
 
@@ -132,7 +132,7 @@ describe("App", () => {
       });
     });
 
-    it("returns an array with the specified number of adjectives", done => {
+    xit("returns an array with the specified number of adjectives", done => {
       request.get(apiUrlFor("adjectives", { count: 22 }), (err, res, body) => {
         let result = j(body);
 
