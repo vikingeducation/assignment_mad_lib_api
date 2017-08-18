@@ -14,56 +14,69 @@ describe("MAD LIB", () => {
   const apiUrlFor = (type, params) => {
     console.log(user);
     params = params ? `&${qs.stringify(params)}` : "";
-    return `${apiUrl}${type}?access_token=898996${params}`;
+    return `${apiUrl}${type}?access_token=${user.token}${params}`;
   };
 
-  beforeEach(done => {
+  beforeAll(function(done) {
+    console.log("beforeAll run");
     server = app.listen(3000, () => {
       console.log(`listening on 3000`);
       done();
     });
   });
 
-  // beforeEach(done => {
-  //   User.create({
-  //     email: "bob@aol.com",
-  //     password: "BOBRULES"
-  //   }).then(newUser => {
-  //     console.log("Made a user! ", newUser);
-  //     user = newUser;
-  //     done();
-  //   });
-  // });
+  afterAll(() => {
+    server.close();
+  });
 
-  // afterEach(done => {
-  //   User.find({ email: "bob@aol.com" }).remove().then(() => {
-  //     user = null;
-  //     server.close();
-  //     done();
-  //   });
-  // });
+  beforeEach(function(done) {
+    console.log("beforeEach run");
+    User.create({
+      email: "bob@aol.com",
+      password: "BOBRULES"
+    }).then(newUser => {
+      console.log("Made a user! ", newUser);
+      user = newUser;
+      done();
+    });
+  });
 
-  it("gives an unauthorized error if there is no token", done => {
+  afterEach(function(done) {
+    // User.find({ email: "bob@aol.com" }).remove().then(() => {
+    console.log("afterEach run");
+    User.remove().then(() => {
+      console.log("user removed!!!");
+      user = null;
+      done();
+    });
+  });
+
+  it("gives an unauthorized error if there is no token", function(done) {
+    console.log("IT RUNS!");
     request.get(
       "http://localhost:3000/api/v1/nouns",
       (error, response, body) => {
+        console.log("request received");
         expect(response.statusCode).toEqual(401);
         done();
       }
     );
   });
 
-  it("gives an unauthorized error if the token doesn't match any in the database", done => {
-    request.get(
-      "http://localhost:3000/api/v1/nouns?access_token=zzzzzzzzz",
-      (error, response, body) => {
-        expect(response.statusCode).toEqual(401);
-        done();
-      }
-    );
-  });
+  xit(
+    "gives an unauthorized error if the token doesn't match any in the database",
+    done => {
+      request.get(
+        "http://localhost:3000/api/v1/nouns?access_token=zzzzzzzzz",
+        (error, response, body) => {
+          expect(response.statusCode).toEqual(401);
+          done();
+        }
+      );
+    }
+  );
 
-  it("returns a list of strings", done => {
+  xit("returns a list of strings", done => {
     request.get(apiUrlFor("nouns", ""), (error, response, body) => {
       let result = JSON.parse(body);
       console.log(result);
