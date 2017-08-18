@@ -60,8 +60,8 @@ const onLogout = (req, res) => {
 router.get('/logout', loggedInOnly, onLogout);
 router.delete('/logout', loggedInOnly, onLogout);
 
-router.get('/', loggedInOnly, (req, res) => {
-	res.render('index');
+router.get('/', loggedInOnly, async (req, res) => {
+	res.render('index', { user: req.user });
 });
 
 module.exports = router;

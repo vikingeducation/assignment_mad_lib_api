@@ -10,8 +10,10 @@ const flash = require('express-flash');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const connect = require('./mongo');
+const morgan = require('morgan');
 
 const index = require('./routes/index');
+const apiRouter = require('./routes/api/v1/api');
 
 const app = express();
 
@@ -30,6 +32,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+if (process.env.NODE_ENV !== 'test') {
+	app.use(morgan('tiny'));
+}
 
 app.use(
 	session({
@@ -66,6 +72,7 @@ app.use(async (req, res, next) => {
 	next();
 });
 
+app.use('/api/v1', apiRouter);
 app.use('/', index);
 
 app.use(async (req, res, next) => {

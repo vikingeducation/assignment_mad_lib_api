@@ -3,7 +3,10 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "nodemon ./bin/www"
+		"test": "npm run whichnodemon && nodemon --exec npm run jasmine || npm run jasmine",
+		"start": "npm run whichnodemon && nodemon app.js || node app.js",
+		"whichnodemon": "which nodemon > /dev/null",
+		"jasmine": "./node_modules/jasmine/bin/jasmine.js"
 	},
 	"dependencies": {
 		"bcrypt": "^1.0.2",
@@ -17,6 +20,8 @@
 		"express-flash": "0.0.2",
 		"express-handlebars": "^3.0.0",
 		"express-session": "^1.15.5",
+		"jasmine": "^2.7.0",
+		"jasmine-node": "^1.14.5",
 		"md5": "^2.2.1",
 		"method-override": "^2.3.9",
 		"mongoose": "^4.11.7",
@@ -26,6 +31,8 @@
 		"passport": "^0.4.0",
 		"passport-http-bearer": "^1.0.1",
 		"passport-local": "^1.0.0",
+		"qs": "^6.5.0",
+		"request": "^2.81.0",
 		"sentencer": "^0.1.5",
 		"serve-favicon": "~2.4.2",
 		"shortid": "^2.2.8",

@@ -54,14 +54,9 @@ UserSchema.methods.validatePassword = function(password) {
 };
 
 UserSchema.pre('save', function(next) {
-	let fields = Object.keys(UserSchema.obj);
-	fields.splice(fields.indexOf('passwordHash'), 1);
-	fields.push('password');
 	for (prop in this) {
-		if (!this.hasOwnProperty(prop)) continue;
-		if (!fields.includes(prop)) {
-			delete this[prop];
-		}
+		if (!UserSchema.obj.hasOwnProperty(prop)) continue;
+		delete this[prop];
 	}
 	this.apiToken = md5(`${this.email}${uuid()}`);
 	next();

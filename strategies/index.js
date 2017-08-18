@@ -13,7 +13,7 @@ module.exports = {
 			if (!user || !user.validatePassword(password)) {
 				throw new Error('Error: Invalid email/password combination.');
 			}
-			return done(null, user);
+			done(null, user);
 		} catch (err) {
 			done(err);
 		}
@@ -29,15 +29,16 @@ module.exports = {
 			done(err);
 		}
 	}),
-	serializeUser: (user, done) => { done(null, user.id) },
+	serializeUser: (user, done) => {
+		done(null, user.id);
+	},
 
 	deserializeUser: async (id, done) => {
 		try {
 			const user = await User.findById(id);
 			done(null, user);
-		} catch(err) {
+		} catch (err) {
 			done(err, false);
 		}
 	}
-
 };
