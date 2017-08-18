@@ -17,7 +17,7 @@ router.get('/nouns', requireToken, async (req, res) => {
 	let count = +req.query.count || 10;
 	if (count < 0) count = 10;
 
-	return await wordpos.randNoun({ count });
+	return res.json(await wordpos.randNoun({ count }));
 });
 
 router.get('/verbs', requireToken, async (req, res) => {});

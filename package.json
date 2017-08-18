@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"test": "npm run whichnodemon && nodemon --exec npm run jasmine || npm run jasmine",
-		"start": "npm run whichnodemon && nodemon app.js || node app.js",
+		"start": "npm run whichnodemon && nodemon bin/www || node bin/www",
 		"whichnodemon": "which nodemon > /dev/null",
 		"jasmine": "./node_modules/jasmine/bin/jasmine.js"
 	},

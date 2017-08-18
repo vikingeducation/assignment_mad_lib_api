@@ -5,9 +5,8 @@ const connect = require('../../mongo');
 process.env.NODE_ENV = 'test';
 
 beforeAll(async done => {
-	if (mongoose.connection.readyState) {
-		done();
-	} else {
+	if (!mongoose.connection.readyState) {
 		await connect();
 	}
+	done();
 });
