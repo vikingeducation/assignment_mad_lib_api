@@ -31,4 +31,32 @@ router.get('/adjectives', sanitizeCount, async (req, res) =>
 	res.json(await wordpos.randAdjective({ count: req.query.count }))
 );
 
+router.post('/stories', async (req, res) => {
+	let { sentence, words } = req.body;
+
+	if (!sentence || (!words || !Array.isArray(words) || 1 > words.length)) {
+		return res.status(500).json({ message: 'Invalid parameters passed' });
+	}
+
+	try {
+		let pos = await wordpos.getPOS(words.join(' '));
+
+		Sentencer.configure({
+			nounList: pos.nouns,
+			adjectiveList: pos.adjectives
+			//verbList: pos.verbs,
+			//adverbList:
+		});
+
+		sentence =
+			'This sentence has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.';
+
+		const sentence = Sentencer.make(sentence);
+
+		res.json({ sentence, words });
+	} catch (err) {
+		res.status(500).json({ message: err.message, stack: err.stack });
+	}
+});
+
 module.exports = router;

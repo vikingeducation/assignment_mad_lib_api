@@ -58,54 +58,6 @@ describe('App', () => {
 		});
 	});
 
-	it('returns an array with the given number of verbs from a default', done => {
-		request.get(apiUrlFor('nouns'), (err, res, body) => {
-			let result = j(body);
-			expect(result.length).toEqual(10);
-			done();
-		});
-	});
-
-	it('returns an array with the given number of verbs by param', done => {
-		request.get(apiUrlFor('nouns', { count: 8 }), (err, res, body) => {
-			let result = j(body);
-			expect(result.length).toEqual(8);
-			done();
-		});
-	});
-
-	it('returns an array with the given number of adjectives from a default', done => {
-		request.get(apiUrlFor('nouns'), (err, res, body) => {
-			let result = j(body);
-			expect(result.length).toEqual(10);
-			done();
-		});
-	});
-
-	it('returns an array with the given number of adjectives by param', done => {
-		request.get(apiUrlFor('nouns', { count: 8 }), (err, res, body) => {
-			let result = j(body);
-			expect(result.length).toEqual(8);
-			done();
-		});
-	});
-
-	it('returns an array with the given number of adverbs from a default', done => {
-		request.get(apiUrlFor('nouns'), (err, res, body) => {
-			let result = j(body);
-			expect(result.length).toEqual(10);
-			done();
-		});
-	});
-
-	it('returns an array with the given number of adverbs by param', done => {
-		request.get(apiUrlFor('nouns', { count: 8 }), (err, res, body) => {
-			let result = j(body);
-			expect(result.length).toEqual(8);
-			done();
-		});
-	});
-
 	it('returns an array with the given number of nouns from a default', done => {
 		request.get(apiUrlFor('nouns'), (err, res, body) => {
 			let result = j(body);
@@ -116,6 +68,54 @@ describe('App', () => {
 
 	it('returns an array with the given number of nouns by param', done => {
 		request.get(apiUrlFor('nouns', { count: 8 }), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(8);
+			done();
+		});
+	});
+
+	it('returns an array with the given number of verbs from a default', done => {
+		request.get(apiUrlFor('verbs'), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(10);
+			done();
+		});
+	});
+
+	it('returns an array with the given number of verbs by param', done => {
+		request.get(apiUrlFor('verbs', { count: 8 }), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(8);
+			done();
+		});
+	});
+
+	it('returns an array with the given number of adverbs from a default', done => {
+		request.get(apiUrlFor('adverbs'), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(10);
+			done();
+		});
+	});
+
+	it('returns an array with the given number of adverbs by param', done => {
+		request.get(apiUrlFor('adverbs', { count: 8 }), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(8);
+			done();
+		});
+	});
+
+	it('returns an array with the given number of adjectives from a default', done => {
+		request.get(apiUrlFor('adjectives'), (err, res, body) => {
+			let result = j(body);
+			expect(result.length).toEqual(10);
+			done();
+		});
+	});
+
+	it('returns an array with the given number of adjectives by param', done => {
+		request.get(apiUrlFor('adjectives', { count: 8 }), (err, res, body) => {
 			let result = j(body);
 			expect(result.length).toEqual(8);
 			done();
