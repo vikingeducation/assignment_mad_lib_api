@@ -1,34 +1,37 @@
 const mongoose = require('mongoose');
-const mongooseValidator = require('mongoose-unique-validator')
+const mongooseValidator = require('mongoose-unique-validator');
 const bcrypt = require('bcrypt');
+const md5 = require('md5');
 const uuid = require('shortid');
 
-const UserSchema = new mongoose.Schema({
-	fname: {
-		type: String,
-		required: true
+const UserSchema = new mongoose.Schema(
+	{
+		fname: {
+			type: String,
+			required: true
+		},
+		lname: {
+			type: String,
+			required: true
+		},
+		email: {
+			type: String,
+			required: true,
+			unique: true
+		},
+		passwordHash: {
+			type: String,
+			required: true
+		},
+		apiToken: {
+			type: String,
+			unique: true
+		}
 	},
-	lname: {
-		type: String,
-		required: true
-	},
-	email: {
-		type: String,
-		required: true,
-		unique: true
-	},
-	passwordHash: {
-		type: String,
-		required: true
-	},
-	apiToken: {
-		type: String,
-		required: true,
-		unique: true
+	{
+		timestamps: true
 	}
-}, {
-	timestamps = true
-})
+);
 
 UserSchema.plugin(mongooseValidator);
 
@@ -39,26 +42,32 @@ UserSchema.virtual('password')
 	.set(function(pass) {
 		this._password = pass;
 		this.passwordHash = bcrypt.hashSync(pass, 8);
-	})
+	});
 
-UserSchema.path('hashedPassword').validate(function(pass) {
-	if (this._password.length < 8) {
+UserSchema.path('passwordHash').validate(function(pass) {
+	if (this._password.length < 3) {
 		this.invalidate('password', 'Password must be at least 8 characters');
 	}
 });
 
-serSchema.methods.validatePassword = function(password) {
-  return bcrypt.compareSync(password, this.hashedPassword);
+UserSchema.methods.validatePassword = function(password) {
+	return bcrypt.compareSync(password, this.passwordHash);
 };
 
-
 UserSchema.pre('save', function(next) {
-  this.token = md5(`${ this.email }${ uuid() }`);
-  next();
+	let fields = Object.keys(UserSchema.obj);
+	fields.splice(fields.indexOf('passwordHash'), 1);
+	fields.push('password');
+	for (prop in this) {
+		if (!this.hasOwnProperty(prop)) {
+			if (!fields.includes(prop)) {
+				delete this[prop];
+			}
+		}
+	}
+	this.token = md5(`${this.email}${uuid()}`);
+	next();
 });
 
-
 const User = mongoose.model('User', UserSchema);
-console.log(User);
-
 module.exports = User;

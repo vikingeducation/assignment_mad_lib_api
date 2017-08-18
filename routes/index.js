@@ -1,5 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const passport = require('passport');
+const { User } = require('../models');
 
 const loggedInOnly = (req, res, next) => {
 	return req.user ? next() : res.redirect('/login');
@@ -9,11 +11,43 @@ const loggedOutOnly = (req, res, next) => {
 	return !req.user ? next() : res.redirect('/');
 };
 
+router.get('/signup', loggedOutOnly, (req, res) => {
+	res.render('signup');
+});
+
+router.post('/signup', loggedOutOnly, async (req, res, next) => {
+	try {
+		console.log(req.body.user);
+		const user = new User(req.body.user);
+		await user.save(); // Injection accounted for in model.
+		if (!user) {
+			throw new Error('Error, unable to create user...');
+		}
+
+		await req.login(user, () => {});
+		if (!req.isAuthenticated())
+			throw new Error(`Error, unable to login with ${user.username}...`);
+
+		res.redirect('/');
+	} catch (err) {
+		next(err);
+	}
+});
+
 // Show login only if logged out
 router.get('/login', loggedOutOnly, (req, res) => {
 	req.flash('info', 'Welcome to MAD LIB, please login!');
 	res.render('login');
 });
+
+router.post(
+	'/login',
+	passport.authenticate('local', {
+		successRedirect: '/',
+		failureRedirect: '/login',
+		failureFlash: true
+	})
+);
 
 // Allow logout via GET and DELETE
 const onLogout = (req, res) => {

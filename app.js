@@ -12,7 +12,6 @@ const mongoose = require('mongoose');
 const connect = require('./mongo');
 
 const index = require('./routes/index');
-const users = require('./routes/users');
 
 const app = express();
 
@@ -42,6 +41,16 @@ app.use(
 
 app.use(flash());
 
+const {
+	local,
+	bearer,
+	deserializeUser,
+	serializeUser
+} = require('./strategies');
+passport.use(local);
+passport.use(bearer);
+passport.serializeUser(serializeUser);
+passport.deserializeUser(deserializeUser);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -58,7 +67,6 @@ app.use(async (req, res, next) => {
 });
 
 app.use('/', index);
-app.use('/users', users);
 
 app.use(async (req, res, next) => {
 	if (mongoose.connection.readyState) {
