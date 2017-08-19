@@ -19,51 +19,45 @@ app.set("view engine", "handlebars");
 // Logging
 const morgan = require("morgan");
 const morganToolkit = require("morgan-toolkit")(morgan);
+const Promise = require("bluebird");
 app.use(morganToolkit());
 
-// Route Handlers
+const urlFor = (type, token) => {
+  const apiUrl = "http://localhost:3000/api/v1/";
+  return `${apiUrl}${type}?access_token=${token}`;
+};
 
+// Route Handlers
 app.get("/", (req, res) => {
   res.render("client/index");
 });
 
-app.post("/prepare", async (req, res) => {
+app.post("/prepare", (req, res) => {
   const token = req.body.token;
-  try {
-    const promises = [
-      rp.get(`http://localhost:3000/api/v1/nouns?access_token=${token}`),
-      rp.get(`http://localhost:3000/api/v1/verbs?access_token=${token}`),
-      rp.get(`http://localhost:3000/api/v1/adverbs?access_token=${token}`),
-      rp.get(`http://localhost:3000/api/v1/adjectives?access_token=${token}`)
-    ];
-    let [nouns, verbs, adverbs, adjectives] = await Promise.all(promises);
-    [nouns, verbs, adverbs, adjectives] = [
-      nouns,
-      verbs,
-      adverbs,
-      adjectives
-    ].map(type => {
-      JSON.parse(type);
-    });
-    const words = [
-      { name: "Nouns", words: nouns },
-      { name: "Verbs", words: verbs },
-      { name: "Adverbs", words: adverbs },
-      { name: "Adjectives", words: adjectives }
-    ];
-    console.log(words);
-    res.render("client/build", { words, token });
-  } catch (error) {
-    res.end(error.stack);
-  }
+  const promises = [
+    rp.get(urlFor("nouns", token)),
+    rp.get(urlFor("verbs", token)),
+    rp.get(urlFor("adverbs", token)),
+    rp.get(urlFor("adjectives", token))
+  ];
+  Promise.all(promises)
+    .spread((nouns, verbs, adverbs, adjectives) => {
+      const words = [
+        { name: "Nouns", words: JSON.parse(nouns) },
+        { name: "Verbs", words: JSON.parse(verbs) },
+        { name: "Adverbs", words: JSON.parse(adverbs) },
+        { name: "Adjectives", words: JSON.parse(adjectives) }
+      ];
+      res.render("client/build", { words, token });
+    })
+    .catch(e => res.end(e.stack));
 });
 
 app.post("/build", (req, res) => {
   let { token, template, words } = req.body;
   words = words.split(" ");
-  const url = `http://localhost:3000/api/v1/sentences?access_token=${token}`;
   const formData = { form: { words, template } };
-  request.post(url, formData, (err, r, body) => {
+  request.post(urlFor("sentences", token), formData, (err, r, body) => {
     const sentence = JSON.parse(body).sentence;
     res.render("client/display", { sentence });
   });

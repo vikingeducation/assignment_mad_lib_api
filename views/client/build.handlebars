@@ -1,0 +1,38 @@
+{{#each words as |type|}}
+<div class="col-sm-6">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      {{type.name}}
+    </div>
+    <div class="panel-body">
+      <ul>
+        {{#each type.words as |word|}}
+        <li>{{word}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>
+{{/each}}
+
+<div class="col-sm-12">
+  <div class="panel panel-default">
+    <div class="panel-heading">Build Sentence</div>
+    <div class="panel-body">
+
+      <form action="http://localhost:3030/build" method="post">
+        <input type="hidden" name="token" value="{{token}}">
+        <div class="form-group">
+          <label for="template">Template</label>
+          <input type="text" name="template" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="words">Words</label>
+          <input type="text" name="words" class="form-control" required>
+        </div>
+        <button class="btn btn-default">Go!</button>
+      </form>
+
+    </div>
+  </div>
+</div>
