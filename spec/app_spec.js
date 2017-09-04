@@ -133,7 +133,7 @@ describe("App", () => {
     );
   });
 
-  it("returns a sentence using the words provided", done => {
+  it("doesn't return undefined and brackets", done => {
     request.post(
       apiUrlFor("/stories"),
       {
