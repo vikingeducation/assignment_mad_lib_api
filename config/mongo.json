@@ -1,0 +1,13 @@
+{
+	"development": {
+		"database": "mad_lib_dev",
+		"host": "localhost"
+	},
+	"test": {
+		"database": "mad_lib_test",
+		"host": "localhost"
+	},
+	"production": {
+		"use_env_variable": "MONGODB_URI"
+	}
+}

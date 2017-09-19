@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Abel|Arima+Madurai|Cagliostro');
+
+body {
+	font: 18px Abel, "Arima Madurai", Cagliostro, , Helvetica, Arial, sans-serif;
+}
+
+a {
+	color: #00b7ff;
+}
