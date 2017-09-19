@@ -1,0 +1,41 @@
+{
+	"name": "assignment-mad-lib-api",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"test": "npm run whichnodemon && nodemon --exec npm run jasmine || npm run jasmine",
+		"start": "npm run whichnodemon && nodemon bin/www || node bin/www",
+		"whichnodemon": "which nodemon > /dev/null",
+		"jasmine": "./node_modules/jasmine/bin/jasmine.js"
+	},
+	"dependencies": {
+		"bcrypt": "^1.0.2",
+		"bluebird": "^3.5.0",
+		"body-parser": "~1.17.1",
+		"connect-flash": "^0.1.1",
+		"cookie-parser": "~1.4.3",
+		"debug": "~2.6.3",
+		"dotenv": "^4.0.0",
+		"express": "^4.15.4",
+		"express-flash": "0.0.2",
+		"express-handlebars": "^3.0.0",
+		"express-session": "^1.15.5",
+		"jasmine": "^2.7.0",
+		"jasmine-node": "^1.14.5",
+		"md5": "^2.2.1",
+		"method-override": "^2.3.9",
+		"mongoose": "^4.11.7",
+		"mongoose-unique-validator": "^1.0.5",
+		"mongooseeder": "^2.0.5",
+		"morgan": "^1.8.2",
+		"passport": "^0.4.0",
+		"passport-http-bearer": "^1.0.1",
+		"passport-local": "^1.0.0",
+		"qs": "^6.5.0",
+		"request": "^2.81.0",
+		"sentencer": "^0.1.5",
+		"serve-favicon": "~2.4.2",
+		"shortid": "^2.2.8",
+		"wordpos": "^1.1.5"
+	}
+}
