@@ -1,0 +1,23 @@
+Listing
+
+returns the resourcce with a default of 10 unless specified with a count query
+get http://localhost:3000/api/v1/nouns/
+get http://localhost:3000/api/v1/nouns/?count= //number they pass in
+
+get http://localhost:3000/api/v1/verbs/
+get http://localhost:3000/api/v1/verbs/?count= //number they pass in
+
+get http://localhost:3000/api/v1/adjectives/
+get http://localhost:3000/api/v1/adjectives/?count= //number they pass in
+
+get http://localhost:3000/api/v1/adverbs/
+get http://localhost:3000/api/v1/adverbs/?count= //number they pass in
+
+
+Creating
+
+return story with words inserted
+
+post http://localhost:3000/api/v1/
+
+// req.body will be equal to the story and list of words
