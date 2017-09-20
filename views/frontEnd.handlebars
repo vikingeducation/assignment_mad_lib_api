@@ -1,0 +1,61 @@
+<h1>Mad Lib</h1>
+
+<form action="/makeStory" method="POST">
+
+  <div class="form-group">
+    <label for="words">Your Words</label>
+    <input class="form-control" type="text" name="words" id="words" value="" placeholder="Enter the words you want to use separated by space...">
+  </div>
+
+
+  <div class="form-group">
+    <label for="story">Your Story</label>
+    <input  class="form-control" type="text" name="story" id="story" placeholder="Exapmle: The &#123;{adjective}} &#123;{noun}} &#123;{adverb}} &#123;{verb}}.">
+  </div>
+
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br>
+<div class="jumbotron">
+  <h2>{{story}}</h2>
+</div>
+<br>
+<div class="panel panel-default">
+<div class="panel-heading"><a href="/makeStory/nouns" class="btn btn-success">Get Nouns</a></div>
+
+<div class="panel-body"><ul style="list-style-type:none">
+{{#each nouns as |noun|}}
+  <li>{{noun}}</li>
+{{/each}}
+</ul></div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading"><a href="/makeStory/verbs" class="btn btn-success">Get Verbs</a></div>
+<div class="panel-body">
+<ul style="list-style-type:none">
+{{#each verbs as |verb|}}
+  <li>{{verb}}</li>
+{{/each}}
+</ul></div>
+</div>
+
+<div class="panel panel-default">
+<div class="panel-heading"><a href="/makeStory/adjectives" class="btn btn-success">Get Adjectives</a></div>
+<div class="panel-body">
+<ul style="list-style-type:none">
+{{#each adjectives as |adjective|}}
+  <li>{{adjective}}</li>
+{{/each}}
+</ul></div>
+</div>
+
+<div class="panel panel-default">
+<div class="panel-heading"><a href="/makeStory/adverbs" class="btn btn-success">Get Adverbs</a></div>
+<div class="panel-body">
+<ul style="list-style-type:none">
+{{#each adverbs as |adverb|}}
+  <li>{{adverb}}</li>
+{{/each}}
+</ul></div>
+</div>
