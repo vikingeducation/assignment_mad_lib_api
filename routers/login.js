@@ -11,9 +11,8 @@ module.exports = middlewares => {
   // Show
   // ----------------------------------------
   const onShow = (req, res) => {
-    User.findById(req.session.passport.user).then(user => {
-      res.render("user/view", { user });
-    });
+    var user = req.user;
+    res.render("user/view", { user });
   };
 
   // Showing a user only if logged in
@@ -39,7 +38,6 @@ module.exports = middlewares => {
     };
     User.create(userParams)
       .then(user => {
-        req.session.user = user;
         req.login(user, function() {
           res.redirect("/login");
         });

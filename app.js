@@ -156,7 +156,6 @@ app.get("/login", loggedOutOnly, (req, res) => {
 // Allow logout via GET and DELETE
 const onLogout = (req, res) => {
   // Passport convenience method to logout
-  req.session.user = {};
   req.logout();
 
   // Ensure always redirecting as GET
@@ -182,6 +181,9 @@ const loginRouter = require("./routers/login")({
   loggedOutOnly
 });
 app.use("/", loginRouter);
+
+const madLibRouter = require("./routers/madLib");
+app.use("/api/v1", madLibRouter);
 
 // Setup API router
 // const furiousSpinoffsRouter = require('./routers/furious_spinoffs');
@@ -222,26 +224,26 @@ if (require.main === module) {
 // ----------------------------------------
 // Error Handling
 // ----------------------------------------
-// app.use("/api", (err, req, res, next) => {
-//   if (res.headersSent) {
-//     return next(err);
-//   }
-//
-//   if (err.stack) {
-//     err = err.stack;
-//   }
-//   res.status(500).json({ error: err });
-// });
-//
-// app.use((err, req, res, next) => {
-//   if (res.headersSent) {
-//     return next(err);
-//   }
-//
-//   if (err.stack) {
-//     err = err.stack;
-//   }
-//   res.status(500).render("errors/500", { error: err });
-// });
+app.use("/api", (err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  if (err.stack) {
+    err = err.stack;
+  }
+  res.status(500).json({ error: err });
+});
+
+app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  if (err.stack) {
+    err = err.stack;
+  }
+  res.status(500).render("errors/500", { error: err });
+});
 
 module.exports = app;
