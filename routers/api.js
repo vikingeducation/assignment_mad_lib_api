@@ -43,14 +43,14 @@ router.get(
 	}
 );
 
-// get some adjective
+// get some adjectives
 router.get(
-	"/adjective",
+	"/adjectives",
 	passport.authenticate("bearer", { session: false }),
 	(req, res) => {
 		const count = +req.query.count || 10;
-		wordpos.randAdjective({ count }, adjective => {
-			res.status(200).json(adjective);
+		wordpos.randAdjective({ count }, adjectives => {
+			res.status(200).json(adjectives);
 		});
 	}
 );
