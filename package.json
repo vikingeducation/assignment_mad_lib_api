@@ -1,0 +1,41 @@
+{
+  "name": "assignment_mad_lib_api",
+  "version": "1.0.0",
+  "description": "Serving up the madness with a Mad Lib API!",
+  "main": "app.js",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cookie-session": "^2.0.0-beta.3",
+    "express": "^4.16.2",
+    "express-flash-messages": "^0.1.1",
+    "express-handlebars": "^3.0.0",
+    "express-method-override-get-post-support": "^1.0.0",
+    "load-helpers": "^1.0.1",
+    "md5": "^2.2.1",
+    "method-override": "^2.3.10",
+    "mongoose": "^4.13.6",
+    "mongoose-unique-validator": "^1.0.6",
+    "morgan": "^1.9.0",
+    "morgan-toolkit": "^1.0.2",
+    "passport": "^0.4.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coelacanth7/assignment_mad_lib_api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coelacanth7/assignment_mad_lib_api/issues"
+  },
+  "homepage": "https://github.com/coelacanth7/assignment_mad_lib_api#readme"
+}
