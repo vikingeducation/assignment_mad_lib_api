@@ -83,6 +83,9 @@ passport.deserializeUser((id, done) => {
 const usersRouter = require("./routers/users");
 app.use("/", usersRouter);
 
+const apiRouter = require("./routers/api");
+app.use("/api/v1", apiRouter);
+
 // handlebars
 const expressHandlebars = require("express-handlebars");
 const helpers = require("./helpers");
