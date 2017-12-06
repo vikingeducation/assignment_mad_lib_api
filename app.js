@@ -86,6 +86,9 @@ app.use("/", usersRouter);
 const apiRouter = require("./routers/api");
 app.use("/api/v1", apiRouter);
 
+const madlibRouter = require("./routers/madlib");
+app.use("/madlib", madlibRouter);
+
 // handlebars
 const expressHandlebars = require("express-handlebars");
 const helpers = require("./helpers");
