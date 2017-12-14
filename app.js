@@ -78,10 +78,12 @@ app.use(setCurrentUser);
 const sessions = require('./routers/sessions');
 const users = require('./routers/users');
 const words = require('./routers/words');
+const madlibs = require('./routers/madlibs');
 
 app.use('/', sessions);
 app.use('/users', users);
 app.use('/api/v1/words', words);
+app.use('/api/v1/madlibs', madlibs);
 
 
 // Template Engine

@@ -51,7 +51,7 @@ describe('App', () => {
     });
   });
 
-  describe('GET words', () => {
+  describe('GET api/v1/words', () => {
     it('returns an array of words', done => {
       request.get(apiUrlFor('words/nouns'), (err, response, body) => {
         const result = j(body);
@@ -128,6 +128,66 @@ describe('App', () => {
     it('does not allow requests without a valid token', done => {
       request.get(apiUrl + 'words/nouns', (err, response) => {
         expect(response.statusCode).toBe(401);
+        done();
+      });
+    });
+  });
+
+  describe('POST api/vi/madlibs', () => {
+    it('returns JSON date', done => {
+      request.post(apiUrlFor('madlibs', { text: 'some text', words: 'some words' }), (err, response, body) => {
+        expect(function() { j(body); }).not.toThrow();
+        expect(response.statusCode).toBe(200);
+        done();
+      });
+    });
+
+    it('return a madlib with the provided sentence and words', done => {
+      const text = 'The {{ adjective }} {{ noun }} likes to {{ verb }} {{ adverb }}.';
+      const words = 'happy person choose happily';
+
+      request.post(apiUrlFor('madlibs', { text, words }), (err, response, body) => {
+        const result = j(body);
+        expect(response.statusCode).toBe(200);
+        expect(result.input_text).toEqual(text);
+        expect(result.input_words).toEqual(words);
+        expect(result.POS).toEqual({ nouns: [ 'person' ],
+          verbs: [ 'choose' ],
+          adjectives: [ 'happy' ],
+          adverbs: [ 'happily' ],
+          rest: []
+        });
+        expect(result.output).toEqual('The happy person likes to choose happily.');
+        done();
+      });
+    });
+
+    it('returns a status of 400 BAD REQUEST if the text parmeter is missing', done => {
+      request.post(apiUrlFor('madlibs', { words: 'some words' }), (err, response, body) => {
+        const result = j(body);
+        expect(response.statusCode).toBe(400);
+        expect(result.message).toEqual('Bad Request - No text given');
+        done();
+      });
+    });
+
+    it('returns a status of 400 BAD REQUEST if the words parmeter is missing', done => {
+      request.post(apiUrlFor('madlibs', { text: 'some text' }), (err, response, body) => {
+        const result = j(body);
+        expect(response.statusCode).toBe(400);
+        expect(result.message).toEqual('Bad Request - No words given');
+        done();
+      });
+    });
+
+    it('returns a status of 400 BAD REQUEST if the words cannot fulfill the sentance requirements', done => {
+      const text = '{{ adjective }} {{ noun }}.';
+      const words = 'happily';
+
+      request.post(apiUrlFor('madlibs', { text, words }), (err, response, body) => {
+        const result = j(body);
+        expect(response.statusCode).toBe(400);
+        expect(result.message).toEqual('Bad Request - cannot generate madlib with words given');
         done();
       });
     });
