@@ -1,35 +1,35 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 
 // ----------------------------------------
 // App Variables
 // ----------------------------------------
-app.locals.appName = "Mad Libs";
+app.locals.appName = 'Mad Libs';
 
 // ----------------------------------------
 // ENV
 // ----------------------------------------
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
 }
 
 // ----------------------------------------
 // Body Parser
 // ----------------------------------------
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // ----------------------------------------
 // Sessions/Cookies
 // ----------------------------------------
-const cookieParser = require("cookie-parser");
-const cookieSession = require("cookie-session");
+const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 
 app.use(cookieParser());
 app.use(
   cookieSession({
-    name: "session",
-    keys: [process.env.SESSION_SECRET || "secret"]
+    name: 'session',
+    keys: [process.env.SESSION_SECRET || 'secret']
   })
 );
 
@@ -41,14 +41,14 @@ app.use((req, res, next) => {
 // ----------------------------------------
 // Flash Messages
 // ----------------------------------------
-const flash = require("express-flash-messages");
+const flash = require('express-flash-messages');
 app.use(flash());
 
 // ----------------------------------------
 // Method Override
 // ----------------------------------------
-const methodOverride = require("method-override");
-const getPostSupport = require("express-method-override-get-post-support");
+const methodOverride = require('method-override');
+const getPostSupport = require('express-method-override-get-post-support');
 
 app.use(
   methodOverride(
@@ -61,7 +61,7 @@ app.use(
 // Referrer
 // ----------------------------------------
 app.use((req, res, next) => {
-  req.session.backUrl = req.header("Referer") || "/";
+  req.session.backUrl = req.header('Referer') || '/';
   next();
 });
 
@@ -73,9 +73,9 @@ app.use(express.static(`${__dirname}/public`));
 // ----------------------------------------
 // Logging
 // ----------------------------------------
-const morgan = require("morgan");
-const morganToolkit = require("morgan-toolkit")(morgan, {
-  req: ["cookies" /*, 'signedCookies' */]
+const morgan = require('morgan');
+const morganToolkit = require('morgan-toolkit')(morgan, {
+  req: ['cookies' /*, 'signedCookies' */]
 });
 
 app.use(morganToolkit());
@@ -83,12 +83,12 @@ app.use(morganToolkit());
 // ----------------------------------------
 // Mongoose
 // ----------------------------------------
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 app.use((req, res, next) => {
   if (mongoose.connection.readyState) {
     next();
   } else {
-    require("./mongo")().then(() => next());
+    require('./mongo')().then(() => next());
   }
 });
 
@@ -96,10 +96,10 @@ app.use((req, res, next) => {
 // Sessions
 // ----------------------------------------
 // Require passport, strategies and User model
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const BearerStrategy = require("passport-http-bearer").Strategy;
-const User = require("./models").User;
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const BearerStrategy = require('passport-http-bearer').Strategy;
+const User = require('./models').User;
 
 // Initialize passport
 app.use(passport.initialize());
@@ -110,7 +110,7 @@ const localStrategy = new LocalStrategy(
   {
     // Set username field to email
     // to match form
-    usernameField: "email"
+    usernameField: 'email'
   },
   (email, password, done) => {
     // Find user by email
@@ -159,16 +159,16 @@ passport.deserializeUser((id, done) => {
 
 // Set up middleware to allow/disallow login/logout
 const loggedInOnly = (req, res, next) => {
-  return req.user ? next() : res.redirect("/login");
+  return req.user ? next() : res.redirect('/login');
 };
 
 const loggedOutOnly = (req, res, next) => {
-  return !req.user ? next() : res.redirect("/");
+  return !req.user ? next() : res.redirect('/');
 };
 
 // Show login only if logged out
-app.get("/login", loggedOutOnly, (req, res) => {
-  res.render("sessions/new");
+app.get('/login', loggedOutOnly, (req, res) => {
+  res.render('sessions/new');
 });
 
 // Allow logout via GET and DELETE
@@ -177,20 +177,20 @@ const onLogout = (req, res) => {
   req.logout();
 
   // Ensure always redirecting as GET
-  req.method = "GET";
-  res.redirect("/login");
+  req.method = 'GET';
+  res.redirect('/login');
 };
 
-app.get("/logout", loggedInOnly, onLogout);
+app.get('/logout', loggedInOnly, onLogout);
 
-app.delete("/logout", loggedInOnly, onLogout);
+app.delete('/logout', loggedInOnly, onLogout);
 
 // Create session with passport
 app.post(
-  "/sessions",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
+  '/sessions',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login',
     failureFlash: true
   })
 );
@@ -199,41 +199,38 @@ app.post(
 // Routes
 // ----------------------------------------
 
-const usersRouter = require("./routers/users")({
+const usersRouter = require('./routers/users')({
   loggedInOnly,
   loggedOutOnly
 });
-app.use("/", usersRouter);
+app.use('/', usersRouter);
 
-// const furiousSpinoff = require("./routers/index");
-// app.use("/api/v1", furiousSpinoff);
-
-const story = require("./routers/story");
-app.use("/api/v1", story);
+const story = require('./routers/story');
+app.use('/api/v1', story);
 
 // ----------------------------------------
 // Template Engine
 // ----------------------------------------
-const expressHandlebars = require("express-handlebars");
-const helpers = require("./helpers");
+const expressHandlebars = require('express-handlebars');
+const helpers = require('./helpers');
 
 const hbs = expressHandlebars.create({
   helpers: helpers,
-  partialsDir: "views/",
-  defaultLayout: "application"
+  partialsDir: 'views/',
+  defaultLayout: 'application'
 });
 
-app.engine("handlebars", hbs.engine);
-app.set("view engine", "handlebars");
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
 
 // ----------------------------------------
 // Server
 // ----------------------------------------
 const port = process.env.PORT || process.argv[2] || 3000;
-const host = "localhost";
+const host = 'localhost';
 
 let args;
-process.env.NODE_ENV === "production" ? (args = [port]) : (args = [port, host]);
+process.env.NODE_ENV === 'production' ? (args = [port]) : (args = [port, host]);
 
 args.push(() => {
   console.log(`Listening: http://${host}:${port}\n`);
@@ -244,8 +241,8 @@ if (require.main === module) {
 }
 
 // Disable logging in test mode
-if (process.env.NODE_ENV !== "test") {
-  app.use(morgan("tiny"));
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('tiny'));
 }
 
 // ----------------------------------------
@@ -259,7 +256,7 @@ app.use((err, req, res, next) => {
   if (err.stack) {
     err = err.stack;
   }
-  res.status(500).render("errors/500", { error: err });
+  res.status(500).render('errors/500', { error: err });
 });
 
 module.exports = app;

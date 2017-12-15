@@ -1,0 +1,1 @@
+curl -H "Authorization: Bearer 4185bb480d198be788edef9cd33057ef" -H "Content-Type: application/json" -d '{"sentence": "This is a sentence"}' http://localhost:3000/api/v1/story
