@@ -7,8 +7,11 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "test": "npm run whichnodemon && nodemon --exec npm run jasmine || npm run jasmine",
+    "start": "npm run whichnodemon && nodemon app.js || node app.js",
+    "whichnodemon": "which nodemon > /dev/null",
+    "jasmine": "./node_modules/jasmine/bin/jasmine.js"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/edwinyung/assignment_mad_lib_api.git"
@@ -20,7 +23,7 @@
   },
   "homepage": "https://github.com/edwinyung/assignment_mad_lib_api#readme",
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "cli-highlight": "^1.2.3",
