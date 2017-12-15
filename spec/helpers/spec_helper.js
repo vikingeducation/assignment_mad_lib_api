@@ -7,7 +7,7 @@ process.env.NODE_ENV = "test";
 
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost/mad_lib_test");
+//mongoose.connect("mongodb://localhost/mad_lib_test");
 
 // Set test environment
 process.env.NODE_ENV = "test";

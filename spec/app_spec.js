@@ -1,8 +1,6 @@
 // spec/app_spec.js
 const app = require("../app");
 const User = require("../models/user");
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/mad_lib_test");
 const request = require("request");
 
 describe("App", () => {
