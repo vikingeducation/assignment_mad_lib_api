@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const models = require("./models");
 const User = require("./models/user");
 const addUser = require("./addUser");
 
@@ -91,7 +92,7 @@ app.use(passport.initialize());
 // ----------------------------------------
 
 passport.use(
-  new LocalStrategy((email, password, done) => {
+  new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
     User.findOne({ email }, (err, user) => {
       if (err) return done(err);
       if (!user || !user.validPassword(password)) {
@@ -149,7 +150,7 @@ app.use(passport.session());
 // mongoose
 // ----------------------------------------
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/assignment_mad_lib_api");
+mongoose.connect("mongodb://localhost/assignment_mad_lib_api_development");
 app.use((req, res, next) => {
   if (mongoose.connection.readyState) {
     next();
@@ -206,9 +207,9 @@ app.post(
   })
 );
 
-app.post("/register", async (req, res) => {
+app.post("/register", async (req, res, next) => {
   const { fname, lname, email, password } = req.body;
-  await addUser(fname, lname, email, password);
+  await addUser(fname, lname, email, password, next);
   res.redirect("/login");
 });
 

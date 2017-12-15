@@ -44,7 +44,7 @@ UserSchema.pre("save", function(next) {
 
 UserSchema.plugin(uniqueValidator);
 
-UserSchema.methods.validPassword = password => {
+UserSchema.methods.validPassword = function(password) {
   return bcrypt.compareSync(password, this.passwordHash);
 };
 
