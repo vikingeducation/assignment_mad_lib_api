@@ -16,16 +16,16 @@ var env = process.env.NODE_ENV || "development";
 // Always use the MongoDB URL to allow
 // easy connection in all environments
 const mongodbUrl =
-  process.env.NODE_ENV === "production"
-    ? process.env[config.use_env_variable]
-    : `mongodb://localhost/mad_lib`;
+  process.env.NODE_ENV === "production" ?
+  process.env[config.use_env_variable] :
+  `mongodb://localhost/mad_lib`;
 
 mongooseeder.seed({
   mongodbUrl: mongodbUrl,
   models: models,
   clean: true,
   mongoose: mongoose,
-  seeds: async () => {
+  seeds: async() => {
     let verbs = await wordpos.randVerb({ count: 100 });
     verbs = verbs.map(verb => {
       verb = new Verb({

@@ -1,5 +1,10 @@
 const express = require("express");
 const app = express();
+const nouns = require('./routers/nouns');
+const adjectives = require('./routers/adjectives');
+const verbs = require('./routers/verbs');
+const adverbs = require('./routers/adverbs');
+
 
 // ----------------------------------------
 // App Variables
@@ -119,7 +124,14 @@ passport.deserializeUser(function(id, done) {
 // Routes
 // ----------------------------------------
 
-app.get("/", async (req, res) => {
+app.use('/nouns', nouns);
+app.use('/adjectives', adjectives);
+app.use('/verbs', verbs);
+app.use('/adverbs', adverbs);
+
+
+
+app.get("/", async(req, res) => {
   if (req.user) {
     res.render("home", { user: req.user });
   } else {
@@ -213,4 +225,3 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
-
