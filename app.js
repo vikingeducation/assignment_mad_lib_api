@@ -209,7 +209,7 @@ app.use("/", usersRouter);
 // app.use("/api/v1", furiousSpinoff);
 
 const story = require("./routers/story");
-app.use("/story", story);
+app.use("/api/v1", story);
 
 // ----------------------------------------
 // Template Engine
