@@ -1,10 +1,9 @@
 const express = require("express");
 const app = express();
-const nouns = require('./routers/nouns');
-const adjectives = require('./routers/adjectives');
-const verbs = require('./routers/verbs');
-const adverbs = require('./routers/adverbs');
-
+const nouns = require("./routers/nouns");
+const adjectives = require("./routers/adjectives");
+const verbs = require("./routers/verbs");
+const adverbs = require("./routers/adverbs");
 
 // ----------------------------------------
 // App Variables
@@ -112,16 +111,16 @@ passport.use(
 );
 
 const bearerStrategy = new BearerStrategy((token, done) => {
-
   // Find the user by token
   User.findOne({ token: token })
     .then(user => {
-
       // Pass the user if found else false
       return done(null, user || false);
     })
     .catch(e => done(null, false));
 });
+
+passport.use(bearerStrategy);
 
 passport.serializeUser(function(user, done) {
   done(null, user.id);
@@ -134,43 +133,37 @@ passport.deserializeUser(function(id, done) {
 });
 
 const loggedInOnly = (req, res, next) => {
-  return req.user ? next() : res.redirect('/login');
+  return req.user ? next() : res.redirect("/login");
 };
 
 const loggedOutOnly = (req, res, next) => {
-  return !req.user ? next() : res.redirect('/');
+  return !req.user ? next() : res.redirect("/");
 };
-
-
-
 
 // ----------------------------------------
 // Routes
 // ----------------------------------------
-const wordsApi = require('./routers/wordsApi');
-app.use('/api/v1', loggedInOnly, wordsApi)
+const wordsApi = require("./routers/wordsApi");
 
 // Show login only if logged out
-app.get('/login', loggedOutOnly, (req, res) => {
-  res.render('sessions/new');
+app.get("/login", loggedOutOnly, (req, res, next) => {
+  res.render("sessions/new");
 });
 
 // Allow logout via GET and DELETE
-const onLogout = (req, res) => {
-
+const onLogout = (req, res, next) => {
   // Passport convenience method to logout
   req.logout();
 
   // Ensure always redirecting as GET
-  req.method = 'GET';
-  res.redirect('/login');
+  req.method = "GET";
+  res.redirect("/login");
 };
 
+app.get("/logout", loggedInOnly, onLogout);
+app.delete("/logout", loggedInOnly, onLogout);
 
-app.get('/logout', loggedInOnly, onLogout);
-app.delete('/logout', loggedInOnly, onLogout);
-
-app.get("/", async(req, res) => {
+app.get("/", async (req, res, next) => {
   if (req.user) {
     res.render("home", { user: req.user });
   } else {
@@ -191,19 +184,28 @@ app.post(
   })
 );
 
+app.post(
+  "/sessions",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true
+  })
+);
 
-app.post('/sessions', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-}));
-
-const usersRouter = require('./routers/users')({
+const usersRouter = require("./routers/users")({
   loggedInOnly,
   loggedOutOnly
 });
-app.use('/users', usersRouter);
 
+const apiRouter = require("./routers/wordsApi")({
+  loggedInOnly,
+  loggedOutOnly
+});
+
+app.use("/api/v1", apiRouter);
+
+app.use("/users", usersRouter);
 
 // ----------------------------------------
 // Template Engine

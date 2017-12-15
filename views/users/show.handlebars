@@ -6,7 +6,9 @@
 <h3>Token: {{user.token}}</h3>
 
 
-<form action='/' method='get'>
-<textarea name='sentence'></textarea>
-<input type='submit' />
+<form action='/api/v1/madlib' method='get'>
+  <textarea name='sentence'></textarea>
+  <input type="hidden" name="name" value="{{user.fname}}" >
+  <input type="hidden" name="token" value="{{user.token}}" >
+  <input type='submit' >
 </form>

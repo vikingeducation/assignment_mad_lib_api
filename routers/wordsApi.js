@@ -1,51 +1,74 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const helpers = require('./../helpers');
+const helpers = require("./../helpers");
 const h = helpers.registered;
-const passport = require('passport');
-const nouns = require('./nouns.js');
-const verbs = require('./verbs.js');
-const adverbs = require('./adverbs.js');
-const adjectives = require('./adjectives.js');
+const passport = require("passport");
+const Noun = require("../models/noun");
+const Verb = require("../models/verb");
+const Adverb = require("../models/adverb");
+const Adjective = require("../models/adjective");
+var Sentencer = require("sentencer");
+var WordPOS = require("wordpos");
+var wordpos = new WordPOS();
 
+module.exports = middlewares => {
+  // Extract middlewares
+  const { loggedInOnly, loggedOutOnly } = middlewares;
 
-// ----------------------------------------
-// Index
-// ----------------------------------------
+  // ----------------------------------------
+  // Index
+  // ----------------------------------------
 
+  router.get(
+    "/madlib",
+    passport.authenticate("bearer", { session: false }),
+    async (req, res, next) => {
+      let story = req.params.sentence;
 
-router.get(
-  '/',
+      wordpos.getAdjectives(story, async function(result) {
+        result.forEach(async adjective => {
+          story = story.replace(adjective, await wordpos.randAdjective());
+        });
+        console.log("story------------");
+        console.log(story);
+      });
 
-  // Register the passport bearer strategy middleware
-  // we this router's only route
-  /*passport.authenticate('bearer', { session: false })
-  ,*/
-  (req, res, next) => {
-    "GOT INTO authenticate"
+      res.json(story);
+    }
+  );
 
-    // Callback for the route
-    // serves the data from the API
-    next();
-  });
-router.post(
-  '/',
+  router.get(
+    "/:resource",
+    passport.authenticate("bearer", { session: false }),
+    async (req, res, next) => {
+      let resource = req.params.resource;
+      let model = {
+        nouns: Noun,
+        verbs: Verb,
+        adverbs: Adverb,
+        adjectives: Adjective
+      }[resource];
 
-  // Register the passport bearer strategy middleware
-  // we this router's only route
-  passport.authenticate('bearer', { session: false }), (req, res, next) => {
+      let result = await model.find({}, { _id: 0, __v: 0 }).limit(10);
 
-    // Callback for the route
-    // serves the data from the API
-    next();
-  })
+      result = result.map(word => word.word);
 
+      res.json(result);
+    }
+  );
 
-router.use('/nouns.js', nouns);
-router.use('/verbs.js', verbs);
-router.use('/adverbs.js', adverbs);
-router.use('/adjectives.js', adjectives);
+  router.post(
+    "/",
 
+    // Register the passport bearer strategy middleware
+    // we this router's only route
+    loggedInOnly,
+    (req, res, next) => {
+      // Callback for the route
+      // serves the data from the API
+      next();
+    }
+  );
 
-
-module.exports = router;
+  return router;
+};

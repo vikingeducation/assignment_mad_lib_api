@@ -2,6 +2,7 @@
 const app = require("../app");
 const User = require("../models/user");
 const request = require("request");
+const qs = require("qs");
 
 describe("App", () => {
   const baseUrl = "http://localhost:3000";
@@ -9,6 +10,11 @@ describe("App", () => {
   let server;
 
   let user;
+  const apiUrlFor = (type, params) => {
+    params = params ? `&${qs.stringify(params)}` : "";
+    return `${apiUrl}${type}?access_token=${user.token}${params}`;
+  };
+  const j = str => JSON.parse(str);
 
   beforeEach(done => {
     User.create({
@@ -42,10 +48,20 @@ describe("App", () => {
     });
   });
 
-  it("returns a list of nouns",
-    done => {
-      request.get(`${apiUrl}/nouns`, (err, res, body) => {
-        expect(Array.isArray(body)).toBe(true);
-      });
+  it("returns a list of nouns", done => {
+    request.get(apiUrlFor("nouns"), (err, res, body) => {
+      expect(Array.isArray(JSON.parse(body))).toBe(true);
+      done();
     });
+  });
+
+  it("returns a different story", done => {
+    request.get(
+      apiUrlFor("story", { story: "The quick brown fox." }),
+      (err, res, body) => {
+        expect(body.length).toEqual(story.length);
+        expect(body).notEqual(story);
+      }
+    );
+  });
 });
