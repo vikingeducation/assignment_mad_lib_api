@@ -32,7 +32,7 @@ module.exports = (middlewares) => {
   // ----------------------------------------
 
   // Allow user registration only if logged out
-  router.get('/user/new', loggedOutOnly, (req, res) => {
+  router.get('/new', loggedOutOnly, (req, res) => {
     res.render('users/new');
   });
 
@@ -42,18 +42,18 @@ module.exports = (middlewares) => {
   // ----------------------------------------
 
   // Allow user creation only if logged out
-  router.post('/users', loggedOutOnly, (req, res, next) => {
+  router.post('/', loggedOutOnly, (req, res, next) => {
     let userParams = {
-      fname: req.body.user.fname,
-      lname: req.body.user.lname,
-      email: req.body.user.email,
-      password: req.body.user.password
+      fname: req.body.fname,
+      lname: req.body.lname,
+      email: req.body.email,
+      password: req.body.password
     };
 
     User.create(userParams)
       .then((user) => {
         req.flash('success', 'User created! You may now login.');
-        res.redirect(h.loginPath());
+        res.redirect('/users/login');
       })
       .catch((e) => {
         if (e.errors) {

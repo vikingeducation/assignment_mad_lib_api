@@ -147,8 +147,8 @@ const loggedOutOnly = (req, res, next) => {
 // ----------------------------------------
 // Routes
 // ----------------------------------------
-
-app.use('/api/v1', wordsApi)
+const wordsApi = require('./routers/wordsApi');
+app.use('/api/v1', loggedInOnly, wordsApi)
 
 // Show login only if logged out
 app.get('/login', loggedOutOnly, (req, res) => {
@@ -202,7 +202,7 @@ const usersRouter = require('./routers/users')({
   loggedInOnly,
   loggedOutOnly
 });
-app.use('/', usersRouter);
+app.use('/users', usersRouter);
 
 
 // ----------------------------------------

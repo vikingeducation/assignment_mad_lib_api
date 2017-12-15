@@ -44,8 +44,8 @@ describe("App", () => {
 
   it("returns a list of nouns",
     done => {
-      request.get(`baseUrl/nouns`, (err, res, body) => {
-        expect(body).toBe(Array.isArray(body));
+      request.get(`${apiUrl}/nouns`, (err, res, body) => {
+        expect(Array.isArray(body)).toBe(true);
       });
     });
 });
