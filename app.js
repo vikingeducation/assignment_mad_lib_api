@@ -111,6 +111,18 @@ passport.use(
   })
 );
 
+const bearerStrategy = new BearerStrategy((token, done) => {
+
+  // Find the user by token
+  User.findOne({ token: token })
+    .then(user => {
+
+      // Pass the user if found else false
+      return done(null, user || false);
+    })
+    .catch(e => done(null, false));
+});
+
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
@@ -120,16 +132,43 @@ passport.deserializeUser(function(id, done) {
     done(err, user);
   });
 });
+
+const loggedInOnly = (req, res, next) => {
+  return req.user ? next() : res.redirect('/login');
+};
+
+const loggedOutOnly = (req, res, next) => {
+  return !req.user ? next() : res.redirect('/');
+};
+
+
+
+
 // ----------------------------------------
 // Routes
 // ----------------------------------------
 
-app.use('/nouns', nouns);
-app.use('/adjectives', adjectives);
-app.use('/verbs', verbs);
-app.use('/adverbs', adverbs);
+app.use('/api/v1', wordsApi)
+
+// Show login only if logged out
+app.get('/login', loggedOutOnly, (req, res) => {
+  res.render('sessions/new');
+});
+
+// Allow logout via GET and DELETE
+const onLogout = (req, res) => {
+
+  // Passport convenience method to logout
+  req.logout();
+
+  // Ensure always redirecting as GET
+  req.method = 'GET';
+  res.redirect('/login');
+};
 
 
+app.get('/logout', loggedInOnly, onLogout);
+app.delete('/logout', loggedInOnly, onLogout);
 
 app.get("/", async(req, res) => {
   if (req.user) {
@@ -137,10 +176,6 @@ app.get("/", async(req, res) => {
   } else {
     res.redirect("/login");
   }
-});
-
-app.get("/login", (req, res) => {
-  res.render("login");
 });
 
 app.get("/register", (req, res) => {
@@ -156,27 +191,19 @@ app.post(
   })
 );
 
-app.post("/register", async function(req, res, next) {
-  const { password, email, fname, lname } = req.body;
-  const user = new User({ password, fname, lname, email });
-  try {
-    let savedUser = await user.save();
-    req.login(user, function(err) {
-      if (err) {
-        return next(err);
-      }
-      return res.redirect("/");
-    });
-  } catch (e) {
-    console.log(e);
-  }
-});
 
-// 5
-app.get("/logout", function(req, res) {
-  req.logout();
-  res.redirect("/");
+app.post('/sessions', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/login',
+  failureFlash: true
+}));
+
+const usersRouter = require('./routers/users')({
+  loggedInOnly,
+  loggedOutOnly
 });
+app.use('/', usersRouter);
+
 
 // ----------------------------------------
 // Template Engine

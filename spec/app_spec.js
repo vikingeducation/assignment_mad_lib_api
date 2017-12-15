@@ -42,10 +42,10 @@ describe("App", () => {
     });
   });
 
-  it("returns a list of nouns"),
+  it("returns a list of nouns",
     done => {
       request.get(`baseUrl/nouns`, (err, res, body) => {
-        expect(body).isArray(body);
+        expect(body).toBe(Array.isArray(body));
       });
-    };
+    });
 });
