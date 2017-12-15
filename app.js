@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const User = require("./models/user");
+const addUser = require("./addUser");
 
 // ----------------------------------------
 // App Variables
@@ -81,7 +83,12 @@ app.use(morganToolkit());
 // ----------------------------------------
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const BearerStrategy = require("passport-http-bearer").Strategy;
 app.use(passport.initialize());
+
+// ----------------------------------------
+// local strategy
+// ----------------------------------------
 
 passport.use(
   new LocalStrategy((email, password, done) => {
@@ -104,6 +111,21 @@ passport.deserializeUser((id, done) => {
     done(err, user);
   });
 });
+
+// ----------------------------------------
+// bearer strategy
+// ----------------------------------------
+
+const bearerStrategy = new BearerStrategy((token, done) => {
+  // Find the user by token
+  User.findOne({ token: token })
+    .then(user => {
+      // Pass the user if found else false
+      return done(null, user || false);
+    })
+    .catch(e => done(null, false));
+});
+
 // ----------------------------------------
 // session
 // ----------------------------------------
@@ -133,12 +155,58 @@ const sentencer = require("sentencer");
 const wordpos = require("wordpos");
 
 // ----------------------------------------
+// login/logout middleware
+// ----------------------------------------
+
+const loggedInOnly = (req, res, next) => {
+  return req.user ? next() : res.redirect("/login");
+};
+
+const loggedOutOnly = (req, res, next) => {
+  return !req.user ? next() : res.redirect("/");
+};
+
+// ----------------------------------------
 // Routes
 // ----------------------------------------
-app.use("/", (req, res) => {
-  req.flash("Hi!");
-  res.render("welcome/index");
+app.get("/", loggedInOnly, async (req, res) => {
+  try {
+    let currentUser = await User.findById(req.session.passport.user);
+    res.render("welcome/index", {
+      currentUser: currentUser
+    });
+  } catch (err) {
+    console.log(err);
+  }
 });
+
+app.get("/login", loggedOutOnly, (req, res) => {
+  res.render("login");
+});
+
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true
+  })
+);
+
+app.post("/register", async (req, res) => {
+  const { fname, lname, email, password } = req.body;
+  await addUser(fname, lname, email, password);
+  res.redirect("/login");
+});
+
+const onLogout = (req, res) => {
+  req.logout();
+  req.method = "GET";
+  res.redirect("/login");
+};
+
+app.get("/logout", loggedInOnly, onLogout);
+app.delete("/logout", loggedInOnly, onLogout);
 
 // ----------------------------------------
 // Template Engine
