@@ -6,13 +6,59 @@ var WordPOS = require('wordpos'),
   wordpos = new WordPOS();
 var Sentencer = require('sentencer');
 
-// Sentencer.configure({
-//   actions: {
-//     number: function() {
-//       return Math.floor( Math.random() * 10 ) + 1;
-//     }
-//   }
-// });
+let randomVerbs = [
+  'unite',
+  'help',
+  'whip',
+  'introduce',
+  'protect',
+  'cross',
+  'subtract',
+  'scream',
+  'rain',
+  'pedal',
+  'object',
+  'charge',
+  'practise',
+  'load',
+  'hope',
+  'claim',
+  'attend',
+  'destroy',
+  'trace',
+  'pass',
+  'type',
+  'bruise',
+  'remember',
+  'snow',
+  'wobble',
+  'whistle',
+  'seal',
+  'step',
+  'joke',
+  'phone',
+  'nail',
+  'replace',
+  'guide',
+  'melt',
+  'record',
+  'smoke',
+  'print',
+  'admit',
+  'add',
+  'screw'
+];
+
+Sentencer.configure({
+  actions: {
+    adjectives: function() {
+      return Sentencer.make('{{ adjective }}');
+    },
+    verbs: function() {
+      return randomVerbs[Math.floor(Math.random(randomVerbs.length - 1))];
+    }
+  }
+});
 
 // ----------------------------------------
 // Story
@@ -20,23 +66,23 @@ var Sentencer = require('sentencer');
 router.post('/', async (req, res, next) => {
   let story = req.body.sentence;
   let words = await wordpos.getPOS(story, console.log);
-  let templated = await function(words) {
+  let templated = async function(words) {
     let temp = story;
     for (let key in words) {
       if (key !== 'rest') {
         words[key].forEach(element => {
-          temp.replace(element, `{{ ${key} }}`);
+          temp = temp.replace(element, `{{ ${key} }}`);
         });
       }
     }
     return temp;
   };
-  let result = templated(words);
-  //let templated = story.replace();
+  let result = await templated(words);
+  let finalResult = await Sentencer.make(result);
   console.log('=======================');
-  console.log(result);
+  console.log(finalResult);
   console.log('=======================');
-  res.status(200).json(result);
+  res.status(200).json(finalResult);
 });
 
 module.exports = router;

@@ -86,4 +86,17 @@ describe('App', () => {
     expect(wordPosObj.rest).toEqual(['The', '']);
     done();
   });
+
+  it('return madlibbed paragraph', async done => {
+      // request.get(
+      //   apiUrlFor("furious_spinoffs", { count: 10 }),
+      //   (err, res, body) => {
+      //     console.log(body);
+      //     let result = j(body);
+      //     expect(result.length).toEqual(10);
+      //     done();
+      //   }
+      // );
+  }
+
 });
