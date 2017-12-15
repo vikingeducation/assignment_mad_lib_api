@@ -1,10 +1,13 @@
-let mongoose = require('mongoose');
-let bluebird = require('bluebird');
+let mongoose = require("mongoose");
+let bluebird = require("bluebird");
 
 mongoose.Promise = bluebird;
 
 let models = {};
 
-models.User = require('./user');
+models.Noun = require("./noun");
+models.Verb = require("./verb");
+models.Adverb = require("./adverb");
+models.Adjective = require("./adjective");
 
 module.exports = models;
