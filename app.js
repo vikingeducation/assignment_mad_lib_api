@@ -205,8 +205,11 @@ const usersRouter = require("./routers/users")({
 });
 app.use("/", usersRouter);
 
-const furiousSpinoff = require("./routers/index");
-app.use("/api/v1", furiousSpinoff);
+// const furiousSpinoff = require("./routers/index");
+// app.use("/api/v1", furiousSpinoff);
+
+const story = require("./routers/story");
+app.use("/story", story);
 
 // ----------------------------------------
 // Template Engine
