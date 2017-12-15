@@ -11,7 +11,7 @@
     "start": "npm run whichnodemon && nodemon app.js || node app.js",
     "whichnodemon": "which nodemon > /dev/null",
     "jasmine": "./node_modules/jasmine/bin/jasmine.js"
-},
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/edwinyung/assignment_mad_lib_api.git"
