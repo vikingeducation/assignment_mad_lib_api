@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/edwinyung/assignment_mad_lib_api#readme",
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "cli-highlight": "^1.2.3",
