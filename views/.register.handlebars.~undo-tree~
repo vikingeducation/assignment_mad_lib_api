@@ -1,0 +1,56 @@
+"23b7a3571031fe3aefc119976c634eac39b23146"
+[cl-struct-undo-tree [nil ([nil ([nil ([nil ([nil ([nil ([nil (#1=[nil nil ((557 . 562) (#("username" 0 8 (fontified t)) . 557) (undo-tree-id124 . -7) (undo-tree-id125 . -7) (t 23092 2410 268955 533000)) nil (23092 2838 369387 912000) 0 nil]) ((544 . 549) (#("text" 0 4 (fontified t)) . 544) (t 23092 2375 959414 607000)) nil (23092 2410 237621 326000) 0 nil]) ((556 . 564) (#("email" 0 5 (fontified t)) . 556) (t 23092 2344 899830 289000)) nil (23092 2375 879369 19000) 0 nil]) ((#("/" 0 1 (fontified t)) . 180) (undo-tree-id123 . -1) (t 23092 2339 639900 694000)) nil (23092 2344 874353 649000) 0 nil]) ((#("{{path}}" 0 8 (fontified t face font-lock-constant-face)) . 181) (undo-tree-id119 . 8) (undo-tree-id120 . -1) (undo-tree-id121 . 1) (undo-tree-id122 . -8)) nil (23092 2339 592062 599000) 0 nil]) ((20 . 21) (#("5" 0 1 (fontified t)) . 20) (20 . 21) (#("5" 0 1 (fontified t)) . 20) (t 23092 2196 898479 137000)) nil (23092 2339 592073 190000) 0 nil] [nil nil ((1 . 1121) (#("<div class=\"col-sm-5 col-sm-offset-3\">
+  <div class=\"panel panel-default\">
+    <div class=\"panel-heading\">Sign Up</div>
+    <div class=\"panel-body\">
+
+      <form action=\"/register/{{path}}\" method=\"post\">
+        <div class=\"form-group\">
+          <input type=\"text\" name=\"fname\" value=\"\" placeholder=\"first name\" class=\"form-control\">
+        </div>
+        <div class=\"form-group\">
+          <input type=\"text\" name=\"lname\" value=\"\" placeholder=\"last name\" class=\"form-control\">
+        </div>
+        <div class=\"form-group\">
+          <input type=\"text\" name=\"email\" value=\"\" placeholder=\"email\" class=\"form-control\">
+        </div>
+        <div class=\"form-group\">
+          <input type=\"password\" name=\"password\" value=\"\" placeholder=\"password\" class=\"form-control\">
+        </div>
+        <button class=\"btn btn-default\">Sign Up</button>
+      </form>
+
+    </div>
+
+    <div class=\"panel-footer\">
+      <a href=\"/login\">Or Log In</a>
+    </div>
+  </div>
+</div>" 0 1 (fontified t) 1 4 (fontified t face font-lock-function-name-face) 4 42 (fontified t) 42 45 (fontified t face font-lock-function-name-face) 45 80 (fontified t) 80 83 (fontified t face font-lock-function-name-face) 83 115 (fontified t) 115 118 (fontified t face font-lock-function-name-face) 118 125 (fontified t) 125 128 (fontified t face font-lock-function-name-face) 128 157 (fontified t) 157 161 (fontified t face font-lock-function-name-face) 161 180 (fontified t) 180 188 (fontified t face font-lock-constant-face) 188 214 (fontified t) 214 217 (fontified t face font-lock-function-name-face) 217 249 (fontified t) 249 254 (fontified t face font-lock-function-name-face) 254 346 (fontified t) 346 349 (fontified t face font-lock-function-name-face) 349 360 (fontified t) 360 363 (fontified t face font-lock-function-name-face) 363 395 (fontified t) 395 400 (fontified t face font-lock-function-name-face) 400 491 (fontified t) 491 494 (fontified t face font-lock-function-name-face) 494 500 (fontified t) 500 505 (fontified t) 505 508 (face font-lock-function-name-face fontified t) 508 529 (fontified t) 529 540 (fontified t) 540 545 (fontified t face font-lock-function-name-face) 545 632 (fontified t) 632 635 (fontified t face font-lock-function-name-face) 635 646 (fontified t) 646 649 (fontified t face font-lock-function-name-face) 649 681 (fontified t) 681 686 (fontified t face font-lock-function-name-face) 686 783 (fontified t) 783 786 (fontified t face font-lock-function-name-face) 786 797 (fontified t) 797 803 (fontified t face font-lock-function-name-face) 803 837 (fontified t) 837 843 (fontified t face font-lock-function-name-face) 843 853 (fontified t) 853 857 (fontified t face font-lock-function-name-face) 857 866 (fontified t) 866 869 (fontified t face font-lock-function-name-face) 869 877 (fontified t) 877 880 (fontified t face font-lock-function-name-face) 880 910 (fontified t) 910 911 (fontified t face font-lock-function-name-face) 911 937 (fontified t) 937 938 (fontified t face font-lock-function-name-face) 938 946 (fontified t) 946 949 (fontified t face font-lock-function-name-face) 949 955 (fontified t) 955 958 (fontified t face font-lock-function-name-face) 958 962 (fontified t) 962 965 (fontified t face font-lock-function-name-face) 965 966 (fontified t)) . 1) (undo-tree-id0 . -965) (undo-tree-id1 . -39) (undo-tree-id2 . -39) (undo-tree-id3 . -75) (undo-tree-id4 . -75) (undo-tree-id5 . -120) (undo-tree-id6 . -120) (undo-tree-id7 . -149) (undo-tree-id8 . -149) (undo-tree-id9 . -150) (undo-tree-id10 . -150) (undo-tree-id11 . -205) (undo-tree-id12 . -205) (undo-tree-id13 . -238) (undo-tree-id14 . -238) (undo-tree-id15 . -336) (undo-tree-id16 . -336) (undo-tree-id17 . -351) (undo-tree-id18 . -351) (undo-tree-id19 . -384) (undo-tree-id20 . -384) (undo-tree-id21 . -481) (undo-tree-id22 . -481) (undo-tree-id23 . -496) (undo-tree-id24 . -496) (undo-tree-id25 . -529) (undo-tree-id26 . -529) (undo-tree-id27 . -622) (undo-tree-id28 . -622) (undo-tree-id29 . -637) (undo-tree-id30 . -637) (undo-tree-id31 . -670) (undo-tree-id32 . -670) (undo-tree-id33 . -773) (undo-tree-id34 . -773) (undo-tree-id35 . -788) (undo-tree-id36 . -788) (undo-tree-id37 . -845) (undo-tree-id38 . -845) (undo-tree-id39 . -859) (undo-tree-id40 . -859) (undo-tree-id41 . -860) (undo-tree-id42 . -860) (undo-tree-id43 . -871) (undo-tree-id44 . -871) (undo-tree-id45 . -872) (undo-tree-id46 . -872) (undo-tree-id47 . -903) (undo-tree-id48 . -903) (undo-tree-id49 . -940) (undo-tree-id50 . -940) (undo-tree-id51 . -951) (undo-tree-id52 . -951) (undo-tree-id53 . -960) (undo-tree-id54 . -960) (undo-tree-id55 . 1) (undo-tree-id56 . 1) (undo-tree-id57 . -965) (undo-tree-id58 . -965) (undo-tree-id59 . 1) (undo-tree-id60 . -966) (undo-tree-id61 . 6) (undo-tree-id62 . -961) 966 (t 23092 2196 898479 137000)) ((1 . 967) (#("<div class=\"col-sm-5 col-sm-offset-3\">
+    <div class=\"panel panel-default\">
+        <div class=\"panel-heading\">Sign Up</div>
+        <div class=\"panel-body\">
+
+            <form action=\"/register/{{path}}\" method=\"post\">
+                <div class=\"form-group\">
+                    <input type=\"text\" name=\"fname\" value=\"\" placeholder=\"first name\" class=\"form-control\">
+                </div>
+                <div class=\"form-group\">
+                    <input type=\"text\" name=\"lname\" value=\"\" placeholder=\"last name\" class=\"form-control\">
+                </div>
+                <div class=\"form-group\">
+                    <input type=\"text\" name=\"email\" value=\"\" placeholder=\"email\" class=\"form-control\">
+                </div>
+                <div class=\"form-group\">
+                    <input type=\"password\" name=\"password\" value=\"\" placeholder=\"password\" class=\"form-control\">
+                </div>
+                <button class=\"btn btn-default\">Sign Up</button>
+            </form>
+
+        </div>
+
+        <div class=\"panel-footer\">
+            <a href=\"/login\">Or Log In</a>
+        </div>
+    </div>
+</div>" 0 1 (fontified t) 1 4 (fontified t face font-lock-function-name-face) 4 44 (fontified t) 44 47 (fontified t face font-lock-function-name-face) 47 86 (fontified t) 86 89 (fontified t face font-lock-function-name-face) 89 121 (fontified t) 121 124 (fontified t face font-lock-function-name-face) 124 135 (fontified t) 135 138 (fontified t face font-lock-function-name-face) 138 173 (fontified t) 173 177 (fontified t face font-lock-function-name-face) 177 196 (fontified t) 196 204 (fontified t face font-lock-constant-face) 204 238 (fontified t) 238 241 (fontified t face font-lock-function-name-face) 241 283 (fontified t) 283 288 (fontified t face font-lock-function-name-face) 288 388 (fontified t) 388 391 (fontified t face font-lock-function-name-face) 391 410 (fontified t) 410 413 (fontified t face font-lock-function-name-face) 413 455 (fontified t) 455 460 (fontified t face font-lock-function-name-face) 460 500 (fontified t) 500 541 (fontified t) 541 559 (fontified t) 559 562 (fontified t face font-lock-function-name-face) 562 581 (fontified t) 581 584 (fontified t face font-lock-function-name-face) 584 626 (fontified t) 626 631 (fontified t face font-lock-function-name-face) 631 726 (fontified t) 726 729 (fontified t face font-lock-function-name-face) 729 748 (fontified t) 748 751 (fontified t face font-lock-function-name-face) 751 793 (fontified t) 793 798 (fontified t face font-lock-function-name-face) 798 903 (fontified t) 903 906 (fontified t face font-lock-function-name-face) 906 925 (fontified t) 925 931 (fontified t face font-lock-function-name-face) 931 965 (fontified t) 965 971 (fontified t face font-lock-function-name-face) 971 987 (fontified t) 987 991 (fontified t face font-lock-function-name-face) 991 1004 (fontified t) 1004 1007 (fontified t face font-lock-function-name-face) 1007 1019 (fontified t) 1019 1022 (fontified t face font-lock-function-name-face) 1022 1041 (fontified t) 1041 1045 (fontified t) 1045 1058 (fontified t) 1058 1059 (fontified t face font-lock-function-name-face) 1059 1085 (fontified t) 1085 1086 (fontified t face font-lock-function-name-face) 1086 1098 (fontified t) 1098 1101 (fontified t face font-lock-function-name-face) 1101 1109 (fontified t) 1109 1112 (fontified t face font-lock-function-name-face) 1112 1116 (fontified t) 1116 1119 (fontified t face font-lock-function-name-face) 1119 1120 (fontified t)) . 1) (undo-tree-id63 . -1120) (undo-tree-id64 . -1114) (undo-tree-id65 . -1114) (undo-tree-id66 . -1103) (undo-tree-id67 . -1103) (undo-tree-id68 . -1088) (undo-tree-id69 . -1088) (undo-tree-id70 . -1045) (undo-tree-id71 . -1045) (undo-tree-id72 . -1010) (undo-tree-id73 . -1010) (undo-tree-id74 . -1009) (undo-tree-id75 . -1009) (undo-tree-id76 . -994) (undo-tree-id77 . -994) (undo-tree-id78 . -993) (undo-tree-id79 . -993) (undo-tree-id80 . -973) (undo-tree-id81 . -973) (undo-tree-id82 . -908) (undo-tree-id83 . -908) (undo-tree-id84 . -885) (undo-tree-id85 . -885) (undo-tree-id86 . -772) (undo-tree-id87 . -772) (undo-tree-id88 . -731) (undo-tree-id89 . -731) (undo-tree-id90 . -708) (undo-tree-id91 . -708) (undo-tree-id92 . -605) (undo-tree-id93 . -605) (undo-tree-id94 . -564) (undo-tree-id95 . -564) (undo-tree-id96 . -541) (undo-tree-id97 . -541) (undo-tree-id98 . -434) (undo-tree-id99 . -434) (undo-tree-id100 . -393) (undo-tree-id101 . -393) (undo-tree-id102 . -370) (undo-tree-id103 . -370) (undo-tree-id104 . -262) (undo-tree-id105 . -262) (undo-tree-id106 . -221) (undo-tree-id107 . -221) (undo-tree-id108 . -160) (undo-tree-id109 . -160) (undo-tree-id110 . -159) (undo-tree-id111 . -159) (undo-tree-id112 . -126) (undo-tree-id113 . -126) (undo-tree-id114 . -77) (undo-tree-id115 . -77) (undo-tree-id116 . -39) (undo-tree-id117 . -39) (undo-tree-id118 . -965)) (23092 2199 461005 912000) 0 nil]) ((1 . 967) (t . -1)) nil (23092 2199 461496 733000) 0 nil]) nil nil (23092 2196 861556 45000) 0 nil] #1# 3322 8 nil]

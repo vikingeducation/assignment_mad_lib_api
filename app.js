@@ -6,7 +6,7 @@ const addUser = require("./addUser");
 // ----------------------------------------
 // App Variables
 // ----------------------------------------
-app.locals.appName = "My App";
+app.locals.appName = "Mad Lib API";
 
 // ----------------------------------------
 // ENV
@@ -127,6 +127,19 @@ const bearerStrategy = new BearerStrategy((token, done) => {
 });
 
 // ----------------------------------------
+// passport validate
+// ----------------------------------------
+
+app.post(
+  "/sessions",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true
+  })
+);
+
+// ----------------------------------------
 // session
 // ----------------------------------------
 const session = require("express-session");
@@ -197,6 +210,10 @@ app.post("/register", async (req, res) => {
   const { fname, lname, email, password } = req.body;
   await addUser(fname, lname, email, password);
   res.redirect("/login");
+});
+
+app.get("/register", loggedOutOnly, (req, res) => {
+  res.render("register");
 });
 
 const onLogout = (req, res) => {
