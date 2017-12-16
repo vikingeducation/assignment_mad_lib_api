@@ -1,15 +1,20 @@
 const Wordpos = require("wordpos");
+const Sentencer = require("sentencer");
 let wordpos = new Wordpos();
 class MadLib {
   constructor() {}
-  async list(string, number = 10) {
-    let results = [];
-    for (let i = 0; i < number; i++) {
-      let result = await wordpos.randNoun();
-      results.push(result[0]);
-    }
-    // console.log(results);
-    return results;
+  async story(string, nounArray, adjArray) {
+    Sentencer.configure({
+      nounList: nounArray,
+      adjectiveList: adjArray,
+      actions: {
+        my_action: () => {
+          return "something";
+        }
+      }
+    });
+    let ourStory = await Sentencer.make(string);
+    return ourStory.toString();
   }
 }
 module.exports = MadLib;
