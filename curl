@@ -1,1 +1,3 @@
-curl -H "Authorization: Bearer 4185bb480d198be788edef9cd33057ef" -H "Content-Type: application/json" -d '{"sentence": "This is a sentence"}' http://localhost:3000/api/v1/story
+curl -H "Authorization: Bearer 4185bb480d198be788edef9cd33057ef" -H "Content-Type: application/json" -d '{"sentence": "I like New York City and I love running and swimming"}' http://localhost:3000/api/v1/story
+
+curl -H "Content-Type: application/json" -d '{"sentence": "I like New York City and I love running and swimming"}' http://localhost:3000/api/v1/story?access_token=4185bb480d198be788edef9cd33057ef
