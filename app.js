@@ -103,8 +103,8 @@ app.use((req, res, next) => {
 
 // Require passport, strategies and User model
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const BearerStrategy = require('passport-http-bearer').Strategy;
+const localStrategy = require("./strategies/local");
+const bearerStrategy = require("./strategies/bearer");
 const User = require('./models').User;
 
 
@@ -112,43 +112,9 @@ const User = require('./models').User;
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-// Create local strategy
-const localStrategy = new LocalStrategy({
-
-  // Set username field to email
-  // to match form
-  usernameField: 'email'
-}, (email, password, done) => {
-
-  // Find user by email
-  User.findOne({ email: email })
-    .then(user => {
-
-      // The user is valid if the password is valid
-      const isValid = user.validatePassword(password);
-
-      // If the user is valid pass the user
-      // to the done callback
-      // Else pass false
-      return done(null, isValid ? user : false);
-    })
-    .catch(e => done(null, false));
-});
-
-// Create the token bearer strategy
-const bearerStrategy = new BearerStrategy((token, done) => {
-
-  // Find the user by token
-  User.findOne({ token: token })
-    .then(user => {
-
-      // Pass the user if found else false
-      return done(null, user || false);
-    })
-    .catch(e => done(null, false));
-});
-
+// Use the strategy middlewares
+passport.use(localStrategy);
+passport.use(bearerStrategy);
 
 // Use the strategy middlewares
 passport.use(localStrategy);
@@ -165,54 +131,13 @@ passport.deserializeUser((id, done) => {
     .catch(e => done(null, false));
 });
 
-// ----------------------------------------
-// Session Helper Middlewares
-// ----------------------------------------
-
-// Set up middleware to allow/disallow login/logout
-const loggedInOnly = (req, res, next) => {
-  return req.user ? next() : res.redirect('/login');
-};
-
-const loggedOutOnly = (req, res, next) => {
-  return !req.user ? next() : res.redirect('/');
-};
-
 
 // ----------------------------------------
 // Routes
 // ----------------------------------------
 
-// Show login only if logged out
-app.get('/login', loggedOutOnly, (req, res) => {
-  res.render('sessions/new');
-});
-
-// Allow logout via GET and DELETE
-const onLogout = (req, res) => {
-
-  // Passport convenience method to logout
-  req.logout();
-
-  // Ensure always redirecting as GET
-  req.method = 'GET';
-  res.redirect('/login');
-};
-app.get('/logout', loggedInOnly, onLogout);
-app.delete('/logout', loggedInOnly, onLogout);
-
-// Create session with passport
-app.post('/sessions', passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-}));
-
 // Pass logged in/out middlewares to users router
-const usersRouter = require('./routers/users')({
-  loggedInOnly,
-  loggedOutOnly
-});
+const usersRouter = require('./routers/users');
 app.use('/', usersRouter);
 
 // Setup API router
@@ -289,8 +214,6 @@ app.use((err, req, res, next) => {
   }
   res.status(500).render('errors/500', { error: err });
 });
-
-
 
 
 module.exports = app;
