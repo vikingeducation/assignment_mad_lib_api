@@ -6,7 +6,7 @@ const app = express();
 // App Locals
 // ----------------------------------------
 app.use((req, res, next) => {
-  res.locals.siteTitle = 'Mad Lib API';
+  res.locals.siteTitle = "Maddie Libs API";
   res.locals.author = "Maddie Rajavasireddy";
   next();
 });
@@ -216,8 +216,8 @@ const usersRouter = require('./routers/users')({
 app.use('/', usersRouter);
 
 // Setup API router
-const furiousSpinoffsRouter = require('./routers/furious_spinoffs');
-app.use('/api/v1', furiousSpinoffsRouter);
+const maddieLibsRouter = require('./routers/maddie_libs');
+app.use('/api/v1', maddieLibsRouter);
 
 
 // ----------------------------------------

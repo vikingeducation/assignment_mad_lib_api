@@ -56,14 +56,42 @@ describe('App', () => {
     });
   });
 
+  // ----------------------------------------
+  // Maddie Libs API
+  // ----------------------------------------
 
-  // ----------------------------------------
-  // Furious Spinoffs API
-  // ----------------------------------------
-  it('returns an array with the given number of titles', (done) => {
-    request.get(apiUrlFor('furious_spinoffs', { count: 10 }), (err, res, body) => {
+  // nouns API
+  it("returns an array with the given number of nouns", done => {
+    request.get(apiUrlFor("nouns", { count: 10 }), (err, res, body) => {
       let result = j(body);
       expect(result.length).toEqual(10);
+      done();
+    });
+  });
+
+  // verbs API
+  it("returns an array with the given number of verbs", done => {
+    request.get(apiUrlFor("verbs", { count: 8 }), (err, res, body) => {
+      let result = j(body);
+      expect(result.length).toEqual(8);
+      done();
+    });
+  });
+
+  // adverbs API
+  it("returns an array with the given number of adverbs", done => {
+    request.get(apiUrlFor("adverbs", { count: 20 }), (err, res, body) => {
+      let result = j(body);
+      expect(result.length).toEqual(20);
+      done();
+    });
+  });
+
+  // adjectives API
+  it("returns an array with the given number of adjectives", done => {
+    request.get(apiUrlFor("adjectives", { count: 17 }), (err, res, body) => {
+      let result = j(body);
+      expect(result.length).toEqual(17);
       done();
     });
   });
