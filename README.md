@@ -22,6 +22,16 @@ Adjectives
 The API should also allow the user (client) the ability to specify a number of each part of speech they'd like back in the response. So submitting a request without that parameter should default to say 5 words, but allow the user to specify a parameter to change the count of words returned.    
 The API should take a story (text in the format that Sentencer expects to create a Mad Lib) and a list of words to be plugged into the placeholders of that text. Then the API should respond with the generated Mad Lib from the provided data.
 
+### Testing the app:    
+`npm test`
+
+### Seeding with a user:   
+`npm run seed`
+
+### Starting the app:   
+`npm start`    (runs on localhost://3000) Login (foobar@gmail.com, password) or Register new user    
+After logging in, play with the maddie lib api from drop down menu item Play with Maddie Libs
+
 
 #### Packages used:    
 Express, Mongoose, Passport, Sentencer, Wordpos, md5, bcrypt, uuid, qs, lodash
