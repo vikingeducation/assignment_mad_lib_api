@@ -29,7 +29,8 @@ The API should take a story (text in the format that Sentencer expects to create
 `npm run seed`
 
 ### Starting the app:   
-`npm start`    (runs on localhost://3000) Login (foobar@gmail.com, password) or Register new user    
+`npm start`    (runs on localhost://3000)    
+Login (foobar@gmail.com, password) or Register new user    
 After logging in, play with the maddie lib api from drop down menu item Play with Maddie Libs
 
 
