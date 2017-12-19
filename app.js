@@ -144,6 +144,9 @@ app.use('/', usersRouter);
 const maddieLibsRouter = require('./routers/maddie_libs');
 app.use('/api/v1', maddieLibsRouter);
 
+const storyRouter = require("./routers/stories");
+app.use('/makeStory', storyRouter);
+
 
 // ----------------------------------------
 // Template Engine

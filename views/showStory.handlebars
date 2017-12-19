@@ -1,0 +1,85 @@
+<h1 style="text-align:center">Maddie Libs</h1>
+<br>
+
+<form action="{{ maddielibsPath }}" method="POST">
+	<div class="form-group">
+    <label for="words">Your Words</label>
+    <input class="form-control" type="text" name="words" id="words" value="" placeholder="Enter the words you want to use separated by space... Or, leave empty and use pre-defined list of words">
+  </div>
+  <br>
+
+  <div class="form-group">
+	  <input type="radio" name="story" value=0 checked> Mary had a little lamb<br>
+	  <input type="radio" name="story" value=1> Jack and Jill<br>
+	  <input type="radio" name="story" value=2> Baa baa black sheep<br>
+	  <input type="radio" name="story" value=3> Twinkle twinkle<br>
+	  <input type="radio" name="story" value=4> Humpty Dumpty<br>
+	</div>
+	<br>
+
+	<button type="submit" class="btn btn-primary">Show Maddie-Lib Nursery Rhyme</button>
+</form>
+<br>
+
+<div class="jumbotron">
+  <h2>{{story}}</h2>
+</div>
+<br>
+
+<hr>
+<br>
+<h2 style="text-align:center">Need help finding words?</h2>
+<br>
+
+<div class="card-deck">
+  <div class="card">
+  	<div class="card-header" style="text-align:center">
+      <a href="{{ nounsPath }}" class="btn btn-primary">Get Nouns</a>
+    </div>
+    <div class="card-body">
+    	<ul style="list-style-type:none">
+				{{#each nouns as |noun|}}
+				  <li>{{noun}}</li>
+				{{/each}}
+			</ul>
+    </div>
+  </div>
+  <div class="card">
+  	<div class="card-header" style="text-align:center">
+      <a href="{{ verbsPath }}" class="btn btn-primary">Get Verbs</a>
+    </div>
+    <div class="card-body">
+    	<ul style="list-style-type:none">
+				{{#each verbs as |verb|}}
+				  <li>{{verb}}</li>
+				{{/each}}
+			</ul>
+    </div>
+  </div>
+  <div class="card">
+  	<div class="card-header" style="text-align:center">
+      <a href="{{ adjectivesPath }}" class="btn btn-primary">Get Adjectives</a>
+    </div>
+    <div class="card-body">
+    	<ul style="list-style-type:none">
+				{{#each adjectives as |adjective|}}
+				  <li>{{adjective}}</li>
+				{{/each}}
+			</ul>
+    </div>
+  </div>
+  <div class="card">
+  	<div class="card-header" style="text-align:center">
+      <a href="{{ adverbsPath }}" class="btn btn-primary">Get Adverbs</a>
+    </div>
+    <div class="card-body">
+    	<ul style="list-style-type:none">
+				{{#each adverbs as |adverb|}}
+				  <li>{{adverb}}</li>
+				{{/each}}
+			</ul>
+    </div>
+  </div>
+</div>
+
+<br>
