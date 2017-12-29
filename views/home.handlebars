@@ -1,0 +1,12 @@
+<h1>User: {{user.fname}} {{user.lname}}</h1>
+
+<h3>First Name: {{user.fname}}</h3>
+<h3>Last Name: {{user.lname}}</h3>
+<h3>Email: {{user.email}}</h3>
+<h3>Token: {{user.token}}</h3>
+
+
+<form action='/api/v1/madlib' method='get'>
+<textarea name='sentence'></textarea>
+<input type='submit' />
+</form>
