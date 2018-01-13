@@ -136,6 +136,7 @@ const madLibRouter = require('./controllers/mad_lib');
 app.use('/', usersRouter);
 app.use('/api/v1', madLibRouter);
 
+// Template engine
 const expressHandlebars = require('express-handlebars');
 const helpers = require('./helpers');
 
@@ -148,6 +149,7 @@ const hbs = expressHandlebars.create({
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
+// Server
 const port = process.env.PORT || process.argv[2] || 3000;
 const host = 'localhost';
 

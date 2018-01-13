@@ -48,11 +48,12 @@ describe('App', () => {
       done();
     });
   });
-  // http://localhost:8888/api/v1/nouns?access_token=&count=10
-  // API
+
+  // API Parts of Speech
   it('returns an array with a given number of nouns', done => {
     request.get(apiUrlFor('nouns', { count: 5 }), (err, res, body) => {
       const result = j(body);
+      expect(res.statusCode).toBe(200);
       expect(result.length).toEqual(5);
       done();
     });
@@ -61,14 +62,25 @@ describe('App', () => {
   it('returns an array with a given number of verbs', done => {
     request.get(apiUrlFor('verbs', { count: 7 }), (err, res, body) => {
       const result = j(body);
+      expect(res.statusCode).toBe(200);
       expect(result.length).toEqual(7);
       done();
     });
   });
 
-  it('returns an array with a default of 10 words when no count is given', done => {
+  it('returns an array with a given number of adverbs', done => {
+    request.get(apiUrlFor('adverbs', { count: 11 }), (err, res, body) => {
+      const result = j(body);
+      expect(res.statusCode).toBe(200);
+      expect(result.length).toEqual(11);
+      done();
+    });
+  });
+
+  it('returns an array with a default of 10 adjectives when no count is given', done => {
     request.get(apiUrlFor('adjectives'), (err, res, body) => {
       const result = j(body);
+      expect(res.statusCode).toBe(200);
       expect(result.length).toEqual(10);
       done();
     });
@@ -86,5 +98,38 @@ describe('App', () => {
       expect(res.statusCode).toBe(404);
       done();
     });
+  });
+
+  // API Madlibs
+  const text =
+    'Sentence with placeholders for {{ noun }} and {{ adjective }} and {{ verb }} and {{ adverb }}';
+  const words = [
+    'cat',
+    'human',
+    'goes',
+    'red',
+    'jumping',
+    'went',
+    'house',
+    'splendidly',
+    'creative'
+  ];
+
+  it('returns a generated text with placeholders replaced by provided words', done => {
+    request.post(
+      apiUrlFor('madlibs'),
+      {
+        form: {
+          text: text,
+          words: words
+        }
+      },
+      (err, res, body) => {
+        const result = j(body);
+        expect(res.statusCode).toBe(200);
+        expect(result).not.toMatch(/{/);
+        done();
+      }
+    );
   });
 });

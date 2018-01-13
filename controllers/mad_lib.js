@@ -1,6 +1,4 @@
 const express = require('express');
-// const mongoose = require('mongoose');
-// const models = require('./../models');
 const passport = require('passport');
 const WordPOS = require('wordpos');
 const Sentencer = require('sentencer');
@@ -12,7 +10,7 @@ const wordpos = new WordPOS();
 router.get(
   '/:pos',
   passport.authenticate('bearer', { session: false }),
-  (req, res, next) => {
+  (req, res) => {
     const count = +req.query.count || 10;
     const wordposMethod = h.wordposMethod(req.params.pos);
 
@@ -28,36 +26,29 @@ router.get(
   }
 );
 
-// router.get(
-//   '/verbs',
-//   passport.authenticate('bearer', { session: false }),
-//   (req, res, next) => {
-//     // Stuff
-//   }
-// );
-//
-// router.get(
-//   '/adverbs',
-//   passport.authenticate('bearer', { session: false }),
-//   (req, res, next) => {
-//     // Stuff
-//   }
-// );
-//
-// router.get(
-//   '/adjectives',
-//   passport.authenticate('bearer', { session: false }),
-//   (req, res, next) => {
-//     // Stuff
-//   }
-// );
-//
-// router.get(
-//   '/mad_lib',
-//   passport.authenticate('bearer', { session: false }),
-//   (req, res, next) => {
-//     // Stuff
-//   }
-// );
+router.post(
+  '/madlibs',
+  passport.authenticate('bearer', { session: false }),
+  (req, res) => {
+    const { text, words } = req.body;
+
+    wordpos.getPOS(words, POS => {
+      Sentencer.configure({
+        nounList: POS.nouns,
+        adjectiveList: POS.adjectives,
+        actions: {
+          verb: function() {
+            return POS.verbs[Math.floor(Math.random() * POS.verbs.length)];
+          },
+          adverb: function() {
+            return POS.adverbs[Math.floor(Math.random() * POS.adverbs.length)];
+          }
+        }
+      });
+      const results = Sentencer.make(text);
+      res.status(200).json(results);
+    });
+  }
+);
 
 module.exports = router;
