@@ -11,7 +11,8 @@
     "c": "node repl.js",
     "seed": "node seeds",
     "seeds": "node seeds",
-    "jasmine": "./node_modules/jasmine/bin/jasmine.js"
+    "jasmine": "./node_modules/jasmine/bin/jasmine.js",
+    "wordpos": "./node_modules/.bin/wordpos"
   },
   "repository": {
     "type": "git",
@@ -39,13 +40,15 @@
     "method-override": "^2.3.10",
     "mongoose": "^4.13.9",
     "mongoose-unique-validator": "^1.0.6",
-    "mongooseeder": "^2.0.6",
     "morgan": "^1.9.0",
     "morgan-toolkit": "^1.2.2",
     "passport": "^0.4.0",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "qs": "^6.5.1",
-    "uuid": "^3.1.0"
+    "request": "^2.83.0",
+    "sentencer": "^0.1.5",
+    "uuid": "^3.1.0",
+    "wordpos": "^1.1.5"
   }
 }

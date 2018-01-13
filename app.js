@@ -131,9 +131,10 @@ const usersRouter = require('./controllers/users')({
   loggedInOnly,
   loggedOutOnly
 });
-app.use('/', usersRouter);
+const madLibRouter = require('./controllers/mad_lib');
 
-// Setup API router
+app.use('/', usersRouter);
+app.use('/api/v1', madLibRouter);
 
 const expressHandlebars = require('express-handlebars');
 const helpers = require('./helpers');
