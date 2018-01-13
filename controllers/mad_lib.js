@@ -7,10 +7,29 @@ const h = require('./../helpers');
 const router = express.Router();
 const wordpos = new WordPOS();
 
+const _createStory = (text, words) => {
+  return wordpos.getPOS(words).then(POS => {
+    Sentencer.configure({
+      nounList: POS.nouns,
+      adjectiveList: POS.adjectives,
+      actions: {
+        verb: function() {
+          return POS.verbs[Math.floor(Math.random() * POS.verbs.length)];
+        },
+        adverb: function() {
+          return POS.adverbs[Math.floor(Math.random() * POS.adverbs.length)];
+        }
+      }
+    });
+
+    return Sentencer.make(text);
+  });
+};
+
 router.get(
   '/:pos',
   passport.authenticate('bearer', { session: false }),
-  (req, res) => {
+  (req, res, next) => {
     const count = +req.query.count || 10;
     const wordposMethod = h.wordposMethod(req.params.pos);
 
@@ -20,34 +39,27 @@ router.get(
         .json('BAD REQUEST. Did you specify a valid part of speech?');
     }
 
-    wordposMethod.call(wordpos, { count }).then(results => {
-      res.status(200).json(results);
-    });
+    wordposMethod
+      .call(wordpos, { count })
+      .then(results => {
+        res.status(200).json(results);
+      })
+      .catch(next);
   }
 );
 
 router.post(
   '/madlibs',
   passport.authenticate('bearer', { session: false }),
-  (req, res) => {
-    const { text, words } = req.body;
+  (req, res, next) => {
+    const text = req.body.text;
+    const words = req.body.words.join(' ');
 
-    wordpos.getPOS(words, POS => {
-      Sentencer.configure({
-        nounList: POS.nouns,
-        adjectiveList: POS.adjectives,
-        actions: {
-          verb: function() {
-            return POS.verbs[Math.floor(Math.random() * POS.verbs.length)];
-          },
-          adverb: function() {
-            return POS.adverbs[Math.floor(Math.random() * POS.adverbs.length)];
-          }
-        }
-      });
-      const results = Sentencer.make(text);
-      res.status(200).json(results);
-    });
+    _createStory(text, words)
+      .then(result => {
+        res.status(200).json(result);
+      })
+      .catch(next);
   }
 );
 
