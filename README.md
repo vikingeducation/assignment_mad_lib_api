@@ -8,4 +8,4 @@ This API enables users to register with name, unique e-mail address, and passwor
 Download and install dependencies, then type 'npm start' to open the application.  Type 'npm test' to run tests.
 
 # Key Technologies
-Promises, Sessions, Cookies, Logging, Authentication with Passport, Testing with Jasmine, MongoDB, Mongoose ORM, Express, Node.js
+Promises, Sessions, Cookies, Logging, Authentication with Passport, Testing with Jasmine, MongoDB database, Mongoose ORM, Express server, Node.js
