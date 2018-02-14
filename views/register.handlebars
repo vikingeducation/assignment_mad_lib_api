@@ -1,0 +1,32 @@
+<div class="col-sm-6 col-sm-offset-3">
+  <div class="panel panel-default">
+    <div class="panel-heading">Sign Up</div>
+    <div class="panel-body">
+
+      <form action="{{ registerPath }}" method="post">
+        <div class="form-group">
+          <label for="fname">First Name</label>
+          <input type="text" name="fname" value="{{fake.fname}}" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="lname">Last Name</label>
+          <input type="text" name="lname" value="{{fake.lname}}" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" name="email" value="{{fake.email}}" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" class="form-control" required>
+        </div>
+        <button class="btn btn-default">Sign Up</button>
+      </form>
+
+    </div>
+
+    <div class="panel-footer">
+      <a href="{{ loginPath }}">Or Log In</a>
+    </div>
+  </div>
+</div>
