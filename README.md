@@ -9,5 +9,3 @@ Download and install dependencies, then type 'npm start' to open the application
 
 # Key Technologies
 Promises, Sessions, Cookies, Logging, Authentication with Passport, Testing with Jasmine, MongoDB, Mongoose ORM, Express, Node.js
-
-by Will Timpson and Ed Triplett
